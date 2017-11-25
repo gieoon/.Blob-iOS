@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D3564E21FBF1869001173B8 /* blob_favicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D3564E01FBF1868001173B8 /* blob_favicon.png */; };
+		1D3564E31FBF1869001173B8 /* blob_banner.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D3564E11FBF1869001173B8 /* blob_banner.png */; };
+		1D3564E51FC006F5001173B8 /* Blob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3564E41FC006F4001173B8 /* Blob.swift */; };
+		1D3564E71FC009E0001173B8 /* Array2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3564E61FC009E0001173B8 /* Array2D.swift */; };
 		1D9EBE131FBB76450059FA3B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9EBE121FBB76450059FA3B /* AppDelegate.swift */; };
 		1D9EBE151FBB76450059FA3B /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1D9EBE141FBB76450059FA3B /* GameScene.sks */; };
 		1D9EBE171FBB76450059FA3B /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1D9EBE161FBB76450059FA3B /* Actions.sks */; };
@@ -37,6 +41,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1D3564E01FBF1868001173B8 /* blob_favicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blob_favicon.png; path = ../../blob_favicon.png; sourceTree = "<group>"; };
+		1D3564E11FBF1869001173B8 /* blob_banner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blob_banner.png; path = ../../blob_banner.png; sourceTree = "<group>"; };
+		1D3564E41FC006F4001173B8 /* Blob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blob.swift; sourceTree = "<group>"; };
+		1D3564E61FC009E0001173B8 /* Array2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array2D.swift; sourceTree = "<group>"; };
+		1D6372FC1FC92B69002B342E /* blob_favicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blob_favicon.png; path = ../../blob_favicon.png; sourceTree = "<group>"; };
 		1D9EBE0F1FBB76450059FA3B /* Blob.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blob.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D9EBE121FBB76450059FA3B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1D9EBE141FBB76450059FA3B /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -80,9 +89,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1D3564DD1FBF1808001173B8 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				1D3564E11FBF1869001173B8 /* blob_banner.png */,
+				1D3564E01FBF1868001173B8 /* blob_favicon.png */,
+			);
+			path = assets;
+			sourceTree = "<group>";
+		};
 		1D9EBE061FBB76440059FA3B = {
 			isa = PBXGroup;
 			children = (
+				1D3564DD1FBF1808001173B8 /* assets */,
 				1D9EBE111FBB76450059FA3B /* Blob */,
 				1D9EBE2C1FBB76450059FA3B /* BlobTests */,
 				1D9EBE371FBB76450059FA3B /* BlobUITests */,
@@ -110,8 +129,11 @@
 				1D9EBE1A1FBB76450059FA3B /* GameViewController.swift */,
 				1D9EBE1C1FBB76450059FA3B /* Main.storyboard */,
 				1D9EBE1F1FBB76450059FA3B /* Assets.xcassets */,
+				1D6372FC1FC92B69002B342E /* blob_favicon.png */,
 				1D9EBE211FBB76450059FA3B /* LaunchScreen.storyboard */,
 				1D9EBE241FBB76450059FA3B /* Info.plist */,
+				1D3564E41FC006F4001173B8 /* Blob.swift */,
+				1D3564E61FC009E0001173B8 /* Array2D.swift */,
 			);
 			path = Blob;
 			sourceTree = "<group>";
@@ -242,10 +264,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D9EBE1E1FBB76450059FA3B /* Main.storyboard in Resources */,
+				1D3564E21FBF1869001173B8 /* blob_favicon.png in Resources */,
 				1D9EBE151FBB76450059FA3B /* GameScene.sks in Resources */,
 				1D9EBE201FBB76450059FA3B /* Assets.xcassets in Resources */,
 				1D9EBE231FBB76450059FA3B /* LaunchScreen.storyboard in Resources */,
 				1D9EBE171FBB76450059FA3B /* Actions.sks in Resources */,
+				1D3564E31FBF1869001173B8 /* blob_banner.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,9 +294,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D3564E51FC006F5001173B8 /* Blob.swift in Sources */,
 				1D9EBE191FBB76450059FA3B /* GameScene.swift in Sources */,
 				1D9EBE1B1FBB76450059FA3B /* GameViewController.swift in Sources */,
 				1D9EBE131FBB76450059FA3B /* AppDelegate.swift in Sources */,
+				1D3564E71FC009E0001173B8 /* Array2D.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,6 +465,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YY4Q762HSK;
 				INFOPLIST_FILE = Blob/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Juuno.Blob;
@@ -453,6 +480,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YY4Q762HSK;
 				INFOPLIST_FILE = Blob/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Juuno.Blob;
