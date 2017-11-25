@@ -13,7 +13,7 @@ import GameplayKit
 class GameViewController: UIViewController {
     var scene: GameScene!
     let screenSize: CGRect = UIScreen.main.bounds
-    let screenWidth, screenHeight
+    public var screenWidth: CGFloat = 0, screenHeight: CGFloat = 0
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -62,7 +62,7 @@ class GameViewController: UIViewController {
         //play button
         //var play_button: SKNode! = nil
         let play_button = SKSpriteNode(imageNamed: "bttn_play")
-        play_button.position = CGPoint(y: (screenHeight / 4.0) * 3)
+        play_button.position = CGPoint(x: 0.5, y: (1 / 4.0) * 3)
         scene.addChild(play_button)
         
         
