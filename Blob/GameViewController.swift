@@ -9,11 +9,20 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import os.log
+
+//global variables
+var SKViewSize: CGSize?
+var SKViewSizeRect: CGRect?
+var screenSize: CGRect?
 
 class GameViewController: UIViewController {
+    //link to the GameScreen
     var scene: GameScene!
-    let screenSize: CGRect = UIScreen.main.bounds
-    public var screenWidth: CGFloat = 0, screenHeight: CGFloat = 0
+    
+
+    //instead of initializng as 0, create as an optional
+    public var screenWidth: CGFloat?, screenHeight: CGFloat?
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -28,51 +37,52 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        screenWidth = screenSize.width
-        screenHeight = screenSize.height
+        screenSize = UIScreen.main.bounds
+        screenWidth = screenSize!.width
+        screenHeight = screenSize!.height
         print("screen width: \(screenWidth), screen height = \(screenHeight)")
+        //os_log("screen width: \(screenWidth), screen height = \(screenHeight)", type: OS_LOG_T)
+        //os_log("Configure %{public}@", screenHeight)
         
         //let skView = self.view as! SKView
         if let view = self.view as! SKView? {
             view.isMultipleTouchEnabled = false
+            SKViewSize = self.view.bounds.size
             // Load the SKScene from 'GameScene.sks'
             //this is the menu sceen scene
             //if let scene = SKScene(fileNamed: "GameScene") {
             scene = GameScene(size: view.bounds.size)
             // Set the scale mode to scale to fit the window
-            scene.scaleMode = .aspectFill
-            scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-            scene.backgroundColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
-            loadHomeScreen(scene: scene)
+            //scene.scaleMode = .aspectFill
+            //removing anchor positioning and using sprie relative positioning and drawing
+            //scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            //scene.backgroundColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
+            
             
             // Present the scene
             view.presentScene(scene)
             view.ignoresSiblingOrder = true
             view.showsFPS = true
             view.showsNodeCount = true
+            SKViewSizeRect = getViewSizeRect()
         }
     }
     
-    func loadHomeScreen(scene: GameScene){
-        //title banner
-        let title_banner = SKSpriteNode(imageNamed: "blob_banner.png")
-        //title_banner.position = CGPoint()
-        scene.addChild(title_banner)
+    //when the view bouns change / rotation?
+    override func viewDidLayoutSubviews(){
+        super.viewDidLayoutSubviews()
+        SKViewSize = self.view.bounds.size
+        SKViewSizeRect = getViewSizeRect()
         
-        //play button
-        //var play_button: SKNode! = nil
-        let play_button = SKSpriteNode(imageNamed: "bttn_play")
-        play_button.position = CGPoint(x: 0.5, y: (1 / 4.0) * 3)
-        scene.addChild(play_button)
-        
-        
-        //settings button
-        
-        //help - credits button
+        let skView = self.view as! SKView
+        if let scene = skView.scene {
+            scene.size = self.view.bounds.size
+        }
     }
     
-    
-    
+    func getViewSizeRect() -> CGRect {
+        return CGRect(x: ((SKViewSize!.width * 0.5) * -1.0), y: ((SKViewSize!.height * 0.5) * -1.0), width: SKViewSize!.width, height: SKViewSize!.height)
+    }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {
@@ -88,3 +98,94 @@ class GameViewController: UIViewController {
     }
 
 }
+
+public extension SKNode {
+    public func posByScreen(x: CGFloat, y: CGFloat){
+        //self.position = CGPoint(x: CGFloat((SKViewSizeRect!.width * x) + SKViewSizeRect!.origin.x), y: CGFloat((SKViewSizeRect!.height * y) + SKViewSizeRect!.origin.y))
+        self.position = CGPoint(x: CGFloat((screenSize!.width * x) + screenSize!.origin.x), y: CGFloat((screenSize!.height * y) + screenSize!.origin.y))
+    }
+}
+
+//
+//wonder if you and I have the same mother and are sister/brother, but never mind... :)
+//
+//For decades, my Mom has been exactly the same. Same words, same ideas, same problems, same questions, as the ones you just mentioned to us. And I've tried, just like you. Almost everything, until I reached the point of "nothing else to say". Mom's always right :)
+//
+//From "Mom, please don't buy too much food, as we don't eat that much, and my GF doesn't eat [ X / Y ] (that you like to buy for us)" to "You'd rather do this like that, son, it's not going to work", I've said and heard almost everything. Almost.
+//
+//What I found out is that Moms (at least, mine, lucky me!) like to take care of their kids. No matter what happens, how old you get, you're still "her kid". She'll try and protect you, anytime, anywhere, no matter what, or the cost for her. It's part of their pride of being a good Mom.
+//
+//    Mine thinks I'm still 15. Wish it could be the case, though...
+//
+//About the "too much food" part, I managed to show her that she was wasting, as we couldn't eat everything. Then, ask her, before we visit her, if she could cook just ONE meal, my favourite. And add (on the phone), that it would be the best for me: spend time with you, and the pleasure of my "Proust's « sponge cake »". That would be the only thing to make me the happiest son of all. Not more.
+//
+//This way, she was sure that I would have had enough. A Mom's concern. I had deflected, relieved her from willing to do more and more, and the stress attached to it. Then, a loooong, big hug and a gentle kiss on her cheek would be enough for both of us.
+//
+//If you can't have her stop, then ask for more. YOUR more, just ONE thing she can focus on. It'll be less stress and work for her, but this way, she'll know she has done what "a perfect mother" has to do: make her kid happy :)
+//
+//Took years before I get the trick, now, it works all the time.
+
+//However, the Roman empire encompassed a large amount of time and a large amount of technological innovation. Just as my grandmother during her lifetime saw the horse-and-buggy and steam ships as the pinnacle of transportation technology give way to walking on the moon and air flight so common people don't dress up for it any more, the Romans shifted from their early years ("absolutely not") to 300ish AD when the answer becomes "possibly, maybe even probably."
+//
+//A number of commenters have expressed disbelief that reverse engineering can bring substantial value to the technological innovation process. Their premise is that the technologies didn't develop for a millennia or more on their own, which assumes they couldn't have developed in 200-300 years with a working example to experiment with or to motivate them.
+//
+//Such commenters have no experience with reverse engineering. I do. Knowing that something is possible and you only need to duplicate it is much, much, much more powerful than not knowing something is possible and waiting around for the combination of imagination and scientific development to merge.
+//
+//The simple truth is if the Romans were shown with irrefutable proof the value of a working steam engine, they wouldn't have one or two guys out there tinkering around with a vague idea (which is why it took millennia naturally). They'd have thousands and more people dedicated to realizing the military advantage. (Unless as previously indicated you want to choose that they don't see the value, in which case this is all a moot conversation. You won't invent what you don't care about.)
+//
+//Some people like to think that innovation is somehow a fixed process, that it can't happen any faster than it did, but our own recent history in computer development has proven that wrong time and time again.
+//
+//You need not understand why something works to duplicate it.
+//
+//To conclude with an example, I wonder if some believe the specifications of an antique steam engine are as difficult to achieve as a 2017 combustion engine. Obviously, the metals and precision needed for a 2017 engine could not be duplicated by the romans during their time. But that isn't what was asked for. When I once read The Grapes of Wrath I noted a moment in the story when the family had to repair their engine. They'd lost compression, so they wrapped copper wire around the piston, shoved it back into the chamber, and off they went. I wondered about that and so asked my grandmother, who said things like that did, indeed, happen. That's an awful lot of imprecision to still have a working and useful engine.
+//
+//If you still want to believe the Romans couldn't reverse engineer something as simple as a steam engine (with operating documents!) under the conditions I've specified, by all means, downvote my answer. I won't feel bad.
+//shareimprove this answer
+//
+//edited 2 days ago
+//
+//answered Nov 20 at 17:48
+//JBH
+//9,38711650
+//
+//2
+//
+//Most of the innovation related points have been well covered in other answers. This includes the Aeolipyle. Other mechanical concepts of converting circular motion into linear (screw) also existed.
+//
+//Could the Romans have copied the steam engine? Yes!
+//
+//Would the Romans have copied the steam engine? Maybe!
+//
+//Could/Would the Romans have used the steam engine? NO!
+//
+//Technology isn't developed because it can be, it is developed because it must be. There are several forces at work here. Someone needs to fund the research and development. Someone needs to invest a lot of money and resources towards the critical initial growth of the technology. There needs to be sufficient scope for returns on investment. If the new technology is disruptive, then there will also be opposition from stakeholders in the existing technology that will be affected. If the new technology is extremely prolific and could affect the balance of political power, then politics will play a part as well.
+//
+//The OP has not specified a date/period so lets assume the Roman empire is already established. The Romans are spread thin and find it difficult to simultaneously control their entire empire with insurgency issues everywhere. Can the steam engine aid them in consolidating their empire? Or will the emergence of a steam engine ruin existing economy and consequently their grip on the empire? Even worse, the steam engine could well fall in the hands of rebellious entities in the empire and serve as force multiplier, which once again leads to the fall of the Roman empire. In view of potentially counter productive influence of steam engine technology, the Romans may choose not to build it.
+//
+//In the modern era, we have a similar situation with regards to alternative energy sources. The powerful transportation and energy lobby supporting conventional sources like gas and coal are opposing alternatives. Could we develop energy efficient solar cells, wind turbines, etc? Sure! But are we? Well, kinda, to the extent that it is being allowed to and not more. What will happen to the livelihoods of millions of workers directly and indirectly affected by the gas and coal industry? What will happen to their votes? Will availability of cheap energy alter the balance of geo-political power?
+//
+//It's extremely common in the modern market for someone to come up with a new exciting product that opens up a whole new field (iPod, iPhone, Ford's Model T, IBM PCs, and so on) to be copied in short order. Competitors will quickly acquire copies of the invention then tweak it to make it their own. This process of copying is so widespread that patents exist to give the inventor a little breathing room to make some money before facing strong competition.
+//
+//A significant portion of the time spent in the process of invention is finding all the things that don't work. Handing the inventive, industrious and power hungry Romans a working example of a small steam engine that can do real work would light off a firestorm of investment. I trust that they're smart enough to realize that a machine that can do real work without muscle, whip or feed is a huge improvement.
+//
+//I think most people assume that the Romans would immediately jump straight to the enormous steam engines of mid-1800s Europe involving cast steel parts with highly precise machined faces and surfaces. I disagee. Given that the example they have is small, they will likely build small, low precision examples at first. Due to the imprecision, these machines won't be efficient. They won't have the theory to drive the math to get higher efficiency, at least not to start.
+
+//Comments are not for extended discussion; this conversation has been moved to chat. – JDługosz♦ Nov 21 at 6:27
+//13
+//
+//Check these Roman compressed-air ballista from Saalburg Kastell, Germany. I've seen them in person, and read the plaque saying that they performed poorly as the Roman metalworkers did not get the seals as airtight as necessary. So I think the Romans would have "gotten the idea" pretty quickly, but would be hard-pressed to produce an engine with the precision necessary to be effective... – DevSolar Nov 21 at 12:40
+//2
+//
+//@AcePL, :-) my guess is that you didn't read the nine miles of comments JDlugosz moved to chat. – JBH Nov 21 at 15:15
+//3
+//
+//@jamesqf You click on the link 'moved to chat' above and go read them. – robertc Nov 21 at 18:55
+//34
+//
+//You need not understand why something works to duplicate it. - As a computer scientist, I can promise this is true. – Lord Farquaad Nov 21 at 22:05
+//show 16 more comments
+//up vote
+//33
+//down vote
+//
+//

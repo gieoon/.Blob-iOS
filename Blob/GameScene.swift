@@ -10,6 +10,10 @@ import SpriteKit
 
 class GameScene: SKScene {
     
+    var BUTTONYPOS: CGFloat = -0.2
+    let play_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_play")
+    let settings_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_settings.png")
+    let help_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_help.png")
     required init?(coder aDecoder: NSCoder){
         fatalError("init(coder) is not used in this app")
     }
@@ -23,7 +27,72 @@ class GameScene: SKScene {
         //addChild(background)
 
         //SKColor.green
+        self.scaleMode = .aspectFill
+        self.backgroundColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
+        loadHomeScreen(scene: self)
 
+    }
+    
+    
+    func loadHomeScreen(scene: GameScene){
+        //title banner
+        let title_banner = SKSpriteNode(imageNamed: "blob_banner.png")
+        //title_banner.position = CGPoint()
+        scene.addChild(title_banner)
+        title_banner.posByScreen(x: 0, y: 0)
+        
+        //play button
+        //var play_button: SKNode! = nil
+        //play_button.position =
+        //play_button.anchorPoint = CGPoint(x: 0.5, y: 0.75)
+        scene.addChild(play_button)
+        play_button.posByScreen(x: -0.1, y: BUTTONYPOS)
+        play_button.name = "play_button"
+        play_button.zPosition = 1.0
+        play_button.isUserInteractionEnabled = false
+        
+        
+        //settings button
+        scene.addChild(settings_button)
+        settings_button.posByScreen(x: 0, y: BUTTONYPOS)
+        
+        //help - credits button
+        scene.addChild(help_button)
+        help_button.posByScreen(x: 0.1, y: BUTTONYPOS)
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        for touch in touches {
+            let location = touch.location(in: self)
+            
+            if play_button.contains(location){
+                print ("play button touched")
+                _toLevels()
+            }
+            else if settings_button.contains(location){
+                print("settings button touched")
+            }
+            else if help_button.contains(location){
+                print("help button touched")
+            }
+        }
+        
+        
+        // let location = touches.anyObject()?.locationInNode(self)
+        
+//        if let touch = touches.first {
+//            //let location = touch.location(self)
+//            let node = nodeAtPoint(touch.location(event))
+//
+//        }
+    }
+    
+    
+    func _toLevels(){
+        let reveal = SKTransition.crossFade(withDuration: 1500)
+        let levelsScene = LevelsScene(size: self.size)
+        self.view?.presentScene(levelsScene, transition: reveal)
     }
     
     //private var label : SKLabelNode?
