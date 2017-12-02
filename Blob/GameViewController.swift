@@ -15,6 +15,7 @@ import os.log
 var SKViewSize: CGSize?
 var SKViewSizeRect: CGRect?
 var screenSize: CGRect?
+var PAGEGRIDSIZE: CGFloat?, PLAYGRIDSIZE: CGFloat?, PAGEMARGINSIZE: CGFloat?, SMALLESTSIDE: CGFloat?
 
 class GameViewController: UIViewController {
     //link to the GameScreen
@@ -40,6 +41,8 @@ class GameViewController: UIViewController {
         screenSize = UIScreen.main.bounds
         screenWidth = screenSize!.width
         screenHeight = screenSize!.height
+        
+        setGridSizes()
         print("screen width: \(screenWidth), screen height = \(screenHeight)")
         //os_log("screen width: \(screenWidth), screen height = \(screenHeight)", type: OS_LOG_T)
         //os_log("Configure %{public}@", screenHeight)
@@ -73,6 +76,7 @@ class GameViewController: UIViewController {
         super.viewDidLayoutSubviews()
         SKViewSize = self.view.bounds.size
         SKViewSizeRect = getViewSizeRect()
+        setGridSizes()
         
         let skView = self.view as! SKView
         if let scene = skView.scene {
@@ -82,6 +86,22 @@ class GameViewController: UIViewController {
     
     func getViewSizeRect() -> CGRect {
         return CGRect(x: ((SKViewSize!.width * 0.5) * -1.0), y: ((SKViewSize!.height * 0.5) * -1.0), width: SKViewSize!.width, height: SKViewSize!.height)
+    }
+    
+    func setGridSizes(){
+        if(screenSize!.width > screenSize!.height){
+            print("width is larger than height")
+            PAGEMARGINSIZE = screenSize!.height / 10
+            PAGEGRIDSIZE = screenSize!.height / 3
+            SMALLESTSIDE = screenSize!.height
+        }
+        else{
+            print("height is larger than width")
+            PAGEMARGINSIZE = screenSize!.width / 10
+            PAGEGRIDSIZE = screenSize!.width / 3
+            SMALLESTSIDE = screenSize!.width
+        }
+        print ("NEW PAGEMARGINSIZE: \(PAGEMARGINSIZE),  PAGEGRIDSIZE: \(PAGEGRIDSIZE)")
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

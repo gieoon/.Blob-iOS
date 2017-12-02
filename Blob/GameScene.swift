@@ -20,7 +20,7 @@ class GameScene: SKScene {
     
     override init(size: CGSize){
         super.init(size: size)
-        anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        anchorPoint = CGPoint(x: 0.5, y: 0.55)
         
         //let background = SKSpriteNode(imageNamed: "Background")
         //background.size = size
@@ -46,7 +46,7 @@ class GameScene: SKScene {
         //play_button.position =
         //play_button.anchorPoint = CGPoint(x: 0.5, y: 0.75)
         scene.addChild(play_button)
-        play_button.posByScreen(x: -0.1, y: BUTTONYPOS)
+        play_button.posByScreen(x: -0.15, y: BUTTONYPOS)
         play_button.name = "play_button"
         play_button.zPosition = 1.0
         play_button.isUserInteractionEnabled = false
@@ -58,7 +58,7 @@ class GameScene: SKScene {
         
         //help - credits button
         scene.addChild(help_button)
-        help_button.posByScreen(x: 0.1, y: BUTTONYPOS)
+        help_button.posByScreen(x: 0.15, y: BUTTONYPOS)
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -90,9 +90,10 @@ class GameScene: SKScene {
     
     
     func _toLevels(){
-        let reveal = SKTransition.crossFade(withDuration: 1500)
+        let reveal = SKTransition.crossFade(withDuration: 1.25)
         let levelsScene = LevelsScene(size: self.size)
         self.view?.presentScene(levelsScene, transition: reveal)
+        //self.view?.presentScene(levelsScene)
     }
     
     //private var label : SKLabelNode?
