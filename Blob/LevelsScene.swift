@@ -11,7 +11,7 @@ import SpriteKit
 class LevelsScene: SKScene {
     
     //array of all of the pages
-    //var pages
+    var pages = [LevelSelectPage]()
     
     //miniLevel = a small rectangular level
     //grid size is a tenth of the game grid size
@@ -30,14 +30,23 @@ class LevelsScene: SKScene {
     //possible duplicate of So if string is not NilLiteralConvertible... what do some string functions return? – nhgrif
     
     func loadLevelsScene(){
-        for row in 0...2 {
-            for column in 0...2{
-                print("adding sprite at row: \(row), column: \(column)")
-                var miniLevel: MiniLevel = MiniLevel(x: CGFloat(row), y: CGFloat(column))
-                self.addChild(miniLevel.sprite)
+        //create 5 pages of 2d arrays
+        var level = 1;
+        for page in 1...5{
+            var p: LevelSelectPage = LevelSelectPage(number: page, color: UIColor.green)
+            
+            for row in 0...2 {
+                for column in 0...2{
+                    print("adding sprite at row: \(row), column: \(column)")
+                    let miniLevel: MiniLevel = MiniLevel(x: CGFloat(row), y: CGFloat(column), level: level)
+                    self.addChild(miniLevel.sprite)
+                    self.addChild(miniLevel.label)
+                    p.levels.append(miniLevel)
+                    level += 1
+                }
             }
+            pages.append(p)
         }
     }
-    
 }
 

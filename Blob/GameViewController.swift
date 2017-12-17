@@ -43,10 +43,10 @@ class GameViewController: UIViewController {
         screenHeight = screenSize!.height
         
         setGridSizes()
-        print("screen width: \(screenWidth), screen height = \(screenHeight)")
+        print("screen width: \(String(describing: screenWidth)), screen height = \(String(describing: screenHeight))")
         //os_log("screen width: \(screenWidth), screen height = \(screenHeight)", type: OS_LOG_T)
         //os_log("Configure %{public}@", screenHeight)
-        
+        //NotificationCenter.default.addObserver(self, selector: #selector(rotate), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         //let skView = self.view as! SKView
         if let view = self.view as! SKView? {
             view.isMultipleTouchEnabled = false
@@ -70,19 +70,27 @@ class GameViewController: UIViewController {
             SKViewSizeRect = getViewSizeRect()
         }
     }
-    
+    //euverus traffic simulation
     //when the view bouns change / rotation?
-    override func viewDidLayoutSubviews(){
+    //override func viewWilltransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator){
+    //override func viewDidLayoutSubviews(){
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    //@objc func rotate(){
         super.viewDidLayoutSubviews()
         SKViewSize = self.view.bounds.size
         SKViewSizeRect = getViewSizeRect()
+        screenWidth = UIScreen.main.bounds.width
+        screenHeight = UIScreen.main.bounds.height //SKViewSize?.height
         setGridSizes()
-        
+        print("AFTER ROTATION: screen width: \(String(describing: screenWidth)), screen height = \(screenHeight)")
         let skView = self.view as! SKView
         if let scene = skView.scene {
             scene.size = self.view.bounds.size
         }
     }
+    
+    //"The difference between coding a 2-hour platformer and a 20-hour RPG: 62 gray hairs, 7 doctor co-payments, and 2,000 hours. #gamedev"
+    //"After two years of toiling, sleepless night and neglected wives we're finally close to releasing an #EchoesofEternea game demo. #gamedev"
     
     func getViewSizeRect() -> CGRect {
         return CGRect(x: ((SKViewSize!.width * 0.5) * -1.0), y: ((SKViewSize!.height * 0.5) * -1.0), width: SKViewSize!.width, height: SKViewSize!.height)
@@ -98,7 +106,7 @@ class GameViewController: UIViewController {
         else{
             print("height is larger than width")
             PAGEMARGINSIZE = screenSize!.width / 10
-            PAGEGRIDSIZE = screenSize!.width / 3
+            PAGEGRIDSIZE = screenSize!.width / 3.5
             SMALLESTSIDE = screenSize!.width
         }
         print ("NEW PAGEMARGINSIZE: \(PAGEMARGINSIZE),  PAGEGRIDSIZE: \(PAGEGRIDSIZE)")

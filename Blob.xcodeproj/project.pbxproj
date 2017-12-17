@@ -23,6 +23,7 @@
 		1DD571A61FD1B6FB006E0A2C /* LevelsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD571A51FD1B6FB006E0A2C /* LevelsScene.swift */; };
 		1DD571A81FD2486A006E0A2C /* miniLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD571A71FD2486A006E0A2C /* miniLevel.swift */; };
 		1DD571AD1FD25FC7006E0A2C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DD571AB1FD25F6D006E0A2C /* Main.storyboard */; };
+		1DD571AF1FD27EDF006E0A2C /* LevelSelectPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD571AE1FD27EDF006E0A2C /* LevelSelectPage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		1DD571A51FD1B6FB006E0A2C /* LevelsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelsScene.swift; sourceTree = "<group>"; };
 		1DD571A71FD2486A006E0A2C /* miniLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = miniLevel.swift; sourceTree = "<group>"; };
 		1DD571AB1FD25F6D006E0A2C /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		1DD571AE1FD27EDF006E0A2C /* LevelSelectPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSelectPage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 				1DD571A51FD1B6FB006E0A2C /* LevelsScene.swift */,
 				1DD571A71FD2486A006E0A2C /* miniLevel.swift */,
 				1DD571AB1FD25F6D006E0A2C /* Main.storyboard */,
+				1DD571AE1FD27EDF006E0A2C /* LevelSelectPage.swift */,
 			);
 			path = Blob;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				1D9EBE191FBB76450059FA3B /* GameScene.swift in Sources */,
 				1D9EBE1B1FBB76450059FA3B /* GameViewController.swift in Sources */,
 				1D9EBE131FBB76450059FA3B /* AppDelegate.swift in Sources */,
+				1DD571AF1FD27EDF006E0A2C /* LevelSelectPage.swift in Sources */,
 				1D3564E71FC009E0001173B8 /* Array2D.swift in Sources */,
 				1DD571A81FD2486A006E0A2C /* miniLevel.swift in Sources */,
 			);

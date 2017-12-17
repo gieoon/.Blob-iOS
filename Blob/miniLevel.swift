@@ -11,19 +11,31 @@ import SpriteKit
 struct MiniLevel{
     let x: CGFloat
     let y: CGFloat
+    let level: Int
     let sprite = SKSpriteNode()//initSprite()
+    //temporary label to display number of the level
+    let label = SKLabelNode()
+    
 //hamburger approach, the negative is sandwiched between two positives.
-    init(x: CGFloat, y: CGFloat){
+    init(x: CGFloat, y: CGFloat, level: Int){
         self.x = x
         self.y = y
+        self.level = level
         sprite.size = CGSize(width: PAGEGRIDSIZE! - PAGEMARGINSIZE!, height: PAGEGRIDSIZE! - PAGEMARGINSIZE!)
         sprite.color = SKColor.black
-        //sprite.anchorPoint = CGPoint(x: 1.0, y: 0)
-        sprite.position = CGPoint(x: (x * PAGEGRIDSIZE!) + (PAGEMARGINSIZE! * 2), y: (y * PAGEGRIDSIZE!) + (PAGEMARGINSIZE! * 2))
+        sprite.anchorPoint = CGPoint(x: 0, y: 0)
+        sprite.position = CGPoint(x: (x * PAGEGRIDSIZE!) + (screenSize!.width / 10 * 1.2), y: (y * PAGEGRIDSIZE!) + (screenSize!.height / 4.5))
         //sprite.posByScreen(x: -0.1, y: <#T##CGFloat#>)
         //sprite.position = CGPoint(x: 0, y: 0)
         print("sprite.position is: \(sprite.position)")
         //sprite.touchesBegan(<#T##touches: Set<UITouch>##Set<UITouch>#>, with: <#T##UIEvent?#>)
+        
+        //draw temporary level label
+        label.text = String(self.level)
+        label.fontSize = 32
+        label.fontColor = SKColor.white
+        label.position = sprite.position
+        
     }
     
     func initSprite(){
