@@ -20,6 +20,7 @@
 		1D9EBE231FBB76450059FA3B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D9EBE211FBB76450059FA3B /* LaunchScreen.storyboard */; };
 		1D9EBE2E1FBB76450059FA3B /* BlobTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9EBE2D1FBB76450059FA3B /* BlobTests.swift */; };
 		1D9EBE391FBB76450059FA3B /* BlobUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9EBE381FBB76450059FA3B /* BlobUITests.swift */; };
+		1DCAFC4D1FE7DE0A00E22391 /* LevelSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCAFC4C1FE7DE0A00E22391 /* LevelSprite.swift */; };
 		1DD571A61FD1B6FB006E0A2C /* LevelsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD571A51FD1B6FB006E0A2C /* LevelsScene.swift */; };
 		1DD571A81FD2486A006E0A2C /* miniLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD571A71FD2486A006E0A2C /* miniLevel.swift */; };
 		1DD571AD1FD25FC7006E0A2C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DD571AB1FD25F6D006E0A2C /* Main.storyboard */; };
@@ -64,6 +65,7 @@
 		1D9EBE341FBB76450059FA3B /* BlobUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlobUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D9EBE381FBB76450059FA3B /* BlobUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobUITests.swift; sourceTree = "<group>"; };
 		1D9EBE3A1FBB76450059FA3B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1DCAFC4C1FE7DE0A00E22391 /* LevelSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSprite.swift; sourceTree = "<group>"; };
 		1DD571A51FD1B6FB006E0A2C /* LevelsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelsScene.swift; sourceTree = "<group>"; };
 		1DD571A71FD2486A006E0A2C /* miniLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = miniLevel.swift; sourceTree = "<group>"; };
 		1DD571AB1FD25F6D006E0A2C /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				1DD571A71FD2486A006E0A2C /* miniLevel.swift */,
 				1DD571AB1FD25F6D006E0A2C /* Main.storyboard */,
 				1DD571AE1FD27EDF006E0A2C /* LevelSelectPage.swift */,
+				1DCAFC4C1FE7DE0A00E22391 /* LevelSprite.swift */,
 			);
 			path = Blob;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 				1DD571A61FD1B6FB006E0A2C /* LevelsScene.swift in Sources */,
 				1D9EBE191FBB76450059FA3B /* GameScene.swift in Sources */,
 				1D9EBE1B1FBB76450059FA3B /* GameViewController.swift in Sources */,
+				1DCAFC4D1FE7DE0A00E22391 /* LevelSprite.swift in Sources */,
 				1D9EBE131FBB76450059FA3B /* AppDelegate.swift in Sources */,
 				1DD571AF1FD27EDF006E0A2C /* LevelSelectPage.swift in Sources */,
 				1D3564E71FC009E0001173B8 /* Array2D.swift in Sources */,

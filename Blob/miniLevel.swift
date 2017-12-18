@@ -12,7 +12,7 @@ struct MiniLevel{
     let x: CGFloat
     let y: CGFloat
     let level: Int
-    let sprite = SKSpriteNode()//initSprite()
+    var sprite: SKSpriteNode//initSprite()
     //temporary label to display number of the level
     let label = SKLabelNode()
     
@@ -21,13 +21,16 @@ struct MiniLevel{
         self.x = x
         self.y = y
         self.level = level
-        sprite.size = CGSize(width: PAGEGRIDSIZE! - PAGEMARGINSIZE!, height: PAGEGRIDSIZE! - PAGEMARGINSIZE!)
-        sprite.color = SKColor.black
+        self.sprite = LevelSprite(level: self.level)
+        //sprite.size = CGSize(width: PAGEGRIDSIZE! - PAGEMARGINSIZE!, height: PAGEGRIDSIZE! - PAGEMARGINSIZE!)
+        //sprite.color = SKColor.black
         sprite.anchorPoint = CGPoint(x: 0, y: 0)
+        //sprite.yScale = -1;
         sprite.position = CGPoint(x: (x * PAGEGRIDSIZE!) + (screenSize!.width / 10 * 1.2), y: (y * PAGEGRIDSIZE!) + (screenSize!.height / 4.5))
         //sprite.posByScreen(x: -0.1, y: <#T##CGFloat#>)
         //sprite.position = CGPoint(x: 0, y: 0)
         print("sprite.position is: \(sprite.position)")
+        sprite.isUserInteractionEnabled = true
         //sprite.touchesBegan(<#T##touches: Set<UITouch>##Set<UITouch>#>, with: <#T##UIEvent?#>)
         
         //draw temporary level label
@@ -35,6 +38,9 @@ struct MiniLevel{
         label.fontSize = 32
         label.fontColor = SKColor.white
         label.position = sprite.position
+        label.position.x += screenSize!.width / 15
+        label.position.y += screenSize!.height / 20
+        //label.yScale = -1;
         
     }
     

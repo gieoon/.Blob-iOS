@@ -8,11 +8,12 @@
 
 import SpriteKit
 
+let LEVELS_PER_PAGE = 9
+
 class LevelsScene: SKScene {
     
     //array of all of the pages
     var pages = [LevelSelectPage]()
-    
     //miniLevel = a small rectangular level
     //grid size is a tenth of the game grid size
     required init?(coder aDecoder: NSCoder){
@@ -24,6 +25,8 @@ class LevelsScene: SKScene {
         anchorPoint = CGPoint(x: 0.0, y: 0.0)
         self.scaleMode = .aspectFill
         self.backgroundColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
+        //set yScale to -1 to render oppositely from top left instead of bottom left like OpenGL style...
+        self.yScale = -1.0
         loadLevelsScene()
     }
     // This is a duplicate... let me just find what it's a duplicate of... – nhgrif Jun 5 '15 at 23:24
@@ -31,22 +34,27 @@ class LevelsScene: SKScene {
     
     func loadLevelsScene(){
         //create 5 pages of 2d arrays
-        var level = 1;
-        for page in 1...5{
+        var level = LEVELS_PER_PAGE;
+        for page in 1...1{ //make this add pages from 1 to 1 for now...
             var p: LevelSelectPage = LevelSelectPage(number: page, color: UIColor.green)
             
             for row in 0...2 {
-                for column in 0...2{
+                for column in stride(from: 2, through: 0, by: -1){
+                //for column in 0...2{
                     print("adding sprite at row: \(row), column: \(column)")
-                    let miniLevel: MiniLevel = MiniLevel(x: CGFloat(row), y: CGFloat(column), level: level)
+                    let miniLevel: MiniLevel = MiniLevel(x: CGFloat(column), y: CGFloat(row), level: level)
                     self.addChild(miniLevel.sprite)
+                    print("adding label at: \(row), \(column)")
                     self.addChild(miniLevel.label)
                     p.levels.append(miniLevel)
-                    level += 1
+                    level -= 1
                 }
             }
             pages.append(p)
         }
     }
+
+    
+    
 }
 
