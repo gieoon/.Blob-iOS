@@ -28,6 +28,9 @@
 		CE79BAD420244F6300E78FF6 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE79BAD320244F6300E78FF6 /* Goal.swift */; };
 		CE79BAD62024A0A400E78FF6 /* levels.json in Resources */ = {isa = PBXBuildFile; fileRef = CE79BAD52024A0A400E78FF6 /* levels.json */; };
 		CE79BAD82024A1BD00E78FF6 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE79BAD72024A1BD00E78FF6 /* Level.swift */; };
+		CE79BAE02024AF9300E78FF6 /* JsonToSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE79BADF2024AF9300E78FF6 /* JsonToSwift.swift */; };
+		CE79BAE22024AFC700E78FF6 /* Levels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE79BAE12024AFC700E78FF6 /* Levels.swift */; };
+		CE79BAE42024AFF200E78FF6 /* Goals.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE79BAE32024AFF200E78FF6 /* Goals.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +78,9 @@
 		CE79BAD320244F6300E78FF6 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Goal.swift; path = "/Users/user/Desktop/Blob-iOS/Blob/Goal.swift"; sourceTree = "<absolute>"; };
 		CE79BAD52024A0A400E78FF6 /* levels.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = levels.json; sourceTree = "<group>"; };
 		CE79BAD72024A1BD00E78FF6 /* Level.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Level.swift; path = "/Users/user/Desktop/Blob-iOS/Blob/Level.swift"; sourceTree = "<absolute>"; };
+		CE79BADF2024AF9300E78FF6 /* JsonToSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonToSwift.swift; sourceTree = "<group>"; };
+		CE79BAE12024AFC700E78FF6 /* Levels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Levels.swift; path = "/Users/user/Desktop/Blob-iOS/JsonToSwift/Levels.swift"; sourceTree = "<absolute>"; };
+		CE79BAE32024AFF200E78FF6 /* Goals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Goals.swift; path = "/Users/user/Desktop/Blob-iOS/JsonToSwift/Goals.swift"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +111,7 @@
 		1D9EBE061FBB76440059FA3B = {
 			isa = PBXGroup;
 			children = (
+				CE79BADA2024AEFC00E78FF6 /* JsonToSwift */,
 				CE79BAD52024A0A400E78FF6 /* levels.json */,
 				1D9EBE111FBB76450059FA3B /* Blob */,
 				1D9EBE2C1FBB76450059FA3B /* BlobTests */,
@@ -173,6 +180,16 @@
 				CE17CCAA2023E4F6007049EB /* PlayScene.swift */,
 			);
 			path = PlayScene;
+			sourceTree = "<group>";
+		};
+		CE79BADA2024AEFC00E78FF6 /* JsonToSwift */ = {
+			isa = PBXGroup;
+			children = (
+				CE79BAE32024AFF200E78FF6 /* Goals.swift */,
+				CE79BAE12024AFC700E78FF6 /* Levels.swift */,
+				CE79BADF2024AF9300E78FF6 /* JsonToSwift.swift */,
+			);
+			path = JsonToSwift;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -312,6 +329,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE79BAE22024AFC700E78FF6 /* Levels.swift in Sources */,
 				CE79BAD82024A1BD00E78FF6 /* Level.swift in Sources */,
 				1D3564E51FC006F5001173B8 /* Blob.swift in Sources */,
 				1DD571A61FD1B6FB006E0A2C /* LevelsScene.swift in Sources */,
@@ -323,7 +341,9 @@
 				CE17CCAD2023F536007049EB /* ColorScheme.swift in Sources */,
 				CE17CCAB2023E4F6007049EB /* PlayScene.swift in Sources */,
 				1DD571AF1FD27EDF006E0A2C /* LevelSelectPage.swift in Sources */,
+				CE79BAE42024AFF200E78FF6 /* Goals.swift in Sources */,
 				1D3564E71FC009E0001173B8 /* Array2D.swift in Sources */,
+				CE79BAE02024AF9300E78FF6 /* JsonToSwift.swift in Sources */,
 				1DD571A81FD2486A006E0A2C /* miniLevel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

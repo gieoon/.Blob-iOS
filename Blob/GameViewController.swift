@@ -136,19 +136,34 @@ class GameViewController: UIViewController {
     
     func loadJSONFromFile(){
         var goals = [Goal]()
-        
+        var levels = [Level]()
         do{
+            typealias JSONDictionary = [String: Any]
             //have to include the .json file in build phases resources
             let jsonFile = Bundle.main.path(forResource: "levels", ofType: "json")
             let jsonData = NSData(contentsOfFile: jsonFile!)
             let jsonDictionary = try? JSONSerialization.jsonObject(with: jsonData! as Data, options: [])
+            
             //let data: Data
             //let json = try?
              //   JSONSerialization.jsonObject(with: data) as? [String : Any],
             //let goal = json["levels"] as? [String: Any]
-            let jsonString = jsonDictionary as! [String: Any] //<-- Error //syntax for "throws"
+            //guard //<-- Error //syntax for "throws"
+            if let object = jsonDictionary as? [String: Any] {
+                print("OBJECT IS A DICTIONARY: ", object)
+                
+            }
+            else if let object = jsonDictionary as? [Any]{
+                print("OBJECT IS AN ARRAY: ", object)
+            }
+            else {
+                print("JSON IS INVALID")
+            }
+            //let goal = jsonString["levels"] as? [String: Any]
             
-            print("JSONSTRING IS: ", jsonString)
+            //print("JSONSTRING IS: ", jsonString)
+            //print ("LEVELS IS: ", goal)
+            
         }
     }
     
