@@ -5,6 +5,7 @@
 //  Created by shunkagaya on 18/12/2017.
 //  Copyright © 2017 shunkagaya. All rights reserved.
 //
+// for identifying each sprite representing the level choice
 
 import SpriteKit
 

@@ -15,7 +15,10 @@ import os.log
 var SKViewSize: CGSize?
 var SKViewSizeRect: CGRect?
 var screenSize: CGRect?
-var PAGEGRIDSIZE: CGFloat?, PLAYGRIDSIZE: CGFloat?, PAGEMARGINSIZE: CGFloat?, SMALLESTSIDE: CGFloat?
+var PAGEGRIDSIZE: CGFloat?, PLAYGRIDSIZE: CGFloat?, PAGEMARGINSIZE: CGFloat?, SMALLESTSIDE: CGFloat?, GRIDSIZE: CGFloat?
+
+//ipad will have a camera to simulate zoom
+let cameraNode = SKCropNode()
 
 class GameViewController: UIViewController {
     //link to the GameScreen
@@ -50,7 +53,13 @@ class GameViewController: UIViewController {
         //let skView = self.view as! SKView
         if let view = self.view as! SKView? {
             view.isMultipleTouchEnabled = false
+            let isiPad = self.readDeviceType()
+            if(isiPad){
+                //cameraNode.position = CGPoint
+            }
+            
             SKViewSize = self.view.bounds.size
+            
             // Load the SKScene from 'GameScene.sks'
             //this is the menu sceen scene
             //if let scene = SKScene(fileNamed: "GameScene") {
@@ -69,6 +78,8 @@ class GameViewController: UIViewController {
             view.showsNodeCount = true
             SKViewSizeRect = getViewSizeRect()
         }
+        
+        loadJSONFromFile()
     }
     //euverus traffic simulation
     //when the view bouns change / rotation?
@@ -112,6 +123,35 @@ class GameViewController: UIViewController {
         print ("NEW PAGEMARGINSIZE: \(PAGEMARGINSIZE),  PAGEGRIDSIZE: \(PAGEGRIDSIZE)")
     }
     
+    //get device type
+    func readDeviceType() -> Bool{
+        //UI_USER_INTERFACE_IDIOM() ==
+        if(UIDevice.current.userInterfaceIdiom == .pad){
+            //zoom in the screen for iPad
+            print("iPad detected")
+            return true
+        }
+        return false
+    }
+    
+    func loadJSONFromFile(){
+        var goals = [Goal]()
+        
+        do{
+            //have to include the .json file in build phases resources
+            let jsonFile = Bundle.main.path(forResource: "levels", ofType: "json")
+            let jsonData = NSData(contentsOfFile: jsonFile!)
+            let jsonDictionary = try? JSONSerialization.jsonObject(with: jsonData! as Data, options: [])
+            //let data: Data
+            //let json = try?
+             //   JSONSerialization.jsonObject(with: data) as? [String : Any],
+            //let goal = json["levels"] as? [String: Any]
+            let jsonString = jsonDictionary as! [String: Any] //<-- Error //syntax for "throws"
+            
+            print("JSONSTRING IS: ", jsonString)
+        }
+    }
+    
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {
             return .allButUpsideDown
@@ -128,12 +168,41 @@ class GameViewController: UIViewController {
 }
 
 public extension SKNode {
+    //creating custom method
     public func posByScreen(x: CGFloat, y: CGFloat){
         //self.position = CGPoint(x: CGFloat((SKViewSizeRect!.width * x) + SKViewSizeRect!.origin.x), y: CGFloat((SKViewSizeRect!.height * y) + SKViewSizeRect!.origin.y))
         self.position = CGPoint(x: CGFloat((screenSize!.width * x) + screenSize!.origin.x), y: CGFloat((screenSize!.height * y) + screenSize!.origin.y))
     }
+
 }
 
+public extension SKSpriteNode {
+    //resizes based on screen width
+    public func resizeByScreen(x: CGFloat, y: CGFloat){
+        //self.xScale = screenSize!.width * x
+        //self.yScale = screenSize!.height * y
+        //scaleToSize(CGSize(screenSize!.width / x))
+        self.size.width = screenSize!.width * x
+        self.size.height = screenSize!.height * y
+    }
+}
+
+public extension UIColor {
+    convenience init(red: Int, green: Int, blue: Int) {
+        assert(red >= 0 && red <= 255, "Invalid red component")
+        assert(green >= 0 && green <= 255, "Invalid green component")
+        assert(blue >= 0 && blue <= 255, "Invalid blue component")
+        
+        self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
+    }
+    convenience init(rgb: Int){
+        self.init(
+            red: (rgb >> 16) & 0xFF,
+            green: (rgb >> 8) & 0xFF,
+            blue: rgb & 0xFF
+        )
+    }
+}
 //
 //wonder if you and I have the same mother and are sister/brother, but never mind... :)
 //

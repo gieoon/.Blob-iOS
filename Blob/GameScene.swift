@@ -11,6 +11,8 @@ import SpriteKit
 class GameScene: SKScene {
     
     var BUTTONYPOS: CGFloat = -0.2
+    let BUTTON_WIDTH_SCALE: CGFloat = 0.17
+    let BUTTON_HEIGHT_SCALE: CGFloat = 0.1
     let play_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_play")
     let settings_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_settings.png")
     let help_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_help.png")
@@ -27,7 +29,7 @@ class GameScene: SKScene {
         //addChild(background)
 
         //SKColor.green
-        self.scaleMode = .aspectFill
+        self.scaleMode = .aspectFill//.aspectFit//.resizeFill
         self.backgroundColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
         loadHomeScreen(scene: self)
 
@@ -40,25 +42,30 @@ class GameScene: SKScene {
         //title_banner.position = CGPoint()
         scene.addChild(title_banner)
         title_banner.posByScreen(x: 0, y: 0)
+        title_banner.resizeByScreen(x: 0.83, y: 0.22)
+        print(title_banner)
         
         //play button
         //var play_button: SKNode! = nil
         //play_button.position =
         //play_button.anchorPoint = CGPoint(x: 0.5, y: 0.75)
         scene.addChild(play_button)
-        play_button.posByScreen(x: -0.15, y: BUTTONYPOS)
+        play_button.posByScreen(x: -0.19, y: BUTTONYPOS)
         play_button.name = "play_button"
         play_button.zPosition = 1.0
         play_button.isUserInteractionEnabled = false
+        play_button.resizeByScreen(x: BUTTON_WIDTH_SCALE, y: BUTTON_HEIGHT_SCALE)
         
         
         //settings button
         scene.addChild(settings_button)
         settings_button.posByScreen(x: 0, y: BUTTONYPOS)
+        settings_button.resizeByScreen(x: BUTTON_WIDTH_SCALE, y: BUTTON_HEIGHT_SCALE)
         
         //help - credits button
         scene.addChild(help_button)
-        help_button.posByScreen(x: 0.15, y: BUTTONYPOS)
+        help_button.posByScreen(x: 0.19, y: BUTTONYPOS)
+        help_button.resizeByScreen(x: BUTTON_WIDTH_SCALE, y: BUTTON_HEIGHT_SCALE)
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

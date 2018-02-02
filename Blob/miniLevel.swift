@@ -26,7 +26,7 @@ struct MiniLevel{
         //sprite.color = SKColor.black
         sprite.anchorPoint = CGPoint(x: 0, y: 0)
         //sprite.yScale = -1;
-        sprite.position = CGPoint(x: (x * PAGEGRIDSIZE!) + (screenSize!.width / 10 * 1.2), y: (y * PAGEGRIDSIZE!) + (screenSize!.height / 4.5))
+        sprite.position = CGPoint(x: (x * PAGEGRIDSIZE!) + (screenSize!.width / 10 * 1.2), y: (screenSize!.height / 2.0)  - (y * PAGEGRIDSIZE!) + (screenSize!.height / 4.5))
         //sprite.posByScreen(x: -0.1, y: <#T##CGFloat#>)
         //sprite.position = CGPoint(x: 0, y: 0)
         print("sprite.position is: \(sprite.position)")

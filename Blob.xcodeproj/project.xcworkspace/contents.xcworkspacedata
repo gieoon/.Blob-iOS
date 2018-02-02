@@ -2,6 +2,15 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Blob.xcodeproj">
+      location = "group:/Users/user/Desktop/Blob-iOS/Blob/Level.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/user/Desktop/Blob-iOS/Blob/Goal.swift">
+   </FileRef>
+   <FileRef
+      location = "group:../../levels.json">
+   </FileRef>
+   <FileRef
+      location = "self:">
    </FileRef>
 </Workspace>
