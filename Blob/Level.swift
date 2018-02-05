@@ -9,10 +9,10 @@ struct Level {
     
     var lvlNo: Int
     var lvlTitle: String
-    var goals = [Goal]()
+    var goals = Array<Goals>()
     
     //init is a keyword that allows usage of "self" it seems
-    init(lvlNo: Int, lvlTitle: String, goals: [Goal]){
+    init(lvlNo: Int, lvlTitle: String, goals: Array<Goals>){
         self.lvlNo = lvlNo
         self.lvlTitle = lvlTitle
         self.goals = goals
@@ -24,7 +24,7 @@ struct Level {
     mutating func setLvlTitle(lvlTitle: String) {
         self.lvlTitle = lvlTitle
     }
-    mutating func addGoal(newElement: Goal){
+    mutating func addGoal(newElement: Goals){
         self.goals.append(newElement)
     }
     

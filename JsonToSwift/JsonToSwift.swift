@@ -47,7 +47,7 @@ public class Json4Swift_Base {
      */
     required public init?(dictionary: NSDictionary) {
         
-        if (dictionary["levels"] != nil) { levels = Levels.modelsFromDictionaryArray(dictionary["levels"] as! NSArray) }
+        if (dictionary["levels"] != nil) { levels = Levels.modelsFromDictionaryArray(array: dictionary["levels"] as! NSArray) }
     }
     
     
@@ -64,5 +64,15 @@ public class Json4Swift_Base {
         return dictionary
     }
     
+    
+    func getLevelNo(lvlNo: Int) -> Int{
+        return (self.levels?[lvlNo].lvlNum)!
+    }
+    func getLevelTitle(lvlNo: Int) -> String{
+        return (self.levels?[lvlNo].msg)!
+    }
+    func getLevelGoals(lvlNo: Int) -> Array<Goals> {
+        return (self.levels?[lvlNo].goals)!
+    }
 }
 

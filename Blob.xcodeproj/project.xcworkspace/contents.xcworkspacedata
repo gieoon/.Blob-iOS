@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/user/Desktop/Blob-iOS/Blob/PlayScene/SwipeManager.swift">
+   </FileRef>
+   <FileRef
       location = "group:/Users/user/Desktop/Blob-iOS/JsonToSwift/Goals.swift">
    </FileRef>
    <FileRef

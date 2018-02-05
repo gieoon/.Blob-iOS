@@ -17,11 +17,11 @@ struct MiniLevel{
     let label = SKLabelNode()
     
 //hamburger approach, the negative is sandwiched between two positives.
-    init(x: CGFloat, y: CGFloat, level: Int){
+    init(x: CGFloat, y: CGFloat, level: Int, levelsScene: LevelsScene){
         self.x = x
         self.y = y
         self.level = level
-        self.sprite = LevelSprite(level: self.level)
+        self.sprite = LevelSprite(level: self.level, levelsScene: levelsScene)
         //sprite.size = CGSize(width: PAGEGRIDSIZE! - PAGEMARGINSIZE!, height: PAGEGRIDSIZE! - PAGEMARGINSIZE!)
         //sprite.color = SKColor.black
         sprite.anchorPoint = CGPoint(x: 0, y: 0)
@@ -29,7 +29,7 @@ struct MiniLevel{
         sprite.position = CGPoint(x: (x * PAGEGRIDSIZE!) + (screenSize!.width / 10 * 1.2), y: (screenSize!.height / 2.0)  - (y * PAGEGRIDSIZE!) + (screenSize!.height / 4.5))
         //sprite.posByScreen(x: -0.1, y: <#T##CGFloat#>)
         //sprite.position = CGPoint(x: 0, y: 0)
-        print("sprite.position is: \(sprite.position)")
+        //print("sprite.position is: \(sprite.position)")
         sprite.isUserInteractionEnabled = true
         //sprite.touchesBegan(<#T##touches: Set<UITouch>##Set<UITouch>#>, with: <#T##UIEvent?#>)
         

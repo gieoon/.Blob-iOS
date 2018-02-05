@@ -42,8 +42,8 @@ class GameScene: SKScene {
         //title_banner.position = CGPoint()
         scene.addChild(title_banner)
         title_banner.posByScreen(x: 0, y: 0)
-        title_banner.resizeByScreen(x: 0.83, y: 0.22)
-        print(title_banner)
+        title_banner.resizeByScreen(x: 0.83, y: 0.21)
+        //print(title_banner)
         
         //play button
         //var play_button: SKNode! = nil
@@ -100,7 +100,6 @@ class GameScene: SKScene {
         let reveal = SKTransition.crossFade(withDuration: 1.25)
         let levelsScene = LevelsScene(size: self.size)
         self.view?.presentScene(levelsScene, transition: reveal)
-        //self.view?.presentScene(levelsScene)
     }
     
     //private var label : SKLabelNode?

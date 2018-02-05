@@ -16,6 +16,8 @@ var SKViewSize: CGSize?
 var SKViewSizeRect: CGRect?
 var screenSize: CGRect?
 var PAGEGRIDSIZE: CGFloat?, PLAYGRIDSIZE: CGFloat?, PAGEMARGINSIZE: CGFloat?, SMALLESTSIDE: CGFloat?, GRIDSIZE: CGFloat?
+var PLAYGRIDX0, PLAYGRIDXMAX, PLAYGRIDY0, PLAYGRIDYMAX: CGFloat?
+var json4Swift_Base: Json4Swift_Base?
 
 //ipad will have a camera to simulate zoom
 let cameraNode = SKCropNode()
@@ -23,7 +25,6 @@ let cameraNode = SKCropNode()
 class GameViewController: UIViewController {
     //link to the GameScreen
     var scene: GameScene!
-    
 
     //instead of initializng as 0, create as an optional
     public var screenWidth: CGFloat?, screenHeight: CGFloat?
@@ -109,18 +110,24 @@ class GameViewController: UIViewController {
     
     func setGridSizes(){
         if(screenSize!.width > screenSize!.height){
-            print("width is larger than height")
+            //print("width is larger than height")
             PAGEMARGINSIZE = screenSize!.height / 10
             PAGEGRIDSIZE = screenSize!.height / 3
             SMALLESTSIDE = screenSize!.height
         }
         else{
-            print("height is larger than width")
+            //print("height is larger than width")
             PAGEMARGINSIZE = screenSize!.width / 10
             PAGEGRIDSIZE = screenSize!.width / 3.5
             SMALLESTSIDE = screenSize!.width
         }
-        print ("NEW PAGEMARGINSIZE: \(PAGEMARGINSIZE),  PAGEGRIDSIZE: \(PAGEGRIDSIZE)")
+        setPlayGridSizes()
+        //print ("NEW PAGEMARGINSIZE: \(PAGEMARGINSIZE),  PAGEGRIDSIZE: \(PAGEGRIDSIZE)")
+    }
+    
+    func setPlayGridSizes(){
+        PLAYGRIDSIZE = screenSize!.width / 10 // grid is 8 X 8 excluding 1 grid margin on each side
+        PLAYGRIDY0 = screenSize!.height / 5
     }
     
     //get device type
@@ -135,30 +142,36 @@ class GameViewController: UIViewController {
     }
     
     func loadJSONFromFile(){
-        var goals = [Goal]()
-        var levels = [Level]()
+        //var goals = [Goal]()
+        //var levels = [Level]()
         do{
             typealias JSONDictionary = [String: Any]
             //have to include the .json file in build phases resources
             let jsonFile = Bundle.main.path(forResource: "levels", ofType: "json")
             let jsonData = NSData(contentsOfFile: jsonFile!)
-            let jsonDictionary = try? JSONSerialization.jsonObject(with: jsonData! as Data, options: [])
+            var jsonDictionary: NSDictionary = try! JSONSerialization.jsonObject(with: jsonData! as Data, options: []) as! NSDictionary
             
             //let data: Data
             //let json = try?
              //   JSONSerialization.jsonObject(with: data) as? [String : Any],
             //let goal = json["levels"] as? [String: Any]
             //guard //<-- Error //syntax for "throws"
-            if let object = jsonDictionary as? [String: Any] {
-                print("OBJECT IS A DICTIONARY: ", object)
+            
+            
+            if jsonDictionary as? [String: Any] != nil{
                 
+                json4Swift_Base = Json4Swift_Base(dictionary: jsonDictionary)
+                //print("JSON4SWIFT BASE: ", json4Swift_Base as Any)
+
+                //let lvlNo = json4Swift_Base?.levels![5].lvlNum
+                //print("LVLNO IS: ", lvlNo)
             }
-            else if let object = jsonDictionary as? [Any]{
-                print("OBJECT IS AN ARRAY: ", object)
-            }
-            else {
-                print("JSON IS INVALID")
-            }
+//            else if let object = jsonDictionary as? [Any]{
+//                print("OBJECT IS AN ARRAY: ", object)
+//            }
+//            else {
+//                print("JSON IS INVALID")
+//            }
             //let goal = jsonString["levels"] as? [String: Any]
             
             //print("JSONSTRING IS: ", jsonString)

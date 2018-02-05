@@ -17,6 +17,12 @@ public class Goals {
     public var start : Int?
     public var length : Int?
     public var cut : Int?
+    public enum DIRECTION: String {
+        case TOP = "top"
+        case BOTTOM = "bottom"
+        case LEFT = "left"
+        case RIGHT = "right"
+    }
     
     /**
      Returns an array of models based on given dictionary.
@@ -74,5 +80,28 @@ public class Goals {
         return dictionary
     }
     
+    
+    //TODO need to convert this type into the DIRECTION enum by comparing strings
+    func getTargetDirection(pos: String) -> DIRECTION {
+        switch pos{
+            case "top":
+                return DIRECTION.TOP
+            case "bottom":
+                return DIRECTION.BOTTOM
+            case "left":
+                return DIRECTION.LEFT
+            default :
+                return DIRECTION.RIGHT
+        }
+    }
+    func getGoalStart() -> Int{
+        return self.start!
+    }
+    func getGoalLength() -> Int{
+        return self.length!
+    }
+    func getGoalShade() -> Int {
+        return self.cut!
+    }
 }
 

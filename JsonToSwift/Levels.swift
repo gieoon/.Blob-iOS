@@ -51,9 +51,8 @@ public class Levels {
         
         lvlNum = dictionary["lvlNum"] as? Int
         msg = dictionary["msg"] as? String
-        if (dictionary["goals"] != nil) { goals = Goals.modelsFromDictionaryArray(dictionary["goals"] as! NSArray) }
+        if (dictionary["goals"] != nil) { goals = Goals.modelsFromDictionaryArray(array: dictionary["goals"] as! NSArray) }
     }
-    
     
     /**
      Returns the dictionary representation for the current instance.
