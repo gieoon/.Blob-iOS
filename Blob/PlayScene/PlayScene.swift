@@ -28,7 +28,7 @@ class PlayScene: SKScene {
         //self.scaleMode = .aspectFill
         self.backgroundColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
         drawDashedGrid()
-        //loadBlankBlob(scene: self)
+        loadBlankBlob(scene: self)
         
         
     }
@@ -44,7 +44,7 @@ class PlayScene: SKScene {
     
     
     func loadBlankBlob(scene: SKScene){
-        self.blobs.append(Blob(x: 1, y: 1, width: 8, height: 8, shade: 0, scene: self))
+        self.blobs.append(Blob(x: 1, y: 1, width: 8, height: 8, shade: 0, scene: self, isMiniLevel: false))
     }
     
     func loadGoals(){
@@ -58,11 +58,13 @@ class PlayScene: SKScene {
                 start: goal.getGoalStart(),
                 length: goal.getGoalLength(),
                 targetShade: goal.getGoalShade(),
-                scene: self
+                playScene: self,
+                levelsScene: nil,
+                isMiniLevel: false
             )
             self.goals.append(g)
-            //scene?.addChild(g)
-            scene?.addChild(g.label)
+            
+            //g.addChild(g.label!)
         }
     }
     

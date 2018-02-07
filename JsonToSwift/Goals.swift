@@ -86,7 +86,7 @@ public class Goals {
         switch self.pos! {
             case "top":
                 return DIRECTION.TOP
-            case "bottom":
+            case "bot":
                 return DIRECTION.BOTTOM
             case "left":
                 return DIRECTION.LEFT

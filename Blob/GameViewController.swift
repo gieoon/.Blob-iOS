@@ -16,7 +16,7 @@ var SKViewSize: CGSize?
 var SKViewSizeRect: CGRect?
 var screenSize: CGRect?
 var PAGEGRIDSIZE: CGFloat?, PLAYGRIDSIZE: CGFloat?, PAGEMARGINSIZE: CGFloat?, SMALLESTSIDE: CGFloat?, GRIDSIZE: CGFloat?
-var PLAYGRIDX0, PLAYGRIDXMAX, PLAYGRIDY0, PLAYGRIDYMAX: CGFloat?
+var PLAYGRIDX0, PLAYGRIDXMAX, PLAYGRIDY0, PLAYGRIDYMAX, MINILEVELGRIDSIZE: CGFloat?
 var json4Swift_Base: Json4Swift_Base?
 
 //ipad will have a camera to simulate zoom
@@ -95,7 +95,7 @@ class GameViewController: UIViewController {
         screenWidth = UIScreen.main.bounds.width
         screenHeight = UIScreen.main.bounds.height //SKViewSize?.height
         setGridSizes()
-        print("AFTER ROTATION: screen width: \(String(describing: screenWidth)), screen height = \(screenHeight)")
+        print("AFTER ROTATION: screen width: \(String(describing: screenWidth)), screen height = \(String(describing: screenHeight))")
         let skView = self.view as! SKView
         if let scene = skView.scene {
             scene.size = self.view.bounds.size
@@ -115,12 +115,14 @@ class GameViewController: UIViewController {
             PAGEMARGINSIZE = screenSize!.height / 10
             PAGEGRIDSIZE = screenSize!.height / 3
             SMALLESTSIDE = screenSize!.height
+            MINILEVELGRIDSIZE = PAGEMARGINSIZE! / 10
         }
         else{
             //print("height is larger than width")
             PAGEMARGINSIZE = screenSize!.width / 10
             PAGEGRIDSIZE = screenSize!.width / 3.5
             SMALLESTSIDE = screenSize!.width
+            MINILEVELGRIDSIZE = PAGEMARGINSIZE! / 10
         }
         setPlayGridSizes()
         //print ("NEW PAGEMARGINSIZE: \(PAGEMARGINSIZE),  PAGEGRIDSIZE: \(PAGEGRIDSIZE)")
@@ -151,7 +153,7 @@ class GameViewController: UIViewController {
             //have to include the .json file in build phases resources
             let jsonFile = Bundle.main.path(forResource: "levels", ofType: "json")
             let jsonData = NSData(contentsOfFile: jsonFile!)
-            var jsonDictionary: NSDictionary = try! JSONSerialization.jsonObject(with: jsonData! as Data, options: []) as! NSDictionary
+            let jsonDictionary: NSDictionary = try! JSONSerialization.jsonObject(with: jsonData! as Data, options: []) as! NSDictionary
             
             //let data: Data
             //let json = try?

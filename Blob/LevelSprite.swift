@@ -17,10 +17,17 @@ class LevelSprite : SKSpriteNode {
     //convenience init(level: Int ){
     init(level: Int, levelsScene: LevelsScene){
         //have to call this initializer,t he other are al convenience initializers
-        super.init(texture: nil, color: UIColor.black, size: CGSize(width: PAGEGRIDSIZE! - PAGEMARGINSIZE!, height: PAGEGRIDSIZE! - PAGEMARGINSIZE!))
         self.level = level
+        super.init(
+            texture: createMiniLevelGoalsTexture(levelsScene: levelsScene),
+            color: UIColor.black,
+            size: CGSize(width: PAGEGRIDSIZE! - PAGEMARGINSIZE!,
+                         height: PAGEGRIDSIZE! - PAGEMARGINSIZE!)
+        )
+    
         self.levelsScene = levelsScene
         isUserInteractionEnabled = true
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -42,5 +49,65 @@ class LevelSprite : SKSpriteNode {
         self.levelsScene?._goToPlayScene(level: t_level)
     }
     
+    func loadGoals(levelsScene: LevelsScene, lvl: Int) -> Array<Goal>{
+        
+        var goals = Array<Goal>()
+        let inputGoals = Json4Swift_Base.getLevelGoals(lvlNo: lvl)
+        //create a new Goal from Goals type & draw each goal
+        for goal in inputGoals {
+            
+            let g = Goal(
+                targetDirection: goal.getTargetDirection(),
+                start: goal.getGoalStart(),
+                length: goal.getGoalLength(),
+                targetShade: goal.getGoalShade(),
+                playScene: nil,
+                levelsScene: levelsScene,
+                isMiniLevel: true
+            )
+            goals.append(g)
+        }
+        return goals
+        
+    }
     
+    func createMiniLevelGoalsTexture(levelsScene: LevelsScene) -> SKTexture {
+        UIGraphicsBeginImageContext(CGSize(width: MINILEVELGRIDSIZE!, height: MINILEVELGRIDSIZE!))
+        let ctx: CGContext = UIGraphicsGetCurrentContext()!
+        ctx.resetClip()
+        //ctx.saveGState()
+        //for lvl in 1...Json4Swift_Base.levels!.count {
+        let goals = loadGoals(levelsScene: levelsScene, lvl: self.level)
+        for goal in goals {
+            print("CREATING ONE GOAL")
+            let goalRect = goal.createGoalRect(
+                targetDirection: goal.targetDirection!,
+                start: goal.start!,
+                length: goal.length!)
+            
+            let clipPath: CGPath = UIBezierPath(roundedRect: goalRect, cornerRadius: 8).cgPath
+            ctx.addPath(clipPath)
+            
+            let color = UIColor(rgb: ColourScheme.getColour(cut: goal.targetShade!)).cgColor
+            
+            ctx.setFillColor(color)
+            
+            ctx.closePath()
+            ctx.fillPath()
+            //ctx.restoreGState()
+            
+        }
+        //create blank blob
+        print("CREATING BLANK BLOB FOR LEVEL")
+        let blobRect = CGRect(x: 1, y: 1, width: 8, height: 8) //multiplying height by -1 makes an interesting concave curve
+        let clipPath2: CGPath = UIBezierPath(roundedRect: blobRect, cornerRadius: 24).cgPath
+        ctx.addPath(clipPath2)
+        //}
+        
+        
+        let miniLevelImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return SKTexture(image: miniLevelImage!)
+    
+    }
 }

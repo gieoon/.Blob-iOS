@@ -43,12 +43,6 @@ struct MiniLevel{
         //label.yScale = -1;
         
     }
-    
-    func initSprite(){
-        //var rect = SKSpriteNode(color: SKColor.black)
-    }
-    
-    //click listener
 }
 
 //another way of doing it is by extending SKSpriteNode, and then calling that class from aother place.
