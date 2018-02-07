@@ -16,19 +16,20 @@ class Blob {
     var scene: SKScene?
     var gridX, gridY, gridWidth, gridHeight: Int
     
-    init(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, shade: Int, scene: SKScene ){
-        self.gridX = Int(x)
-        self.gridY = Int(y)
-        self.gridWidth = Int(width)
-        self.gridHeight = Int(height)
-        self.x = x * PLAYGRIDSIZE!
-        self.y = y * PLAYGRIDSIZE! + PLAYGRIDY0!
-        self.width = width * PLAYGRIDSIZE!
-        self.height = height * PLAYGRIDSIZE!
+    init(x: Int, y: Int, width: Int, height: Int, shade: Int, scene: SKScene ){
+        self.gridX = x
+        self.gridY = y
+        self.gridWidth = width
+        self.gridHeight = height + self.gridY
+        self.x = CGFloat(x) * PLAYGRIDSIZE!
+        self.y = CGFloat(y) * PLAYGRIDSIZE! + PLAYGRIDY0!
+        self.width = CGFloat(width) * PLAYGRIDSIZE!
+        self.height = CGFloat(height) * PLAYGRIDSIZE!
         self.shade = shade
         self.scene = scene
         self.blobSprite = createRoundedRectSprite(scene: self.scene!)
         self.label = createBlobLabel(scene: self.scene!)
+        self.blobSprite?.zPosition = 1
     }
     
     func createRoundedRectSprite(scene: SKScene) -> SKSpriteNode{
@@ -41,8 +42,8 @@ class Blob {
         let clipPath: CGPath = UIBezierPath(roundedRect: blob, cornerRadius: 24).cgPath
         ctx.addPath(clipPath)
         
-        let color = UIColor(rgb: self.shade).cgColor
-        print("self.shade is: ", self.shade)
+        let color = UIColor(rgb: ColourScheme.getColour(cut: self.shade)).cgColor
+
         ctx.setFillColor(color)
         
         ctx.closePath()
@@ -56,7 +57,7 @@ class Blob {
         //blobSprite.position.y = 0//self.y
         //blobSprite.color = UIColor(rgb: self.shade)
         //blobSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        print("BLOBSPRITE IS: ", blobSprite)
+        //print("BLOBSPRITE IS: ", blobSprite)
         scene.addChild(blobSprite)
         
         UIGraphicsEndImageContext()
@@ -72,9 +73,9 @@ class Blob {
         //label.position = findCenterOfBlob()
         //label.position = CGPoint(x: self.x, y: self.y)
         //label.position.x += screenSize!.width / 15
-        //label.position.y -= screenSize!.height / 10
+        //label.position.y -= screenSize!.height / 10f
         self.blobSprite!.addChild(label)
-        print("LABEL IS: ", label)
+        //print("LABEL IS: ", label)
         
         return label
     }

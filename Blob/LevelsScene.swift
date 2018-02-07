@@ -25,10 +25,10 @@ class LevelsScene: SKScene {
         super.init(size: size)
         //use default anchorPoint and draw everything from the middle!!!
         anchorPoint = CGPoint(x: 0.0, y: 0.0)
-        self.scaleMode = .aspectFill
+        //self.scaleMode = .aspectFill
         self.backgroundColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
         //set yScale to -1 to render oppositely from top left instead of bottom left like OpenGL style...
-        self.yScale = -1.0
+        //self.yScale = -1.0
         loadLevelsScene()
         
         back_button.posByScreen(x: 0.1, y: 0.1)

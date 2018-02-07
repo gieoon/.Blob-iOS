@@ -35,7 +35,7 @@ class LevelSprite : SKSpriteNode {
         //load the touched level
         let lvlTitle = json4Swift_Base?.getLevelTitle(lvlNo: self.level)
         let lvlNo = json4Swift_Base?.getLevelNo(lvlNo: self.level)
-        let lvlGoals: Array<Goals> = (json4Swift_Base?.getLevelGoals(lvlNo: self.level))!
+        let lvlGoals: Array<Goals> = (Json4Swift_Base.getLevelGoals(lvlNo: self.level))
         
         //create a level
         let t_level = Level(lvlNo: lvlNo!, lvlTitle: lvlTitle!, goals: lvlGoals)

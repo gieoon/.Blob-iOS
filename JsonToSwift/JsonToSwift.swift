@@ -13,7 +13,7 @@ import Foundation
 /* For support, please feel free to contact me at https://www.linkedin.com/in/syedabsar */
 
 public class Json4Swift_Base {
-    public var levels : Array<Levels>?
+    static var levels : Array<Levels>?
     
     /**
      Returns an array of models based on given dictionary.
@@ -47,7 +47,7 @@ public class Json4Swift_Base {
      */
     required public init?(dictionary: NSDictionary) {
         
-        if (dictionary["levels"] != nil) { levels = Levels.modelsFromDictionaryArray(array: dictionary["levels"] as! NSArray) }
+        if (dictionary["levels"] != nil) { Json4Swift_Base.levels = Levels.modelsFromDictionaryArray(array: dictionary["levels"] as! NSArray) }
     }
     
     
@@ -66,13 +66,13 @@ public class Json4Swift_Base {
     
     
     func getLevelNo(lvlNo: Int) -> Int{
-        return (self.levels?[lvlNo].lvlNum)!
+        return (Json4Swift_Base.levels?[lvlNo - 1].lvlNum)!
     }
     func getLevelTitle(lvlNo: Int) -> String{
-        return (self.levels?[lvlNo].msg)!
+        return (Json4Swift_Base.levels?[lvlNo - 1].msg)!
     }
-    func getLevelGoals(lvlNo: Int) -> Array<Goals> {
-        return (self.levels?[lvlNo].goals)!
+    static func getLevelGoals(lvlNo: Int) -> Array<Goals> {
+        return (Json4Swift_Base.levels?[lvlNo - 1].goals)!
     }
 }
 

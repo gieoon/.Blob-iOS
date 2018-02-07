@@ -82,8 +82,8 @@ public class Goals {
     
     
     //TODO need to convert this type into the DIRECTION enum by comparing strings
-    func getTargetDirection(pos: String) -> DIRECTION {
-        switch pos{
+    func getTargetDirection() -> DIRECTION {
+        switch self.pos! {
             case "top":
                 return DIRECTION.TOP
             case "bottom":

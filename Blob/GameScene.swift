@@ -29,12 +29,11 @@ class GameScene: SKScene {
         //addChild(background)
 
         //SKColor.green
-        self.scaleMode = .aspectFill//.aspectFit//.resizeFill
+        //self.scaleMode = .aspectFill//.aspectFit//.resizeFill
         self.backgroundColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
         loadHomeScreen(scene: self)
 
     }
-    
     
     func loadHomeScreen(scene: GameScene){
         //title banner
@@ -42,7 +41,7 @@ class GameScene: SKScene {
         //title_banner.position = CGPoint()
         scene.addChild(title_banner)
         title_banner.posByScreen(x: 0, y: 0)
-        title_banner.resizeByScreen(x: 0.83, y: 0.21)
+        title_banner.resizeByScreen(x: 0.83, y: 0.18)
         //print(title_banner)
         
         //play button
@@ -74,7 +73,7 @@ class GameScene: SKScene {
             let location = touch.location(in: self)
             
             if play_button.contains(location){
-                print ("play button touched")
+                //print ("play button touched")
                 _toLevels()
             }
             else if settings_button.contains(location){
@@ -97,7 +96,7 @@ class GameScene: SKScene {
     
     
     func _toLevels(){
-        let reveal = SKTransition.crossFade(withDuration: 1.25)
+        let reveal = SKTransition.crossFade(withDuration: 0.65)
         let levelsScene = LevelsScene(size: self.size)
         self.view?.presentScene(levelsScene, transition: reveal)
     }

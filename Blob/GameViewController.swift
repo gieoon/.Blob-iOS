@@ -81,6 +81,7 @@ class GameViewController: UIViewController {
         }
         
         loadJSONFromFile()
+        preloadTextures()
     }
     //euverus traffic simulation
     //when the view bouns change / rotation?
@@ -128,6 +129,7 @@ class GameViewController: UIViewController {
     func setPlayGridSizes(){
         PLAYGRIDSIZE = screenSize!.width / 10 // grid is 8 X 8 excluding 1 grid margin on each side
         PLAYGRIDY0 = screenSize!.height / 5
+        print("PLAYGRIDSIZE!: ", PLAYGRIDSIZE!)
     }
     
     //get device type
@@ -178,6 +180,11 @@ class GameViewController: UIViewController {
             //print ("LEVELS IS: ", goal)
             
         }
+    }
+    
+    func preloadTextures(){
+        //TODO, load in all textures here
+        
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

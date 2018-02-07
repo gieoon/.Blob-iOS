@@ -20,21 +20,6 @@ class SwipeManager {
     }
     
     func handleSwipe(view: SKView){
-//        swipeRightRec.addTarget(self, action: #selector(swipeRight))
-//        swipeRightRec.direction = .right
-//        view.addGestureRecognizer(swipeRightRec)
-//
-//        swipeLeftRec.addTarget(self, action: #selector(swipeLeft))
-//        swipeLeftRec.direction = .left
-//        view.addGestureRecognizer(swipeLeftRec)
-//
-//        swipeUpRec.addTarget(self, action: #selector(swipeUp))
-//        swipeUpRec.direction = .up
-//        view.addGestureRecognizer(swipeUpRec)
-//
-//        swipeDownRec.addTarget(self, action: #selector(swipeDown))
-//        swipeDownRec.direction = .down
-//        view.addGestureRecognizer(swipeDownRec)
         
         let directions: [UISwipeGestureRecognizerDirection] = [.right, .left, .up, .down]
         for direction in directions {
@@ -61,52 +46,93 @@ class SwipeManager {
             
             self.currentSwipeStartingPoint = sender.location(in: sender.view)
             
-            switch(sender.direction){
-                case .up :
-                    self.splitUp()
+            //by making this an "if" statement, all of the blob instances below do not require unwrapping
+            if let blob = detectCollidingBlob(){
                 
-                case .down :
-                    self.splitDown()
+                snapTouchToGrid()
                 
-                case .left :
-                    self.splitLeft()
+                print("self.currentSwipeStartingPoint: ", self.currentSwipeStartingPoint)
                 
-                default :
-                    self.splitRight()
+                if(checkSliceLegality(blob: blob)){
                 
+                    switch(sender.direction){
+                        case .up :
+                            splitUp(blob: blob)
+                        
+                        case .down :
+                            splitDown(blob: blob)
+                        
+                        case .left :
+                            splitLeft(blob: blob)
+                        
+                        default :
+                            splitRight(blob: blob)
+                        
+                    }
+                    
+                    blob.blobSprite?.removeFromParent()
+                    blob.label?.removeFromParent()
+                    deleteFromArray(element: blob)
+                    print("DELETED A BLOB")
+                }
             }
         }
     }
     
-    @objc
-    func splitRight(){
-        print("SWIPE RIGHT DETECTED")
-        let blob = detectCollidingBlob()
-        snapTouchToGrid()
-        
-        print("self.currentSwipeStartingPoint: ", self.currentSwipeStartingPoint)
-        createNewBlob(
-            x: (blob?.blobSprite?.position.x)!,
-            y: (blob?.blobSprite?.position.y)!,
-            width: (blob?.blobSprite?.size.width)!,
-            height: self.currentSwipeStartingPoint.y - (blob?.blobSprite?.position.y)!,
-            shade: (blob?.shade)! + 1
-        )
-        
-        blob!.blobSprite?.removeFromParent()
-        deleteFromArray(element: blob!)
+    func checkSliceLegality(blob: Blob) -> Bool{
+        if(Int(self.currentSwipeStartingPoint.y) > blob.gridY){
+            //print("LEGALITY CHECK RETURNING TRUE")
+            return true
+        }
+        return false
     }
-    @objc
-    func splitLeft(){
+    
+    func splitRight(blob: Blob){
+        print("SWIPE RIGHT DETECTED")
+        
+            createNewBlob(
+                x: (blob.gridX),
+                y: (blob.gridY),
+                width: (blob.gridWidth),
+                height: Int(self.currentSwipeStartingPoint.y) - (blob.gridY),
+                shade: (blob.shade) + 1
+            )
+            createNewBlob(
+                x: (blob.gridX),
+                y: Int(self.currentSwipeStartingPoint.y),
+                width: (blob.gridWidth),
+                height: (blob.gridHeight + blob.gridY) - Int(self.currentSwipeStartingPoint.y),
+                shade: (blob.shade) + 1
+            )
+        
+    }
+
+
+    func splitLeft(blob: Blob){
         print("SWIPE LEFT DETECTED")
     }
-    @objc
-    func splitUp(){
+
+    func splitUp(blob: Blob){
         print("SWIPE UP DETECTED")
     }
-    @objc
-    func splitDown(){
+
+    func splitDown(blob: Blob){
         print("SWIPE DOWN DETECTED")
+        
+        createNewBlob(
+            x: blob.gridX,
+            y: blob.gridY,
+            width: Int(self.currentSwipeStartingPoint.x) - blob.gridX,
+            height: blob.gridHeight,
+            shade: blob.shade + 1
+        )
+        createNewBlob(
+            x: Int(self.currentSwipeStartingPoint.x),
+            y: blob.gridY,
+            width: blob.gridWidth,
+            height: (blob.gridHeight + blob.gridY) - Int(self.currentSwipeStartingPoint.y),
+            shade: blob.shade + 1
+        )
     }
     
     @objc
@@ -114,16 +140,21 @@ class SwipeManager {
             //TODO for dropping
     }
     
-    
     func snapTouchToGrid(){
-        self.currentSwipeStartingPoint.x = (self.currentSwipeStartingPoint.x / PLAYGRIDSIZE!).rounded()
-        self.currentSwipeStartingPoint.y = ((self.currentSwipeStartingPoint.y - PLAYGRIDY0!) / PLAYGRIDSIZE!).rounded()
+        currentSwipeStartingPoint.x = (currentSwipeStartingPoint.x / PLAYGRIDSIZE!).rounded()
+        currentSwipeStartingPoint.y = (((currentSwipeStartingPoint.y) - PLAYGRIDY0!) / PLAYGRIDSIZE!).rounded()
     }
     
     func detectCollidingBlob() -> Blob? {
         for blob in (self.playScene?.blobs)! {
             if(blob.blobSprite!.contains(self.currentSwipeStartingPoint)){
-                return blob
+                //check is not a boundary
+                if     (Int(self.currentSwipeStartingPoint.y) != blob.gridY)
+                    && (Int(self.currentSwipeStartingPoint.y) != blob.gridY + blob.gridHeight)
+                    && (Int(self.currentSwipeStartingPoint.x) != blob.gridX)
+                    && (Int(self.currentSwipeStartingPoint.x) != blob.gridX + blob.gridWidth){
+                    return blob
+                }
             }
         }
         return nil
@@ -134,8 +165,8 @@ class SwipeManager {
         self.playScene?.blobs = (self.playScene?.blobs.filter() { $0 !== element })!
     }
     
-    func createNewBlob(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, shade: Int){
-        
+    func createNewBlob(x: Int, y: Int, width: Int, height: Int, shade: Int){
+        print("CREATING NEW BLOB WITH X: ", x, " Y: ", y, " WIDTH: ", width, " HEIGHT: ", height)
         self.playScene?.blobs.append(Blob(x: x, y: y, width: width, height: height, shade: shade, scene: self.playScene!))
     }
     
