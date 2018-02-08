@@ -21,12 +21,22 @@ struct MiniLevel{
         self.x = x
         self.y = y
         self.level = level
-        self.sprite = LevelSprite(level: self.level, levelsScene: levelsScene)
+        self.sprite = LevelSprite(
+            level: self.level,
+            levelsScene: levelsScene,
+            xOffset: (x * PAGEGRIDSIZE!) + (screenSize!.width / 10 * 1.2),
+            yOffset: (screenSize!.height / 2.0) - (y * PAGEGRIDSIZE!) + (screenSize!.height / 4.5)
+        )
+            
         //sprite.size = CGSize(width: PAGEGRIDSIZE! - PAGEMARGINSIZE!, height: PAGEGRIDSIZE! - PAGEMARGINSIZE!)
         //sprite.color = SKColor.black
         sprite.anchorPoint = CGPoint(x: 0, y: 0)
         //sprite.yScale = -1;
-        sprite.position = CGPoint(x: (x * PAGEGRIDSIZE!) + (screenSize!.width / 10 * 1.2), y: (screenSize!.height / 2.0)  - (y * PAGEGRIDSIZE!) + (screenSize!.height / 4.5))
+        //changing sprite position does not change anything, as goals are being rendered for themselves
+        sprite.position = CGPoint(
+            x: (x * PAGEGRIDSIZE!) + (screenSize!.width / 10 * 1.2),
+            y: (screenSize!.height / 2.0)  - (y * PAGEGRIDSIZE!) + (screenSize!.height / 4.5)
+        )
         //sprite.posByScreen(x: -0.1, y: <#T##CGFloat#>)
         //sprite.position = CGPoint(x: 0, y: 0)
         //print("sprite.position is: \(sprite.position)")
@@ -35,11 +45,15 @@ struct MiniLevel{
         
         //draw temporary level label
         label.text = String(self.level)
-        label.fontSize = 32
+        //label.font = UIFontMetrics.default.scaledFont(for: CUSTOMFONT)
+        label.fontName = CUSTOMFONT.fontName
         label.fontColor = SKColor.white
+        //label.adjustsFontForContentSizeCategory = true
         label.position = sprite.position
         label.position.x += screenSize!.width / 15
         label.position.y += screenSize!.height / 20
+        label.zPosition = 3
+        //levelsScene.addChild(label)
         //label.yScale = -1;
         
     }

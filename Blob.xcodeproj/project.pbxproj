@@ -32,6 +32,8 @@
 		CE79BAE22024AFC700E78FF6 /* Levels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE79BAE12024AFC700E78FF6 /* Levels.swift */; };
 		CE79BAE42024AFF200E78FF6 /* Goals.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE79BAE32024AFF200E78FF6 /* Goals.swift */; };
 		CE79BAE62027F6BD00E78FF6 /* SwipeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE79BAE52027F6BD00E78FF6 /* SwipeManager.swift */; };
+		CE9641FE202BB6300098E451 /* save.json in Resources */ = {isa = PBXBuildFile; fileRef = CE9641FD202BB6300098E451 /* save.json */; };
+		CE964200202BBE620098E451 /* orbitron_reg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9641FF202BBE470098E451 /* orbitron_reg.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +85,8 @@
 		CE79BAE12024AFC700E78FF6 /* Levels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Levels.swift; path = "/Users/user/Desktop/Blob-iOS/JsonToSwift/Levels.swift"; sourceTree = "<absolute>"; };
 		CE79BAE32024AFF200E78FF6 /* Goals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Goals.swift; path = "/Users/user/Desktop/Blob-iOS/JsonToSwift/Goals.swift"; sourceTree = "<absolute>"; };
 		CE79BAE52027F6BD00E78FF6 /* SwipeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SwipeManager.swift; path = "/Users/user/Desktop/Blob-iOS/Blob/PlayScene/SwipeManager.swift"; sourceTree = "<absolute>"; };
+		CE9641FD202BB6300098E451 /* save.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = save.json; sourceTree = "<group>"; };
+		CE9641FF202BBE470098E451 /* orbitron_reg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = orbitron_reg.ttf; path = ../orbitron_reg.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +117,8 @@
 		1D9EBE061FBB76440059FA3B = {
 			isa = PBXGroup;
 			children = (
+				CE9641FF202BBE470098E451 /* orbitron_reg.ttf */,
+				CE9641FD202BB6300098E451 /* save.json */,
 				CE79BADA2024AEFC00E78FF6 /* JsonToSwift */,
 				CE79BAD52024A0A400E78FF6 /* levels.json */,
 				1D9EBE111FBB76450059FA3B /* Blob */,
@@ -302,7 +308,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE964200202BBE620098E451 /* orbitron_reg.ttf in Resources */,
 				CE79BAD62024A0A400E78FF6 /* levels.json in Resources */,
+				CE9641FE202BB6300098E451 /* save.json in Resources */,
 				1DD571AD1FD25FC7006E0A2C /* Main.storyboard in Resources */,
 				1D9EBE151FBB76450059FA3B /* GameScene.sks in Resources */,
 				1D9EBE201FBB76450059FA3B /* Assets.xcassets in Resources */,

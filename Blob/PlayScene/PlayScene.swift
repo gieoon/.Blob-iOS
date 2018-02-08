@@ -17,6 +17,10 @@ class PlayScene: SKScene {
     var goals = Array<Goal>()
     lazy var swipeManager: SwipeManager = SwipeManager(scene: self)
     
+    let BUTTONYPOSITION: CGFloat = -0.4 //(screenSize!.height / 10) * 9
+    let reset_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_retry")
+    let lvls_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_levels")
+    
     required init?(coder aDecoder: NSCoder){
         fatalError("init(coder) is not used in this app")
     }
@@ -29,8 +33,52 @@ class PlayScene: SKScene {
         self.backgroundColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
         drawDashedGrid()
         loadBlankBlob(scene: self)
+        initButtons()
         
+    }
+    
+    func initButtons(){
+        reset_button.posByScreen(x: -0.19, y: BUTTONYPOSITION)
+        reset_button.name = "reset_button"
+        reset_button.zPosition = 1.0
+        reset_button.isUserInteractionEnabled = false
+        reset_button.resizeByScreen(x: BUTTON_WIDTH_SCALE, y: BUTTON_HEIGHT_SCALE)
         
+        lvls_button.posByScreen(x: 0.19, y: BUTTONYPOSITION)
+        lvls_button.name = "lvls_button"
+        lvls_button.zPosition = 1
+        lvls_button.isUserInteractionEnabled = true
+        lvls_button.resizeByScreen(x: BUTTON_WIDTH_SCALE, y: BUTTON_HEIGHT_SCALE)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        for touch in touches {
+            let location = touch.location(in: self)
+            
+            if reset_button.contains(location){
+                print ("reset button touched")
+                resetPlayScene()
+            }
+            else if lvls_button.contains(location){
+                print("levels button touched")
+                _toLevels()
+            }
+        }
+    }
+    
+    func resetPlayScene(){
+        let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
+        let playScene = PlayScene(size: self.size)
+        playScene.setLevel(level: self.level!)
+        self.view?.presentScene(playScene, transition: fade)
+    }
+    
+    func _toLevels(){
+        let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
+        //TODO, choose which page to go to based on the level modulo 9
+        let levelsScene = LevelsScene(size: self.size)
+        self.view?.presentScene(levelsScene, transition: fade)
     }
     
     override func didMove(to view: SKView){

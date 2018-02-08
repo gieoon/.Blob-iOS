@@ -76,6 +76,7 @@ class Blob {
         label.fontSize = 32
         label.fontColor = SKColor.black
         label.zPosition = 3
+        label.fontName = CUSTOMFONT.fontName
         label.horizontalAlignmentMode = .center
         label.verticalAlignmentMode = .center
         //label.position = findCenterOfBlob()

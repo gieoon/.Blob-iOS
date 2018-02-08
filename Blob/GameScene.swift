@@ -8,11 +8,11 @@
 
 import SpriteKit
 
+
+
 class GameScene: SKScene {
     
     var BUTTONYPOS: CGFloat = -0.2
-    let BUTTON_WIDTH_SCALE: CGFloat = 0.17
-    let BUTTON_HEIGHT_SCALE: CGFloat = 0.1
     let play_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_play")
     let settings_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_settings.png")
     let help_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_help.png")
@@ -96,9 +96,11 @@ class GameScene: SKScene {
     
     
     func _toLevels(){
-        let reveal = SKTransition.crossFade(withDuration: 0.65)
+        //let reveal = SKTransition.crossFade(withDuration: TRANSITIONSPEED)
+        let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
+        //TODO, choose which page to go to based on the level modulo 9
         let levelsScene = LevelsScene(size: self.size)
-        self.view?.presentScene(levelsScene, transition: reveal)
+        self.view?.presentScene(levelsScene, transition: fade)
     }
     
     //private var label : SKLabelNode?

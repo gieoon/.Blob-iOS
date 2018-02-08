@@ -52,7 +52,7 @@ class LevelsScene: SKScene {
                     let miniLevel: MiniLevel = MiniLevel(x: CGFloat(column), y: CGFloat(row), level: level, levelsScene: self)
                     self.addChild(miniLevel.sprite)
                     //print("adding label  at: \(row), \(column)")
-                    self.addChild(miniLevel.label)
+                    //miniLevel.sprite.addChild(miniLevel.label)
                     p.levels.append(miniLevel)
                     //level -= 1
                     level += 1
@@ -74,17 +74,17 @@ class LevelsScene: SKScene {
     }
     
     func _toMenu(){
-        let reveal = SKTransition.crossFade(withDuration: 1.25)
+        let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
         let menuScene = GameScene(size: self.size)
-        self.view?.presentScene(menuScene, transition: reveal)
+        self.view?.presentScene(menuScene, transition: fade)
     }
     
     
     func _goToPlayScene(level: Level){
-        let reveal = SKTransition.crossFade(withDuration: 1.25)
+        let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
         let playScene = PlayScene(size: self.size)
         playScene.setLevel(level: level)
-        self.view?.presentScene(playScene, transition: reveal)
+        self.view?.presentScene(playScene, transition: fade)
     }
 }
 

@@ -19,10 +19,12 @@ class Goal: SKSpriteNode {
     var cgRect: CGRect?
     var b_solved: Bool
     var DEFAULTGRIDSIZE: CGFloat
+    var isMiniLevel: Bool
 
     init(targetDirection: Goals.DIRECTION, start: Int, length: Int, targetShade: Int, playScene: PlayScene?, levelsScene: LevelsScene?, isMiniLevel: Bool){
         self.playScene = playScene
         self.levelsScene = levelsScene
+        self.isMiniLevel = isMiniLevel
         self.b_solved = false
         self.DEFAULTGRIDSIZE = isMiniLevel ? MINILEVELGRIDSIZE! : PLAYGRIDSIZE!
         super.init(
@@ -72,9 +74,10 @@ class Goal: SKSpriteNode {
     func initGoalLabel() -> SKLabelNode {
         let label = SKLabelNode()
         label.text = String(self.targetShade!)
-        label.fontSize = 32
+        label.fontSize = self.isMiniLevel ? 10 : 32
         label.fontColor = SKColor.black
         label.zPosition = 3
+        label.fontName = CUSTOMFONT.fontName
         label.horizontalAlignmentMode = .center
         label.verticalAlignmentMode = .center
         self.cgRect = createGoalRect(targetDirection: self.targetDirection!, start: self.start!, length: self.length!)
@@ -91,38 +94,38 @@ class Goal: SKSpriteNode {
                 //print("CREATING GOAL FACING TOP")
                 
                 return CGRect(
-                    x: CGFloat(start) * PLAYGRIDSIZE!,
-                    y: 9 * PLAYGRIDSIZE! + PLAYGRIDY0!,
-                    width: CGFloat(length) * PLAYGRIDSIZE!,
-                    height: 1 * PLAYGRIDSIZE!
+                    x: CGFloat(start) * DEFAULTGRIDSIZE,
+                    y: 9 * DEFAULTGRIDSIZE + (self.isMiniLevel ? 0 : PLAYGRIDY0!),
+                    width: CGFloat(length) * DEFAULTGRIDSIZE,
+                    height: 1 * DEFAULTGRIDSIZE
                 )
                 
             case Goals.DIRECTION.BOTTOM :
                 //print("CREATING GOAL FACING DOWN")
                 return CGRect(
-                    x: CGFloat(start) * PLAYGRIDSIZE!,
-                    y: PLAYGRIDY0!,
-                    width: CGFloat(length) * PLAYGRIDSIZE!,
-                    height: 1 * PLAYGRIDSIZE!
+                    x: CGFloat(start) * DEFAULTGRIDSIZE,
+                    y: (self.isMiniLevel ? 0 : PLAYGRIDY0!),
+                    width: CGFloat(length) * DEFAULTGRIDSIZE,
+                    height: 1 * DEFAULTGRIDSIZE
                 )
             
             case Goals.DIRECTION.LEFT:
                 //print("CREATING GOAL FACING LEFT")
                 
                 return CGRect(
-                    x: 9 * PLAYGRIDSIZE!,
-                    y: CGFloat(start) * PLAYGRIDSIZE! + PLAYGRIDY0!,
-                    width: PLAYGRIDSIZE!,
-                    height: CGFloat(length) * PLAYGRIDSIZE!
+                    x: 9 * DEFAULTGRIDSIZE,
+                    y: CGFloat(start) * DEFAULTGRIDSIZE + (self.isMiniLevel ? 0 : PLAYGRIDY0!),
+                    width: DEFAULTGRIDSIZE,
+                    height: CGFloat(length) * DEFAULTGRIDSIZE
                 )
             
             case Goals.DIRECTION.RIGHT :
                 //print("CREATING GOAL FACING RIGHT")
                 return CGRect(
                     x: 0,
-                    y: CGFloat(start) * PLAYGRIDSIZE! + PLAYGRIDY0!,
-                    width: 1 * PLAYGRIDSIZE!,
-                    height: CGFloat(length) * PLAYGRIDSIZE!
+                    y: CGFloat(start) * DEFAULTGRIDSIZE + (self.isMiniLevel ? 0 : PLAYGRIDY0!),
+                    width: 1 * DEFAULTGRIDSIZE,
+                    height: CGFloat(length) * DEFAULTGRIDSIZE
                 )
         }
     }
@@ -171,23 +174,23 @@ class Goal: SKSpriteNode {
         switch(self.targetDirection!){
             case Goals.DIRECTION.TOP :
                 return CGPoint(
-                    x: self.cgRect!.origin.x + PLAYGRIDSIZE! / 2,
-                    y: self.cgRect!.origin.y - PLAYGRIDSIZE! / 2
+                    x: self.cgRect!.origin.x + DEFAULTGRIDSIZE / 2,
+                    y: self.cgRect!.origin.y - DEFAULTGRIDSIZE / 2
                 )
             case Goals.DIRECTION.BOTTOM :
                 return CGPoint(
-                    x: self.cgRect!.origin.x + PLAYGRIDSIZE! / 2,
-                    y: self.cgRect!.origin.y + self.cgRect!.height + PLAYGRIDSIZE! / 2
+                    x: self.cgRect!.origin.x + DEFAULTGRIDSIZE / 2,
+                    y: self.cgRect!.origin.y + self.cgRect!.height + DEFAULTGRIDSIZE / 2
                 )
             case Goals.DIRECTION.LEFT :
                 return CGPoint(
-                    x: self.cgRect!.origin.x - PLAYGRIDSIZE! / 2,
-                    y: self.cgRect!.origin.y + PLAYGRIDSIZE! / 2
+                    x: self.cgRect!.origin.x - DEFAULTGRIDSIZE / 2,
+                    y: self.cgRect!.origin.y + DEFAULTGRIDSIZE / 2
                 )
             case Goals.DIRECTION.RIGHT :
                 return CGPoint(
-                    x: self.cgRect!.origin.x + self.cgRect!.width + PLAYGRIDSIZE! / 2,
-                    y: self.cgRect!.origin.y + PLAYGRIDSIZE! / 2
+                    x: self.cgRect!.origin.x + self.cgRect!.width + DEFAULTGRIDSIZE / 2,
+                    y: self.cgRect!.origin.y + DEFAULTGRIDSIZE / 2
                 )
         }
     }
@@ -195,14 +198,14 @@ class Goal: SKSpriteNode {
     func checkAdjacentBlobSize(blob: Blob) -> Bool {
         switch(self.targetDirection!){
             case Goals.DIRECTION.TOP, Goals.DIRECTION.BOTTOM :
-                if (blob.blobRect?.width)! - self.cgRect!.width < PLAYGRIDSIZE! / 4 {
+                if (blob.blobRect?.width)! - self.cgRect!.width < DEFAULTGRIDSIZE / 4 {
                     print("GOAL IS COLLIDING")
                     self.b_solved = true
                     //TODO play solved sound
                     return true
                 }
             case Goals.DIRECTION.LEFT, Goals.DIRECTION.RIGHT :
-                if (blob.blobRect?.height)! - self.cgRect!.height < PLAYGRIDSIZE! / 4 {
+                if (blob.blobRect?.height)! - self.cgRect!.height < DEFAULTGRIDSIZE / 4 {
                     print("GOAL IS COLLIDING")
                     self.b_solved = true
                     //TODO play solved sound

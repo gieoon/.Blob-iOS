@@ -18,7 +18,11 @@ var screenSize: CGRect?
 var PAGEGRIDSIZE: CGFloat?, PLAYGRIDSIZE: CGFloat?, PAGEMARGINSIZE: CGFloat?, SMALLESTSIDE: CGFloat?, GRIDSIZE: CGFloat?
 var PLAYGRIDX0, PLAYGRIDXMAX, PLAYGRIDY0, PLAYGRIDYMAX, MINILEVELGRIDSIZE: CGFloat?
 var json4Swift_Base: Json4Swift_Base?
-
+let BUTTON_WIDTH_SCALE: CGFloat = 0.17
+let BUTTON_HEIGHT_SCALE: CGFloat = 0.1
+let TRANSITIONSPEED: TimeInterval = 0.65
+let BACKGROUNDCOLOUR: UIColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
+let CUSTOMFONT: UIFont = loadFont()
 //ipad will have a camera to simulate zoom
 let cameraNode = SKCropNode()
 
@@ -201,7 +205,6 @@ class GameViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Release any cached data, images, etc that aren't in use.
     }
-
 }
 
 public extension SKNode {
@@ -240,6 +243,22 @@ public extension UIColor {
         )
     }
 }
+
+func loadFont() -> UIFont {
+    //default loop to find all font names which is not obvious
+    //        for family in UIFont.familyNames.sorted() {
+    //            let names = UIFont.fontNames(forFamilyName: family)
+    //            print("Family: \(family) Font names: \(names)")
+    //        }
+    guard let customFont = UIFont(name: "Orbitron-Regular", size: UIFont.labelFontSize) else {
+        fatalError("""
+                Failed to load the "Orbitron-Regular" font.
+                Make sure the font file is included in the project and the font name is spelled correctly
+            """)
+    }
+    return customFont
+}
+
 //
 //wonder if you and I have the same mother and are sister/brother, but never mind... :)
 //
