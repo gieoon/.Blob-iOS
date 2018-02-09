@@ -34,6 +34,7 @@
 		CEF21A54202C195300B2383A /* LevelsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF21A53202C195200B2383A /* LevelsScene.swift */; };
 		CEF21A56202C195700B2383A /* miniLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF21A55202C195700B2383A /* miniLevel.swift */; };
 		CEF21A5A202C20B500B2383A /* orbitron_reg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CEF21A59202C20B500B2383A /* orbitron_reg.ttf */; };
+		CEF21A60202DF3E500B2383A /* averageTimeData.json in Resources */ = {isa = PBXBuildFile; fileRef = CEF21A5F202DF3E500B2383A /* averageTimeData.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		CEF21A53202C195200B2383A /* LevelsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LevelsScene.swift; path = Blob/LevelsScene/LevelsScene.swift; sourceTree = SOURCE_ROOT; };
 		CEF21A55202C195700B2383A /* miniLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = miniLevel.swift; path = Blob/LevelsScene/miniLevel.swift; sourceTree = SOURCE_ROOT; };
 		CEF21A59202C20B500B2383A /* orbitron_reg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = orbitron_reg.ttf; sourceTree = "<group>"; };
+		CEF21A5F202DF3E500B2383A /* averageTimeData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = averageTimeData.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +221,7 @@
 		CED5805C202C15C000F24FB6 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				CEF21A5F202DF3E500B2383A /* averageTimeData.json */,
 				CE79BAD52024A0A400E78FF6 /* levels.json */,
 				CEF21A59202C20B500B2383A /* orbitron_reg.ttf */,
 				CE9641FD202BB6300098E451 /* save.json */,
@@ -335,6 +338,7 @@
 			files = (
 				CE79BAD62024A0A400E78FF6 /* levels.json in Resources */,
 				CE9641FE202BB6300098E451 /* save.json in Resources */,
+				CEF21A60202DF3E500B2383A /* averageTimeData.json in Resources */,
 				1DD571AD1FD25FC7006E0A2C /* Main.storyboard in Resources */,
 				1D9EBE151FBB76450059FA3B /* GameScene.sks in Resources */,
 				1D9EBE201FBB76450059FA3B /* Assets.xcassets in Resources */,

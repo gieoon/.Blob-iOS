@@ -57,10 +57,11 @@ class Goal: SKSpriteNode {
 
         getCurrentSceneType().addChild(self)
         self.label = initGoalLabel()
-        addChild(self.label!)
         self.goalStrokeSprite = createGoalStroke(targetDirection: targetDirection, start: start, length: length, shade: targetShade)
+        //adding label to self makes the alpha transparent, so adding to the stroke which is always max alpha
+        self.goalStrokeSprite!.addChild(self.label!)
         self.label?.alpha = MAXALPHA
-        self.label?.zPosition = 5
+        self.label?.zPosition = 50
         print("self.label! is: ", self.label!)
     }
     
@@ -80,7 +81,7 @@ class Goal: SKSpriteNode {
         label.text = String(self.targetShade!)
         label.fontSize = self.isMiniLevel ? setFontSizeFromDevice() : 32
         label.fontColor = SKColor.black
-        label.zPosition = 5
+        label.zPosition = 50
         label.fontName = CUSTOMFONT.fontName
         label.horizontalAlignmentMode = .center
         label.verticalAlignmentMode = .center

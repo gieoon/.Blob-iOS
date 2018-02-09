@@ -15,6 +15,7 @@ class PlayScene: SKScene {
     var blobs = Array<Blob>()
     var inputGoals = Array<Goals>()
     var goals = Array<Goal>()
+    var allGoalsComplete: Bool = false
     lazy var swipeManager: SwipeManager = SwipeManager(scene: self)
     
     let BUTTONYPOSITION: CGFloat = (screenSize!.height / 20)
@@ -62,18 +63,30 @@ class PlayScene: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
+        
+        self.allGoalsComplete = true
+        
         for goal in goals {
             if goal.b_solved {
                 if(goal.alpha < goal.MAXALPHA - goal.ALPHACHANGEAMOUNT){
                     goal.alpha += goal.ALPHACHANGEAMOUNT
                 }
             }
-            else if !goal.b_solved {
+            if !goal.b_solved {
                 if(goal.alpha > goal.MINALPHA){
                     goal.alpha -= goal.ALPHACHANGEAMOUNT
                 }
+                self.allGoalsComplete = false
             }
         }
+        if self.allGoalsComplete {
+            _levelComplete()
+        }
+    }
+    
+    func _levelComplete(){
+        //unlock this level
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
