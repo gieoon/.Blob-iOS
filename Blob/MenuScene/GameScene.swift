@@ -23,7 +23,7 @@ class GameScene: SKScene {
     override init(size: CGSize){
         super.init(size: size)
         anchorPoint = CGPoint(x: 0.5, y: 0.55)
-        
+        gamestate = GAMESTATE.MENU
         //let background = SKSpriteNode(imageNamed: "Background")
         //background.size = size
         //addChild(background)
@@ -32,7 +32,7 @@ class GameScene: SKScene {
         //self.scaleMode = .aspectFill//.aspectFit//.resizeFill
         self.backgroundColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
         loadHomeScreen(scene: self)
-
+        
     }
     
     func loadHomeScreen(scene: GameScene){
@@ -100,6 +100,7 @@ class GameScene: SKScene {
         let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
         //TODO, choose which page to go to based on the level modulo 9
         let levelsScene = LevelsScene(size: self.size)
+        levelsScene.setPage(currentPage: GameViewController.initCurrentPageFromLocalStorage())
         self.view?.presentScene(levelsScene, transition: fade)
     }
     

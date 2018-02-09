@@ -17,6 +17,7 @@ class Blob {
     var gridX, gridY, gridWidth, gridHeight: Int
     var blobRect: CGRect?
     var DEFAULTGRIDSIZE: CGFloat
+    var MARGINBETWEENBLOBS: CGFloat
     
     init(x: Int, y: Int, width: Int, height: Int, shade: Int, scene: SKScene, isMiniLevel: Bool ){
         self.gridX = x
@@ -24,11 +25,12 @@ class Blob {
         self.gridWidth = width
         self.gridHeight = height
         //was facing a bug when initializing the below with a function, so have to use ternary statement instead
-        self.DEFAULTGRIDSIZE = isMiniLevel ? MINILEVELGRIDSIZE! : PAGEGRIDSIZE!
-        self.x = CGFloat(x) * DEFAULTGRIDSIZE
-        self.y = CGFloat(y) * DEFAULTGRIDSIZE + PLAYGRIDY0!
-        self.width = CGFloat(width) * DEFAULTGRIDSIZE
-        self.height = CGFloat(height) * DEFAULTGRIDSIZE
+        self.DEFAULTGRIDSIZE = isMiniLevel ? MINILEVELGRIDSIZE! : PLAYGRIDSIZE!
+        self.MARGINBETWEENBLOBS = DEFAULTGRIDSIZE / 15
+        self.x = (CGFloat(x) * DEFAULTGRIDSIZE) + self.MARGINBETWEENBLOBS
+        self.y = (CGFloat(y) * DEFAULTGRIDSIZE + PLAYGRIDY0!) + self.MARGINBETWEENBLOBS
+        self.width = (CGFloat(width) * DEFAULTGRIDSIZE) - self.MARGINBETWEENBLOBS
+        self.height = (CGFloat(height) * DEFAULTGRIDSIZE) - self.MARGINBETWEENBLOBS
         self.shade = shade
         self.scene = scene
         self.blobSprite = createRoundedRectSprite(scene: self.scene!)
@@ -37,13 +39,13 @@ class Blob {
     }
     
     func createRoundedRectSprite(scene: SKScene) -> SKSpriteNode{
-        //not using SKShadeNode due to memory leaks, using a drwing context with curve and converting it to a SKSpriteNode
+        //not using SKShadeNode due to memory leaks, using a drawing context with curve and converting it to a SKSpriteNode
         UIGraphicsBeginImageContext(scene.size)
         let ctx: CGContext = UIGraphicsGetCurrentContext()!
         ctx.saveGState()
         
         self.blobRect = CGRect(x: self.x, y: self.y, width: self.width, height: self.height) //multiplying height by -1 makes an interesting concave curve
-        let clipPath: CGPath = UIBezierPath(roundedRect: self.blobRect!, cornerRadius: 24).cgPath
+        let clipPath: CGPath = UIBezierPath(roundedRect: self.blobRect!, cornerRadius: 20).cgPath
         ctx.addPath(clipPath)
         
         let color = UIColor(rgb: ColourScheme.getColour(cut: self.shade)).cgColor

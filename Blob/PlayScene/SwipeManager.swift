@@ -13,6 +13,7 @@ class SwipeManager {
     
     //private var currentSwipeBeginningPoint: CGPoint = CGPoint(x: -100, y: -100)
     private var currentSwipeStartingPoint: CGPoint = CGPoint(x: -100, y: -100)
+    private var currentSwipeStartingPointRounded: CGPoint = CGPoint(x: -100, y: -100)
     
     let playScene: PlayScene?
     
@@ -46,47 +47,65 @@ class SwipeManager {
             print("SWIPE ENDING DETECTED")
             
             self.currentSwipeStartingPoint = sender.location(in: sender.view)
-            
+                
             //by making this an "if" statement, all of the blob instances below do not require unwrapping
             if let blob = detectCollidingBlob(){
-                print("COLLIDING WITH BLOB.X: ", blob.gridX, " blob.gridY: ", blob.gridY, " blob.gridWidth: ", blob.gridWidth, " blob.gridHeight: ", blob.gridHeight )
-                snapTouchToGrid()
-                
-                print("self.currentSwipeStartingPoint: ", self.currentSwipeStartingPoint)
-                
-                if(checkSliceLegality(blob: blob)){
-                
-                    switch(sender.direction){
+                //print("COLLIDING WITH BLOB.X: ", blob.gridX, " blob.gridY: ", blob.gridY, " blob.gridWidth: ", blob.gridWidth, " blob.gridHeight: ", blob.gridHeight )
+                if(sender.direction == .up || sender.direction == .down)
+                    && (blob.gridWidth - blob.gridX == 1){
+                        //NO ACTION
+                        return
+                    
+                }
+                else if(sender.direction == .left || sender.direction == .right)
+                    && (blob.gridHeight - blob.gridY == 1){
+                        //NO ACTION
+                        return
+                    
+                }
+                else {
+                    snapTouchToGrid()
+                    
+                    print("self.currentSwipeStartingPoint: ", self.currentSwipeStartingPoint)
+                    
+                    if(checkSliceLegality(blob: blob)){
+                        
+                        switch(sender.direction){
                         case .up :
                             print("SWIPE UP DETECTED")
                             splitVertical(blob: blob)
-                        
+                            
                         case .down :
                             print("SWIPE DOWN DETECTED")
                             splitVertical(blob: blob)
-                        
+                            
                         case .left :
                             print("SWIPE LEFT DETECTED")
                             splitHorizontal(blob: blob)
-                        
+                            
                         default :
                             print("SWIPE RIGHT DETECTED")
                             splitHorizontal(blob: blob)
+                            
+                        }
                         
-                    }
-                    
-                    blob.blobSprite?.removeFromParent()
-                    blob.label?.removeFromParent()
-                    deleteFromArray(element: blob)
-                    print("DELETED A BLOB")
-                    
-                    for goal in (self.playScene?.goals)! {
-                        goal.checkNearbyBlob()
-                        //TODO start tweens and animations for solved vs not solved
+                        removeBlob(blob: blob)
+                        
+                        for goal in (self.playScene?.goals  )! {
+                            goal.checkNearbyBlob()
+                            //TODO start tweens and animations for solved vs not solved
+                        }
                     }
                 }
             }
         }
+    }
+    
+    func removeBlob(blob: Blob){
+        blob.blobSprite?.removeFromParent()
+        blob.label?.removeFromParent()
+        deleteFromArray(element: blob)
+        print("DELETED A BLOB")
     }
     
     func checkSliceLegality(blob: Blob) -> Bool{
@@ -144,10 +163,18 @@ class SwipeManager {
     
     @objc
     func tapped(_ sender:UITapGestureRecognizer){
-            //TODO for dropping
+        //TODO for dropping
+        
     }
     
     func snapTouchToGrid(){
+        //TODO check each tick for a collision with a blob, and get the first collision found. This is the blob to slice.
+        //TODO create a touchline
+        
+        //get exact values to check is not a boundary
+        currentSwipeStartingPointRounded.x = currentSwipeStartingPoint.x
+        currentSwipeStartingPointRounded.y = currentSwipeStartingPoint.y
+        
         currentSwipeStartingPoint.x = (currentSwipeStartingPoint.x.rounded() / PLAYGRIDSIZE!).rounded()
         currentSwipeStartingPoint.y = ((currentSwipeStartingPoint.y.rounded() - PLAYGRIDY0!) / PLAYGRIDSIZE!).rounded()
     }
@@ -161,7 +188,7 @@ class SwipeManager {
 //                )
                 self.currentSwipeStartingPoint
             )){
-                print("A Blob contains self.currentSwipeStartingPoint: ", blob.blobSprite!)
+                //print("A Blob contains self.currentSwipeStartingPoint: ", blob.blobSprite!)
                 return blob
             }
         }
@@ -169,7 +196,7 @@ class SwipeManager {
     }
     
     func boundaryCheck(blob: Blob) -> Bool {
-        //check is not a boundary
+        //check touch start is not a boundary
         print("SLICE DIRECTION IS: ", sliceDirection)
         if sliceDirection == "HORIZONTAL" {
             if     (Int(self.currentSwipeStartingPoint.y) != blob.gridY)

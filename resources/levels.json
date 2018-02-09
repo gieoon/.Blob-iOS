@@ -1,0 +1,342 @@
+{
+    "levels":[
+              {
+              "lvlNum":1,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":2,
+              "msg":"The Size",
+              "goals":[
+                       {"pos": "top","start":5,"length":3,"cut":1},
+                       {"pos": "right","start":4,"length":2,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":3,
+              "msg":"And The Number",
+              "goals":[
+                       {"pos": "bot","start":3,"length":3,"cut":3}
+                       ]
+              },
+              {
+              "lvlNum":4,
+              "msg":"Cut and Effect",
+              "goals":[
+                       {"pos": "top","start":1,"length":1,"cut":1},
+                       {"pos": "top","start":2,"length":2,"cut":2},
+                       {"pos": "top","start":4,"length":3,"cut":3}
+                       ]
+              },
+              {
+              "lvlNum":5,
+              "msg":"Prioritise",
+              "goals":[
+                       {"pos": "top","start":2,"length":3,"cut":4},
+                       {"pos": "right","start":8,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":6,
+              "msg":"Get Cozy",
+              "goals":[
+                       {"pos": "left","start":6,"length":2,"cut":6},
+                       {"pos": "right","start":8,"length":1,"cut":3}
+                       ]
+              },
+              {
+              "lvlNum":7,
+              "msg":"Be Efficient",
+              "goals":[
+                       {"pos": "top","start":2,"length":2,"cut":2},
+                       {"pos": "top","start":5,"length":3,"cut":3}
+                       ]
+              }
+              ,
+              {
+              "lvlNum":8,
+              "msg":"First Test",
+              "goals":[
+                       {"pos": "top","start":1,"length":1,"cut":2},
+                       {"pos": "bot","start":4,"length":3,"cut":2},
+                       {"pos": "right","start":1,"length":1,"cut":3}
+                       ]
+              },
+              {
+              "lvlNum":9,
+              "msg":"Graduation",
+              "goals":[
+                       {"pos": "bot","start":1,"length":1,"cut":3},
+                       {"pos": "top","start":6,"length":1,"cut":2},
+                       {"pos": "right","start":3,"length":2,"cut":3}
+                       ]
+              },
+              {
+              "lvlNum":10,
+              "msg":"Seven",
+              "goals":[
+                       {"pos": "right","start":4,"length":4,"cut":7},
+                       {"pos": "right","start":1,"length":3,"cut":3}
+                       ]
+              },
+              {
+              "lvlNum":11,
+              "msg":"Seven",
+              "goals":[
+                       {"pos": "right","start":4,"length":4,"cut":7},
+                       {"pos": "right","start":1,"length":3,"cut":3}
+                       ]
+              }
+              ,
+              {
+              "lvlNum":12,
+              "msg":"Seven",
+              "goals":[
+                       {"pos": "right","start":4,"length":4,"cut":7},
+                       {"pos": "right","start":1,"length":3,"cut":3}
+                       ]
+              },
+              {
+              "lvlNum":13,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":14,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":15,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":16,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":17,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":18,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":19,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":20,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":21,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":22,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":23,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":24,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":25,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":26,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":27,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":28,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":29,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":30,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":31,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":32,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":33,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":34,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":35,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":36,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":37,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":38,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":32,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":39,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":40,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":41,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":42,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":43,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":44,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              },
+              {
+              "lvlNum":45,
+              "msg":"The Cut",
+              "goals":[
+                       {"pos": "left","start":1,"length":1,"cut":1}
+                       ]
+              }
+              ]
+}
+

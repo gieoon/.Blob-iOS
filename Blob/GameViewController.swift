@@ -23,13 +23,22 @@ let BUTTON_HEIGHT_SCALE: CGFloat = 0.1
 let TRANSITIONSPEED: TimeInterval = 0.65
 let BACKGROUNDCOLOUR: UIColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
 let CUSTOMFONT: UIFont = loadFont()
+var isiPad: UIUserInterfaceIdiom?
+
+public enum GAMESTATE {
+    case LOADING
+    case MENU
+    case LEVELS
+    case PLAYING
+}
+var gamestate: GAMESTATE = GAMESTATE.LOADING
+
 //ipad will have a camera to simulate zoom
-let cameraNode = SKCropNode()
+//let cameraNode = SKCropNode()
 
 class GameViewController: UIViewController {
     //link to the GameScreen
     var scene: GameScene!
-
     //instead of initializng as 0, create as an optional
     public var screenWidth: CGFloat?, screenHeight: CGFloat?
     
@@ -46,6 +55,7 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        isiPad = readDeviceType()
         screenSize = UIScreen.main.bounds
         screenWidth = screenSize!.width
         screenHeight = screenSize!.height
@@ -58,10 +68,6 @@ class GameViewController: UIViewController {
         //let skView = self.view as! SKView
         if let view = self.view as! SKView? {
             view.isMultipleTouchEnabled = false
-            let isiPad = self.readDeviceType()
-            if(isiPad){
-                //cameraNode.position = CGPoint
-            }
             
             SKViewSize = self.view.bounds.size
             
@@ -117,36 +123,48 @@ class GameViewController: UIViewController {
         if(screenSize!.width > screenSize!.height){
             //print("width is larger than height")
             PAGEMARGINSIZE = screenSize!.height / 10
-            PAGEGRIDSIZE = screenSize!.height / 3
+            PAGEGRIDSIZE = screenSize!.height / 3.2
             SMALLESTSIDE = screenSize!.height
-            MINILEVELGRIDSIZE = PAGEMARGINSIZE! / 10
+            MINILEVELGRIDSIZE = (PAGEGRIDSIZE! - PAGEMARGINSIZE!) / 10
         }
         else{
             //print("height is larger than width")
-            PAGEMARGINSIZE = screenSize!.width / 10
+            PAGEMARGINSIZE = screenSize!.width / 15
             PAGEGRIDSIZE = screenSize!.width / 3.5
             SMALLESTSIDE = screenSize!.width
-            MINILEVELGRIDSIZE = PAGEMARGINSIZE! / 10
+            MINILEVELGRIDSIZE = (PAGEGRIDSIZE! - PAGEMARGINSIZE!) / 10
         }
         setPlayGridSizes()
         //print ("NEW PAGEMARGINSIZE: \(PAGEMARGINSIZE),  PAGEGRIDSIZE: \(PAGEGRIDSIZE)")
+        print("MINILEVELGRIDSIZE: ", MINILEVELGRIDSIZE!)
     }
     
     func setPlayGridSizes(){
         PLAYGRIDSIZE = screenSize!.width / 10 // grid is 8 X 8 excluding 1 grid margin on each side
         PLAYGRIDY0 = screenSize!.height / 5
         print("PLAYGRIDSIZE!: ", PLAYGRIDSIZE!)
+        //new coordinates for iPad
+        if(isiPad == UIUserInterfaceIdiom.pad){
+            print("IS IPAD")
+            PLAYGRIDY0 = screenSize!.height / 15
+        }
     }
     
     //get device type
-    func readDeviceType() -> Bool{
+    func readDeviceType() -> UIUserInterfaceIdiom {
         //UI_USER_INTERFACE_IDIOM() ==
-        if(UIDevice.current.userInterfaceIdiom == .pad){
-            //zoom in the screen for iPad
-            print("iPad detected")
-            return true
+        switch(UIDevice.current.userInterfaceIdiom){
+            case .pad :
+                print("iPad detected")
+                return UIUserInterfaceIdiom.pad
+            case UIUserInterfaceIdiom.phone :
+            print("phone detected")
+            return UIUserInterfaceIdiom.phone
+        
+            default :
+            print("unspecified device detected")
+            return UIUserInterfaceIdiom.unspecified
         }
-        return false
     }
     
     func loadJSONFromFile(){
@@ -186,6 +204,11 @@ class GameViewController: UIViewController {
             //print ("LEVELS IS: ", goal)
             
         }
+    }
+    
+    public static func initCurrentPageFromLocalStorage() -> Int {
+        //TODO
+        return 0
     }
     
     func preloadTextures(){

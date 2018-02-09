@@ -17,7 +17,7 @@ class PlayScene: SKScene {
     var goals = Array<Goal>()
     lazy var swipeManager: SwipeManager = SwipeManager(scene: self)
     
-    let BUTTONYPOSITION: CGFloat = -0.4 //(screenSize!.height / 10) * 9
+    let BUTTONYPOSITION: CGFloat = (screenSize!.height / 20)
     let reset_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_retry")
     let lvls_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_levels")
     
@@ -30,6 +30,7 @@ class PlayScene: SKScene {
         super.init(size: size)
         //anchorPoint = CGPoint(x: 0.5, y: 0.55)
         //self.scaleMode = .aspectFill
+        gamestate = GAMESTATE.PLAYING
         self.backgroundColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
         drawDashedGrid()
         loadBlankBlob(scene: self)
@@ -38,17 +39,41 @@ class PlayScene: SKScene {
     }
     
     func initButtons(){
-        reset_button.posByScreen(x: -0.19, y: BUTTONYPOSITION)
+        reset_button.position = CGPoint(x: (screenSize!.width / 6 * 4) - (reset_button.size.width / 2) , y: BUTTONYPOSITION)
         reset_button.name = "reset_button"
-        reset_button.zPosition = 1.0
-        reset_button.isUserInteractionEnabled = false
+        reset_button.zPosition = 3
+        reset_button.anchorPoint = CGPoint(x: 0, y: 0)
+        reset_button.isUserInteractionEnabled = true
         reset_button.resizeByScreen(x: BUTTON_WIDTH_SCALE, y: BUTTON_HEIGHT_SCALE)
         
-        lvls_button.posByScreen(x: 0.19, y: BUTTONYPOSITION)
+        //print("reset_button", reset_button)
+        lvls_button.position = CGPoint(x: screenSize!.width / 6 * 3, y: BUTTONYPOSITION)
         lvls_button.name = "lvls_button"
-        lvls_button.zPosition = 1
+        lvls_button.zPosition = 3
+        lvls_button.anchorPoint = CGPoint(x: 1, y: 0)
         lvls_button.isUserInteractionEnabled = true
         lvls_button.resizeByScreen(x: BUTTON_WIDTH_SCALE, y: BUTTON_HEIGHT_SCALE)
+        if(isiPad == UIUserInterfaceIdiom.pad){
+            reset_button.resizeByScreen(x: BUTTON_WIDTH_SCALE * 0.9, y: BUTTON_HEIGHT_SCALE)
+            lvls_button.resizeByScreen(x: BUTTON_WIDTH_SCALE * 0.9, y: BUTTON_HEIGHT_SCALE)
+        }
+        addChild(reset_button)
+        addChild(lvls_button)
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
+        for goal in goals {
+            if goal.b_solved {
+                if(goal.alpha < goal.MAXALPHA - goal.ALPHACHANGEAMOUNT){
+                    goal.alpha += goal.ALPHACHANGEAMOUNT
+                }
+            }
+            else if !goal.b_solved {
+                if(goal.alpha > goal.MINALPHA){
+                    goal.alpha -= goal.ALPHACHANGEAMOUNT
+                }
+            }
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -68,7 +93,7 @@ class PlayScene: SKScene {
     }
     
     func resetPlayScene(){
-        let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
+        let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED * 2)
         let playScene = PlayScene(size: self.size)
         playScene.setLevel(level: self.level!)
         self.view?.presentScene(playScene, transition: fade)
@@ -78,6 +103,7 @@ class PlayScene: SKScene {
         let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
         //TODO, choose which page to go to based on the level modulo 9
         let levelsScene = LevelsScene(size: self.size)
+        levelsScene.setPage(currentPage: GameViewController.initCurrentPageFromLocalStorage())
         self.view?.presentScene(levelsScene, transition: fade)
     }
     
