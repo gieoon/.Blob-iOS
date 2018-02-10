@@ -62,7 +62,7 @@ class LevelsScene: SKScene {
         //var level = LEVELS_PER_PAGE;
         
         //let totalPages = calculateTotalPages()
-        
+        print("loading levels scene")
         var level = (9 * currentPage) + 1
         for page in 1...1{ //make this add pages from 1 to 1 for now...
             //var p: LevelSelectPage = LevelSelectPage(number: page, color: UIColor.green)

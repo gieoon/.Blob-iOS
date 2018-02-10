@@ -9,8 +9,8 @@
 import SpriteKit
 
 class Blob {
-    var blobSprite: SKSpriteNode?
-    var label: SKLabelNode?
+    weak var blobSprite: SKSpriteNode?
+    weak var label: SKLabelNode?
     var width, height, x, y: CGFloat
     var shade: Int
     var scene: SKScene?
@@ -96,14 +96,71 @@ class Blob {
         return label
     }
     
-    //cgRect.minY + cgRect.height + label.frame.height / 2
-    //print("cgRect IS: ", cgRect)
+    func drop() {
+        
+        let blobWidth = self.gridWidth // - 1 for the last open space // + 1 for the start at 1
+        //print("blobWidth is: ", blobWidth)
+        for tX in 1...blobWidth {
+            let tPoint = defineBeneath(x: tX)
+            if !checkBeneath(tPoint: tPoint){
+                print("not dropping blob")
+                return
+            }
+        }
+        print("dropping blob")
+        dropBlob()
+    }
     
-//    func findCenterOfBlob() -> CGPoint {
-//        let halfX = (self.width / 2) + self.x
-//        let halfY = ((self.height / 2) + self.y)//self.scene!.size.height -
-//        return CGPoint(x: halfX, y: halfY)
-//    }
+    func defineBeneath(x: Int) -> CGPoint {
+        return CGPoint(
+            x: (CGFloat(x) * PLAYGRIDSIZE!) + PLAYGRIDSIZE! / 2,
+            y: (self.y + self.height) + PLAYGRIDSIZE! / 2
+        )
+    }
+    
+    func checkBeneath(tPoint: CGPoint) -> Bool {
+        for blob in (self.scene! as? PlayScene)!.blobs{
+            if (blob.gridY + self.gridHeight == 9) {
+                //print("a blob is sitting at bottom of play grid")
+                //no action, skip this blob
+                continue
+            }
+            else if blob.blobRect!.contains(tPoint) {
+                //let blobRect = CGRect(x: blob.x, y: blob.y, width: blob.width, height: blob.height)
+                //blob.bl
+                
+                print("a blob contains coordinate beneath another blob")
+                
+                //debug conditional
+                if self.shade == 2 {
+                    print("2 is colliding with blob: ", blob)
+                    //print("colliding blob.position is: ", blob.blobSprite?.position)
+                }
+                
+                return false
+            }
+        }
+        return true
+    }
+    
+    func dropBlob(){
+        if self.gridY + self.gridHeight < 9 {
+            print("Blob is physically dropping")
+            //using CGContext...changing x and y does not change sprite position...they are not locked in together, it's only on instantiation...therefore, need to change position, as an offset...
+            //how many hours of struggle, all because I chose to use CGContext...
+            
+            //make the changes "on paper"
+            self.y += PLAYGRIDSIZE!
+            //draw out the actual changes
+            self.blobSprite?.position.y -= PLAYGRIDSIZE!
+            
+            //check all blobs drop again
+            //drop()
+            
+            //different blob drops when another one is sliced...need to debug it yo
+        }
+    }
+    
 }
 
 

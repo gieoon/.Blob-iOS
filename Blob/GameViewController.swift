@@ -55,6 +55,9 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        SKTextureAtlas(named: "YourTextureAtlasName").preload {
+            // Now everything you put into the texture atlas has been loaded in memory
+        }
         isiPad = readDeviceType()
         screenSize = UIScreen.main.bounds
         screenWidth = screenSize!.width
@@ -91,7 +94,6 @@ class GameViewController: UIViewController {
         }
         
         loadJSONFromFile()
-        preloadTextures()
     }
     //euverus traffic simulation
     //when the view bouns change / rotation?
@@ -211,10 +213,7 @@ class GameViewController: UIViewController {
         return 0
     }
     
-    func preloadTextures(){
-        //TODO, load in all textures here
-        
-    }
+    
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {

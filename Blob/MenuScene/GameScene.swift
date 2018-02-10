@@ -16,6 +16,9 @@ class GameScene: SKScene {
     let play_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_play")
     let settings_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_settings.png")
     let help_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_help.png")
+    let gameBorder1: SKSpriteNode = SKSpriteNode(imageNamed: "game_border.png")
+    var gameBorder2: SKSpriteNode?
+    
     required init?(coder aDecoder: NSCoder){
         fatalError("init(coder) is not used in this app")
     }
@@ -24,16 +27,32 @@ class GameScene: SKScene {
         super.init(size: size)
         anchorPoint = CGPoint(x: 0.5, y: 0.55)
         gamestate = GAMESTATE.MENU
-        //let background = SKSpriteNode(imageNamed: "Background")
-        //background.size = size
-        //addChild(background)
 
-        //SKColor.green
         //self.scaleMode = .aspectFill//.aspectFit//.resizeFill
         self.backgroundColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
+        preloadTextures()
         loadHomeScreen(scene: self)
         
     }
+    
+//    override func willMoveFromView(){
+//
+//    }
+    
+    deinit {
+        print("Deinit gameScene")
+        gameBorder1.removeFromParent()
+        gameBorder2!.removeFromParent()
+        self.removeAllChildren()
+        self.removeAllActions()
+    }
+    
+    func preloadTextures(){
+        print("preloading textures")
+        gameBorder2 = gameBorder1.copy() as? SKSpriteNode
+    }
+    
+    
     
     func loadHomeScreen(scene: GameScene){
         //title banner
@@ -42,8 +61,23 @@ class GameScene: SKScene {
         scene.addChild(title_banner)
         title_banner.posByScreen(x: 0, y: 0)
         title_banner.resizeByScreen(x: 0.83, y: 0.18)
-        //print(title_banner)
         
+        //LOL
+        #imageLiteral(resourceName: "game_border")
+        //LOL
+        gameBorder1.anchorPoint = CGPoint(x: 0, y: 0)
+        gameBorder1.position = CGPoint(x: 0, y: 0)
+        gameBorder1.resizeByScreen(x: 1, y: 0.06)
+        gameBorder1.posByScreen(x: -0.5, y: 0.39)
+        scene.addChild(gameBorder1)
+        
+        gameBorder2?.anchorPoint = CGPoint(x: 0, y: 0)
+        gameBorder2?.position = CGPoint(x: 0, y: 0)
+        gameBorder2?.resizeByScreen(x: 1, y: 0.06)
+        gameBorder2?.posByScreen(x: -0.5, y: -0.55)
+        scene.addChild(gameBorder2!)
+        //game
+        //game?
         //play button
         //var play_button: SKNode! = nil
         //play_button.position =

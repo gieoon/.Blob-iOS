@@ -16,7 +16,7 @@ class PlayScene: SKScene {
     var inputGoals = Array<Goals>()
     var goals = Array<Goal>()
     var allGoalsComplete: Bool = false
-    lazy var swipeManager: SwipeManager = SwipeManager(scene: self)
+    var swipeManager: SwipeManager?
     
     let BUTTONYPOSITION: CGFloat = (screenSize!.height / 20)
     let reset_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_retry")
@@ -36,6 +36,7 @@ class PlayScene: SKScene {
         drawDashedGrid()
         loadBlankBlob(scene: self)
         initButtons()
+        self.swipeManager =  SwipeManager(scene: self, reset_button: reset_button, lvls_button: lvls_button)
         
     }
     
@@ -85,24 +86,11 @@ class PlayScene: SKScene {
     }
     
     func _levelComplete(){
-        //unlock this level
-        
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        for touch in touches {
-            let location = touch.location(in: self)
-            
-            if reset_button.contains(location){
-                print ("reset button touched")
-                resetPlayScene()
-            }
-            else if lvls_button.contains(location){
-                print("levels button touched")
-                _toLevels()
-            }
-        }
+        //unlock the next level
+        //write to JSON or local storage and unlock the next level
+        //add next level to  unlocked levels array
+        //go back to menu screen
+        _toLevels()
     }
     
     func resetPlayScene(){
@@ -121,7 +109,7 @@ class PlayScene: SKScene {
     }
     
     override func didMove(to view: SKView){
-        swipeManager.handleSwipe(view: view)
+        swipeManager!.handleSwipe(view: view)
     }
     
     func setLevel(level: Level){
@@ -261,4 +249,20 @@ class PlayScene: SKScene {
 //print("LINESPRITE IS: ", lineSprite)
 //        scene!.addChild(lineSprite)
     
+
+//override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//    print("touch began")
+//    for touch in touches {
+//        let location = touch.location(in: self)
+//
+//        if reset_button.contains(location){
+//            print ("reset button touched")
+//            resetPlayScene()
+//        }
+//        else if lvls_button.contains(location){
+//            print("levels button touched")
+//            _toLevels()
+//        }
+//    }
+//}
 

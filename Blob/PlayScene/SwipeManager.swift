@@ -10,15 +10,17 @@ class SwipeManager {
     let swipeDownRec = UISwipeGestureRecognizer()
     let tapRec = UITapGestureRecognizer()
     var sliceDirection: String = ""
-    
+    var reset_button, lvls_button: SKSpriteNode
     //private var currentSwipeBeginningPoint: CGPoint = CGPoint(x: -100, y: -100)
     private var currentSwipeStartingPoint: CGPoint = CGPoint(x: -100, y: -100)
     private var currentSwipeStartingPointRounded: CGPoint = CGPoint(x: -100, y: -100)
     
     let playScene: PlayScene?
     
-    init(scene: PlayScene){
+    init(scene: PlayScene, reset_button: SKSpriteNode, lvls_button: SKSpriteNode){
         self.playScene = scene
+        self.reset_button = reset_button
+        self.lvls_button = lvls_button
     }
     
     func handleSwipe(view: SKView){
@@ -51,15 +53,21 @@ class SwipeManager {
             //by making this an "if" statement, all of the blob instances below do not require unwrapping
             if let blob = detectCollidingBlob(){
                 //print("COLLIDING WITH BLOB.X: ", blob.gridX, " blob.gridY: ", blob.gridY, " blob.gridWidth: ", blob.gridWidth, " blob.gridHeight: ", blob.gridHeight )
+                if (blob.gridWidth == 1 && blob.gridHeight == 1) {
+                    print("removing 1 X 1 blob")
+                    removeBlob(blob: blob)
+                    return
+                }
+                
                 if(sender.direction == .up || sender.direction == .down)
-                    && (blob.gridWidth - blob.gridX == 1){
-                        //NO ACTION
+                    && (blob.gridWidth == 1){
+                        print("cannot VERTICALLY slice blob of width 1")
                         return
                     
                 }
                 else if(sender.direction == .left || sender.direction == .right)
-                    && (blob.gridHeight - blob.gridY == 1){
-                        //NO ACTION
+                    && (blob.gridHeight == 1){
+                        print("cannot HORIZONTALLY slice blob of height 1")
                         return
                     
                 }
@@ -91,10 +99,6 @@ class SwipeManager {
                         
                         removeBlob(blob: blob)
                         
-                        for goal in (self.playScene?.goals  )! {
-                            goal.checkNearbyBlob()
-                            //TODO start tweens and animations for solved vs not solved
-                        }
                     }
                 }
             }
@@ -106,14 +110,24 @@ class SwipeManager {
         blob.label?.removeFromParent()
         deleteFromArray(element: blob)
         print("DELETED A BLOB")
+        
+        for b in (self.playScene?.blobs)! {
+            //check for dropping
+            b.drop()
+        }
+        
+        for goal in (self.playScene?.goals  )! {
+            goal.checkNearbyBlob()
+            //TODO start tweens and animations for solved vs not solved
+        }
     }
     
     func checkSliceLegality(blob: Blob) -> Bool{
-        if(Int(self.currentSwipeStartingPoint.y) > blob.gridY){
+        //if(Int(self.currentSwipeStartingPoint.y) > blob.gridY){
             //print("LEGALITY CHECK RETURNING TRUE")
             return true
-        }
-        return false
+        //}
+        //return false
     }
     
     func splitHorizontal(blob: Blob){
@@ -164,6 +178,18 @@ class SwipeManager {
     @objc
     func tapped(_ sender:UITapGestureRecognizer){
         //TODO for dropping
+        let touchPoint = CGPoint(
+            x: sender.location(in: sender.view!).x,
+            y: screenSize!.height - sender.location(in: sender.view!).y
+        )
+        if reset_button.contains(touchPoint){
+            print("RESET BUTTON WAS TOUCHED")
+            self.playScene!.resetPlayScene()
+        }
+        else if lvls_button.contains(touchPoint){
+            print("lvls_button was pressed")
+            self.playScene!._toLevels()
+        }
         
     }
     
@@ -188,16 +214,17 @@ class SwipeManager {
 //                )
                 self.currentSwipeStartingPoint
             )){
-                //print("A Blob contains self.currentSwipeStartingPoint: ", blob.blobSprite!)
+                print("BLOB IS COLLIDING")
                 return blob
             }
         }
+        print("NO COLLIDING BLOB FOUND")
         return nil
     }
     
     func boundaryCheck(blob: Blob) -> Bool {
         //check touch start is not a boundary
-        print("SLICE DIRECTION IS: ", sliceDirection)
+        //print("SLICE DIRECTION IS: ", sliceDirection)
         if sliceDirection == "HORIZONTAL" {
             if     (Int(self.currentSwipeStartingPoint.y) != blob.gridY)
                 && (Int(self.currentSwipeStartingPoint.y) != blob.gridY + blob.gridHeight){
@@ -210,6 +237,7 @@ class SwipeManager {
                 return true
             }
         }
+        print("BOUNDARY CHECK FAILED")
         return false
     }
     

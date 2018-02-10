@@ -29,6 +29,7 @@
 		CE79BAE42024AFF200E78FF6 /* Goals.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE79BAE32024AFF200E78FF6 /* Goals.swift */; };
 		CE79BAE62027F6BD00E78FF6 /* SwipeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE79BAE52027F6BD00E78FF6 /* SwipeManager.swift */; };
 		CE9641FE202BB6300098E451 /* save.json in Resources */ = {isa = PBXBuildFile; fileRef = CE9641FD202BB6300098E451 /* save.json */; };
+		CEEB5A51202F3FFD001FF321 /* assetsAtlas.atlas in Resources */ = {isa = PBXBuildFile; fileRef = CEEB5A50202F3FFD001FF321 /* assetsAtlas.atlas */; };
 		CEF21A4E202C177C00B2383A /* LevelsSwipeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF21A4D202C177C00B2383A /* LevelsSwipeManager.swift */; };
 		CEF21A52202C194D00B2383A /* LevelSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF21A51202C194D00B2383A /* LevelSprite.swift */; };
 		CEF21A54202C195300B2383A /* LevelsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF21A53202C195200B2383A /* LevelsScene.swift */; };
@@ -83,6 +84,7 @@
 		CE79BAE32024AFF200E78FF6 /* Goals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Goals.swift; path = "/Users/user/Desktop/Blob-iOS/JsonToSwift/Goals.swift"; sourceTree = "<absolute>"; };
 		CE79BAE52027F6BD00E78FF6 /* SwipeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SwipeManager.swift; path = "/Users/user/Desktop/Blob-iOS/Blob/PlayScene/SwipeManager.swift"; sourceTree = "<absolute>"; };
 		CE9641FD202BB6300098E451 /* save.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = save.json; sourceTree = "<group>"; };
+		CEEB5A50202F3FFD001FF321 /* assetsAtlas.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = assetsAtlas.atlas; sourceTree = "<group>"; };
 		CEF21A4D202C177C00B2383A /* LevelsSwipeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelsSwipeManager.swift; sourceTree = "<group>"; };
 		CEF21A51202C194D00B2383A /* LevelSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LevelSprite.swift; path = Blob/LevelsScene/LevelSprite.swift; sourceTree = SOURCE_ROOT; };
 		CEF21A53202C195200B2383A /* LevelsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LevelsScene.swift; path = Blob/LevelsScene/LevelsScene.swift; sourceTree = SOURCE_ROOT; };
@@ -204,6 +206,7 @@
 				CEF21A55202C195700B2383A /* miniLevel.swift */,
 				CEF21A53202C195200B2383A /* LevelsScene.swift */,
 				CEF21A51202C194D00B2383A /* LevelSprite.swift */,
+				CEEB5A50202F3FFD001FF321 /* assetsAtlas.atlas */,
 				CEF21A4D202C177C00B2383A /* LevelsSwipeManager.swift */,
 			);
 			name = LevelsScene;
@@ -344,6 +347,7 @@
 				1D9EBE201FBB76450059FA3B /* Assets.xcassets in Resources */,
 				1D9EBE231FBB76450059FA3B /* LaunchScreen.storyboard in Resources */,
 				CEF21A5A202C20B500B2383A /* orbitron_reg.ttf in Resources */,
+				CEEB5A51202F3FFD001FF321 /* assetsAtlas.atlas in Resources */,
 				1D9EBE171FBB76450059FA3B /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

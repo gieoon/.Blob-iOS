@@ -29,6 +29,7 @@ class LevelSprite : SKSpriteNode {
             size: CGSize(width: PAGEGRIDSIZE! - PAGEMARGINSIZE!,
                          height: PAGEGRIDSIZE! - PAGEMARGINSIZE!)
         )
+        
 //        miniLevelPositions.append(CGRect(
 //            x: self.xOffset,
 //            y: self.yOffset,
@@ -41,6 +42,7 @@ class LevelSprite : SKSpriteNode {
         self.zPosition = 2
         isUserInteractionEnabled = true
         loadGoals(levelsScene: levelsScene, lvl: self.level)
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -64,7 +66,7 @@ class LevelSprite : SKSpriteNode {
     
     func loadGoals(levelsScene: LevelsScene, lvl: Int){
         
-        var goals = Array<Goal>()
+        //var goals = Array<Goal>()
         let inputGoals = Json4Swift_Base.getLevelGoals(lvlNo: lvl)
         //create a new Goal from Goals type & draw each goal
         for goal in inputGoals {
@@ -78,6 +80,7 @@ class LevelSprite : SKSpriteNode {
                 levelsScene: levelsScene,
                 isMiniLevel: true
             )
+            
             
             //set offsets, after context, position can be used to modify offsets
             g.anchorPoint = CGPoint(x: 0, y: 0)
@@ -95,7 +98,7 @@ class LevelSprite : SKSpriteNode {
             //g.position.y += PAGEGRIDSIZE!
             //g.label!.position.x += self.xOffset
             //g.label!.position.y += self.yOffset// - PLAYGRIDY0! - (MINILEVELGRIDSIZE! * 2.65) //don't ask me why this offset exists
-            goals.append(g)
+            //goals.append(g)
             
         }
         

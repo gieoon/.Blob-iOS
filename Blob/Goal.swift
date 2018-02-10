@@ -11,7 +11,7 @@ class Goal: SKSpriteNode {
     
     var start, length: Int?
     var label: SKLabelNode?
-    var sprite = SKSpriteNode()
+    weak var sprite = SKSpriteNode()
     var targetDirection: Goals.DIRECTION?
     var targetShade: Int?
     var playScene: PlayScene?
@@ -62,7 +62,6 @@ class Goal: SKSpriteNode {
         self.goalStrokeSprite!.addChild(self.label!)
         self.label?.alpha = MAXALPHA
         self.label?.zPosition = 50
-        print("self.label! is: ", self.label!)
     }
     
     required init?(coder aDecoder: NSCoder) {
