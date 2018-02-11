@@ -20,7 +20,7 @@ var PLAYGRIDX0, PLAYGRIDXMAX, PLAYGRIDY0, PLAYGRIDYMAX, MINILEVELGRIDSIZE: CGFlo
 var json4Swift_Base: Json4Swift_Base?
 let BUTTON_WIDTH_SCALE: CGFloat = 0.17
 let BUTTON_HEIGHT_SCALE: CGFloat = 0.1
-let TRANSITIONSPEED: TimeInterval = 0.65
+let TRANSITIONSPEED: TimeInterval = 3
 let BACKGROUNDCOLOUR: UIColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
 let CUSTOMFONT: UIFont = loadFont()
 var isiPad: UIUserInterfaceIdiom?
@@ -36,9 +36,43 @@ var gamestate: GAMESTATE = GAMESTATE.LOADING
 //ipad will have a camera to simulate zoom
 //let cameraNode = SKCropNode()
 
+
+//loading all textures
+
+
+//creating texture Atlas from code @ runtime
+//guard let borderImage = UIImage(named: "game_border.png"),
+//    let titleImage = UIImage(named: "title_banner.png") else {
+//        print("UNABLE TO RESOLVE ALL IMAGES")
+//        return
+//}
+
+//let textureAtlas = SKTextureAtlas(dictionary: [
+//    "border": borderImage,
+//    "title": titleImage
+//    ]).preload {
+//        print("TEXTURES PRELOADING COMPLETE")
+//}
+
+//var play_button: SKSpriteNode?
+//var settings_button: SKSpriteNode?
+//var help_button: SKSpriteNode?
+//var gameBorder1: SKSpriteNode?
+//var gameBorder2: SKSpriteNode?
+//var title_banner: SKSpriteNode?
+//var reset_button: SKSpriteNode?
+//var lvls_button: SKSpriteNode?
+
+var gameScene: GameScene?
+var levelsScene: LevelsScene?
+var playScene: PlayScene? //always make this nil after use
+
 class GameViewController: UIViewController {
     //link to the GameScreen
+    //TODO change to loading scene
     var scene: GameScene!
+    
+    //var scene: LoadingScene!
     //instead of initializng as 0, create as an optional
     public var screenWidth: CGFloat?, screenHeight: CGFloat?
     
@@ -53,23 +87,35 @@ class GameViewController: UIViewController {
 //        return [.portrait, .portraitUpsideDown]
 //    }
     
+//    static func getCurrentScene() -> SKScene? {
+//        switch(gamestate){
+//            case GAMESTATE.LOADING : return loadingScene!
+//            case GAMESTATE.MENU : return gameScene!
+//            case GAMESTATE.LEVELS : return levelsScene!
+//            case GAMESTATE.PLAYING : return nil
+//        }
+//    }
+        
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-        SKTextureAtlas(named: "YourTextureAtlasName").preload {
-            // Now everything you put into the texture atlas has been loaded in memory
-        }
+        
         isiPad = readDeviceType()
         screenSize = UIScreen.main.bounds
         screenWidth = screenSize!.width
         screenHeight = screenSize!.height
-        
+        Assets._sharedInstance.preloadAssets()
+        Assets._sharedInstance.loadJSONFromFile()
         setGridSizes()
         print("screen width: \(String(describing: screenWidth)), screen height = \(String(describing: screenHeight))")
         //os_log("screen width: \(screenWidth), screen height = \(screenHeight)", type: OS_LOG_T)
         //os_log("Configure %{public}@", screenHeight)
         //NotificationCenter.default.addObserver(self, selector: #selector(rotate), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         //let skView = self.view as! SKView
+        LoadingOverlay.shared.showOverlay(view: view)
+        
         if let view = self.view as! SKView? {
+            
             view.isMultipleTouchEnabled = false
             
             SKViewSize = self.view.bounds.size
@@ -77,13 +123,15 @@ class GameViewController: UIViewController {
             // Load the SKScene from 'GameScene.sks'
             //this is the menu sceen scene
             //if let scene = SKScene(fileNamed: "GameScene") {
+            
             scene = GameScene(size: view.bounds.size)
+            //only gamescene works, all otehr scenes DO NOT WORK to start with...
+            
             // Set the scale mode to scale to fit the window
             //scene.scaleMode = .aspectFill
             //removing anchor positioning and using sprie relative positioning and drawing
             //scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
             //scene.backgroundColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
-            
             
             // Present the scene
             view.presentScene(scene)
@@ -93,7 +141,7 @@ class GameViewController: UIViewController {
             SKViewSizeRect = getViewSizeRect()
         }
         
-        loadJSONFromFile()
+        LoadingOverlay.shared.hideOverlayView()
     }
     //euverus traffic simulation
     //when the view bouns change / rotation?
@@ -166,45 +214,6 @@ class GameViewController: UIViewController {
             default :
             print("unspecified device detected")
             return UIUserInterfaceIdiom.unspecified
-        }
-    }
-    
-    func loadJSONFromFile(){
-        //var goals = [Goal]()
-        //var levels = [Level]()
-        do{
-            typealias JSONDictionary = [String: Any]
-            //have to include the .json file in build phases resources
-            let jsonFile = Bundle.main.path(forResource: "levels", ofType: "json")
-            let jsonData = NSData(contentsOfFile: jsonFile!)
-            let jsonDictionary: NSDictionary = try! JSONSerialization.jsonObject(with: jsonData! as Data, options: []) as! NSDictionary
-            
-            //let data: Data
-            //let json = try?
-             //   JSONSerialization.jsonObject(with: data) as? [String : Any],
-            //let goal = json["levels"] as? [String: Any]
-            //guard //<-- Error //syntax for "throws"
-            
-            
-            if jsonDictionary as? [String: Any] != nil{
-                
-                json4Swift_Base = Json4Swift_Base(dictionary: jsonDictionary)
-                //print("JSON4SWIFT BASE: ", json4Swift_Base as Any)
-
-                //let lvlNo = json4Swift_Base?.levels![5].lvlNum
-                //print("LVLNO IS: ", lvlNo)
-            }
-//            else if let object = jsonDictionary as? [Any]{
-//                print("OBJECT IS AN ARRAY: ", object)
-//            }
-//            else {
-//                print("JSON IS INVALID")
-//            }
-            //let goal = jsonString["levels"] as? [String: Any]
-            
-            //print("JSONSTRING IS: ", jsonString)
-            //print ("LEVELS IS: ", goal)
-            
         }
     }
     

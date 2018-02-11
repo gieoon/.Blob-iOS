@@ -19,8 +19,6 @@ class PlayScene: SKScene {
     var swipeManager: SwipeManager?
     
     let BUTTONYPOSITION: CGFloat = (screenSize!.height / 20)
-    let reset_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_retry")
-    let lvls_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_levels")
     
     required init?(coder aDecoder: NSCoder){
         fatalError("init(coder) is not used in this app")
@@ -35,13 +33,23 @@ class PlayScene: SKScene {
         self.backgroundColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
         drawDashedGrid()
         loadBlankBlob(scene: self)
-        initButtons()
+        
+        let reset_button = SKSpriteNode(texture: Assets._sharedInstance.textureAtlas.textureNamed("bttn_retry"))
+        let lvls_button = SKSpriteNode(texture: Assets._sharedInstance.textureAtlas.textureNamed("bttn_levels"))
+        initButtons(reset_button: reset_button, lvls_button: lvls_button)
         self.swipeManager =  SwipeManager(scene: self, reset_button: reset_button, lvls_button: lvls_button)
         
     }
     
-    func initButtons(){
-        reset_button.position = CGPoint(x: (screenSize!.width / 6 * 4) - (reset_button.size.width / 2) , y: BUTTONYPOSITION)
+    func initButtons(reset_button: SKSpriteNode, lvls_button: SKSpriteNode){
+        //play scene
+        
+        levelsScene = LevelsScene(size: screenSize!.size)
+        
+        addChild(reset_button)
+        addChild(lvls_button)
+        
+        reset_button.position = CGPoint(x: (screenSize!.width / 6 * 4) - ((reset_button.size.width) / 2) , y: BUTTONYPOSITION)
         reset_button.name = "reset_button"
         reset_button.zPosition = 3
         reset_button.anchorPoint = CGPoint(x: 0, y: 0)
@@ -59,8 +67,6 @@ class PlayScene: SKScene {
             reset_button.resizeByScreen(x: BUTTON_WIDTH_SCALE * 0.9, y: BUTTON_HEIGHT_SCALE)
             lvls_button.resizeByScreen(x: BUTTON_WIDTH_SCALE * 0.9, y: BUTTON_HEIGHT_SCALE)
         }
-        addChild(reset_button)
-        addChild(lvls_button)
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -95,17 +101,19 @@ class PlayScene: SKScene {
     
     func resetPlayScene(){
         let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED * 2)
-        let playScene = PlayScene(size: self.size)
-        playScene.setLevel(level: self.level!)
-        self.view?.presentScene(playScene, transition: fade)
+        playScene = nil
+        playScene = PlayScene(size: self.size)
+        playScene!.setLevel(level: self.level!)
+        self.view?.presentScene(playScene!, transition: fade)
     }
     
     func _toLevels(){
         let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
         //TODO, choose which page to go to based on the level modulo 9
-        let levelsScene = LevelsScene(size: self.size)
-        levelsScene.setPage(currentPage: GameViewController.initCurrentPageFromLocalStorage())
-        self.view?.presentScene(levelsScene, transition: fade)
+        levelsScene = nil
+        levelsScene = LevelsScene(size: self.size)
+        levelsScene!.setPage(currentPage: GameViewController.initCurrentPageFromLocalStorage())
+        self.view?.presentScene(levelsScene!, transition: fade)
     }
     
     override func didMove(to view: SKView){

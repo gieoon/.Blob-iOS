@@ -30,6 +30,9 @@
 		CE79BAE62027F6BD00E78FF6 /* SwipeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE79BAE52027F6BD00E78FF6 /* SwipeManager.swift */; };
 		CE9641FE202BB6300098E451 /* save.json in Resources */ = {isa = PBXBuildFile; fileRef = CE9641FD202BB6300098E451 /* save.json */; };
 		CEEB5A51202F3FFD001FF321 /* assetsAtlas.atlas in Resources */ = {isa = PBXBuildFile; fileRef = CEEB5A50202F3FFD001FF321 /* assetsAtlas.atlas */; };
+		CEEB5A53202F5D3A001FF321 /* LoadingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEB5A52202F5D3A001FF321 /* LoadingScene.swift */; };
+		CEEB5A55202FEBEA001FF321 /* LoadingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEB5A54202FEBEA001FF321 /* LoadingOverlay.swift */; };
+		CEEB5A57203009B0001FF321 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEB5A56203009B0001FF321 /* AudioManager.swift */; };
 		CEF21A4E202C177C00B2383A /* LevelsSwipeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF21A4D202C177C00B2383A /* LevelsSwipeManager.swift */; };
 		CEF21A52202C194D00B2383A /* LevelSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF21A51202C194D00B2383A /* LevelSprite.swift */; };
 		CEF21A54202C195300B2383A /* LevelsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF21A53202C195200B2383A /* LevelsScene.swift */; };
@@ -85,6 +88,9 @@
 		CE79BAE52027F6BD00E78FF6 /* SwipeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SwipeManager.swift; path = "/Users/user/Desktop/Blob-iOS/Blob/PlayScene/SwipeManager.swift"; sourceTree = "<absolute>"; };
 		CE9641FD202BB6300098E451 /* save.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = save.json; sourceTree = "<group>"; };
 		CEEB5A50202F3FFD001FF321 /* assetsAtlas.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = assetsAtlas.atlas; sourceTree = "<group>"; };
+		CEEB5A52202F5D3A001FF321 /* LoadingScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingScene.swift; sourceTree = "<group>"; };
+		CEEB5A54202FEBEA001FF321 /* LoadingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingOverlay.swift; sourceTree = "<group>"; };
+		CEEB5A56203009B0001FF321 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		CEF21A4D202C177C00B2383A /* LevelsSwipeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelsSwipeManager.swift; sourceTree = "<group>"; };
 		CEF21A51202C194D00B2383A /* LevelSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LevelSprite.swift; path = Blob/LevelsScene/LevelSprite.swift; sourceTree = SOURCE_ROOT; };
 		CEF21A53202C195200B2383A /* LevelsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LevelsScene.swift; path = Blob/LevelsScene/LevelsScene.swift; sourceTree = SOURCE_ROOT; };
@@ -157,6 +163,7 @@
 				1D3564E61FC009E0001173B8 /* Array2D.swift */,
 				1DD571AB1FD25F6D006E0A2C /* Main.storyboard */,
 				CE17CCAC2023F536007049EB /* ColorScheme.swift */,
+				CEEB5A56203009B0001FF321 /* AudioManager.swift */,
 			);
 			path = Blob;
 			sourceTree = "<group>";
@@ -217,6 +224,8 @@
 			isa = PBXGroup;
 			children = (
 				1D9EBE181FBB76450059FA3B /* GameScene.swift */,
+				CEEB5A52202F5D3A001FF321 /* LoadingScene.swift */,
+				CEEB5A54202FEBEA001FF321 /* LoadingOverlay.swift */,
 			);
 			path = MenuScene;
 			sourceTree = "<group>";
@@ -374,6 +383,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE79BAE22024AFC700E78FF6 /* Levels.swift in Sources */,
+				CEEB5A53202F5D3A001FF321 /* LoadingScene.swift in Sources */,
 				CE79BAD82024A1BD00E78FF6 /* Level.swift in Sources */,
 				1D3564E51FC006F5001173B8 /* Blob.swift in Sources */,
 				1D9EBE191FBB76450059FA3B /* GameScene.swift in Sources */,
@@ -381,6 +391,7 @@
 				CEF21A56202C195700B2383A /* miniLevel.swift in Sources */,
 				CEF21A4E202C177C00B2383A /* LevelsSwipeManager.swift in Sources */,
 				CE79BAD420244F6300E78FF6 /* Goal.swift in Sources */,
+				CEEB5A55202FEBEA001FF321 /* LoadingOverlay.swift in Sources */,
 				1D9EBE131FBB76450059FA3B /* AppDelegate.swift in Sources */,
 				CE17CCAD2023F536007049EB /* ColorScheme.swift in Sources */,
 				CE17CCAB2023E4F6007049EB /* PlayScene.swift in Sources */,
@@ -389,6 +400,7 @@
 				CEF21A54202C195300B2383A /* LevelsScene.swift in Sources */,
 				CE79BAE62027F6BD00E78FF6 /* SwipeManager.swift in Sources */,
 				1D3564E71FC009E0001173B8 /* Array2D.swift in Sources */,
+				CEEB5A57203009B0001FF321 /* AudioManager.swift in Sources */,
 				CE79BAE02024AF9300E78FF6 /* JsonToSwift.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,16 +8,10 @@
 
 import SpriteKit
 
-
-
 class GameScene: SKScene {
     
     var BUTTONYPOS: CGFloat = -0.2
-    let play_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_play")
-    let settings_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_settings.png")
-    let help_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_help.png")
-    let gameBorder1: SKSpriteNode = SKSpriteNode(imageNamed: "game_border.png")
-    var gameBorder2: SKSpriteNode?
+    var play_button, settings_button, help_button, gameBorder1, gameBorder2, title_banner: SKSpriteNode?
     
     required init?(coder aDecoder: NSCoder){
         fatalError("init(coder) is not used in this app")
@@ -26,12 +20,11 @@ class GameScene: SKScene {
     override init(size: CGSize){
         super.init(size: size)
         anchorPoint = CGPoint(x: 0.5, y: 0.55)
-        gamestate = GAMESTATE.MENU
 
         //self.scaleMode = .aspectFill//.aspectFit//.resizeFill
         self.backgroundColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
-        preloadTextures()
         loadHomeScreen(scene: self)
+        loadButtons()
         
     }
     
@@ -40,65 +33,83 @@ class GameScene: SKScene {
 //    }
     
     deinit {
-        print("Deinit gameScene")
-        gameBorder1.removeFromParent()
-        gameBorder2!.removeFromParent()
-        self.removeAllChildren()
-        self.removeAllActions()
+        print("Deinit MENU SCENE")
+//        gameBorder1!.removeFromParent()
+//        gameBorder2!.removeFromParent()
+//        settings_button!.removeFromParent()
+//        play_button!.removeFromParent()
+//        help_button!.removeFromParent()
+//        title_banner!.removeFromParent()
+//        self.removeAllChildren()
+//        self.removeAllActions()
+//        scene?.removeAllChildren()
     }
-    
-    func preloadTextures(){
-        print("preloading textures")
-        gameBorder2 = gameBorder1.copy() as? SKSpriteNode
+    func loadButtons(){
+//        title_banner!.removeFromParent()
+//        self.scene!.addChild(title_banner!)
+//        gameScene?.addChild(gameBorder1!)
+//        gameScene?.addChild(gameBorder2!)
+//        gameScene?.addChild(play_button!)
+//        gameScene?.addChild(settings_button!)
+//        gameScene?.addChild(help_button!)
     }
-    
-    
     
     func loadHomeScreen(scene: GameScene){
         //title banner
-        let title_banner = SKSpriteNode(imageNamed: "blob_banner.png")
         //title_banner.position = CGPoint()
-        scene.addChild(title_banner)
-        title_banner.posByScreen(x: 0, y: 0)
-        title_banner.resizeByScreen(x: 0.83, y: 0.18)
+        self.play_button = SKSpriteNode(texture: Assets._sharedInstance.textureAtlas.textureNamed("bttn_play"))
         
+        self.settings_button = SKSpriteNode(texture: Assets.sharedInstance.textureAtlas.textureNamed("bttn_settings"))
+        
+        self.help_button = SKSpriteNode(texture: Assets.sharedInstance.textureAtlas.textureNamed("bttn_help"))
+        
+        self.gameBorder1 = SKSpriteNode(texture: Assets.sharedInstance.textureAtlas.textureNamed("game_border"))
+        
+        self.gameBorder2 = self.gameBorder1!.copy() as? SKSpriteNode
+        
+        self.title_banner = SKSpriteNode(texture: Assets.sharedInstance.textureAtlas.textureNamed("blob_banner"))
+        title_banner!.posByScreen(x: 0, y: 0)
+        title_banner!.resizeByScreen(x: 0.83, y: 0.18)
+        
+        addChild(title_banner!)
         //LOL
         #imageLiteral(resourceName: "game_border")
         //LOL
-        gameBorder1.anchorPoint = CGPoint(x: 0, y: 0)
-        gameBorder1.position = CGPoint(x: 0, y: 0)
-        gameBorder1.resizeByScreen(x: 1, y: 0.06)
-        gameBorder1.posByScreen(x: -0.5, y: 0.39)
-        scene.addChild(gameBorder1)
+        gameBorder1!.anchorPoint = CGPoint(x: 0, y: 0)
+        gameBorder1!.position = CGPoint(x: 0, y: 0)
+        gameBorder1!.resizeByScreen(x: 1, y: 0.06)
+        gameBorder1!.posByScreen(x: -0.5, y: 0.39)
+        addChild(gameBorder1!)
         
         gameBorder2?.anchorPoint = CGPoint(x: 0, y: 0)
         gameBorder2?.position = CGPoint(x: 0, y: 0)
         gameBorder2?.resizeByScreen(x: 1, y: 0.06)
         gameBorder2?.posByScreen(x: -0.5, y: -0.55)
-        scene.addChild(gameBorder2!)
+        addChild(gameBorder2!)
         //game
         //game?
         //play button
         //var play_button: SKNode! = nil
         //play_button.position =
         //play_button.anchorPoint = CGPoint(x: 0.5, y: 0.75)
-        scene.addChild(play_button)
-        play_button.posByScreen(x: -0.19, y: BUTTONYPOS)
-        play_button.name = "play_button"
-        play_button.zPosition = 1.0
-        play_button.isUserInteractionEnabled = false
-        play_button.resizeByScreen(x: BUTTON_WIDTH_SCALE, y: BUTTON_HEIGHT_SCALE)
         
+        play_button!.posByScreen(x: -0.19, y: BUTTONYPOS)
+        play_button!.name = "play_button"
+        play_button!.zPosition = 1.0
+        play_button!.isUserInteractionEnabled = false
+        play_button!.resizeByScreen(x: BUTTON_WIDTH_SCALE, y: BUTTON_HEIGHT_SCALE)
+        addChild(play_button!)
         
         //settings button
-        scene.addChild(settings_button)
-        settings_button.posByScreen(x: 0, y: BUTTONYPOS)
-        settings_button.resizeByScreen(x: BUTTON_WIDTH_SCALE, y: BUTTON_HEIGHT_SCALE)
-        
+        settings_button?.posByScreen(x: 0, y: BUTTONYPOS)
+        settings_button?.resizeByScreen(x: BUTTON_WIDTH_SCALE, y: BUTTON_HEIGHT_SCALE)
+        addChild(settings_button!)
         //help - credits button
-        scene.addChild(help_button)
-        help_button.posByScreen(x: 0.19, y: BUTTONYPOS)
-        help_button.resizeByScreen(x: BUTTON_WIDTH_SCALE, y: BUTTON_HEIGHT_SCALE)
+        help_button?.posByScreen(x: 0.19, y: BUTTONYPOS)
+        help_button?.resizeByScreen(x: BUTTON_WIDTH_SCALE, y: BUTTON_HEIGHT_SCALE)
+        addChild(help_button!)
+        print("HELP BUTTON: ", help_button)
+        print("Loaded GameScene")
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -106,14 +117,14 @@ class GameScene: SKScene {
         for touch in touches {
             let location = touch.location(in: self)
             
-            if play_button.contains(location){
+            if play_button!.contains(location){
                 //print ("play button touched")
                 _toLevels()
             }
-            else if settings_button.contains(location){
+            else if settings_button!.contains(location){
                 print("settings button touched")
             }
-            else if help_button.contains(location){
+            else if help_button!.contains(location){
                 print("help button touched")
             }
         }
@@ -133,9 +144,10 @@ class GameScene: SKScene {
         //let reveal = SKTransition.crossFade(withDuration: TRANSITIONSPEED)
         let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
         //TODO, choose which page to go to based on the level modulo 9
-        let levelsScene = LevelsScene(size: self.size)
-        levelsScene.setPage(currentPage: GameViewController.initCurrentPageFromLocalStorage())
-        self.view?.presentScene(levelsScene, transition: fade)
+        levelsScene = nil
+        levelsScene = LevelsScene(size: screenSize!.size)
+        levelsScene!.setPage(currentPage: GameViewController.initCurrentPageFromLocalStorage())
+        self.view?.presentScene(levelsScene!, transition: fade)
     }
     
     //private var label : SKLabelNode?

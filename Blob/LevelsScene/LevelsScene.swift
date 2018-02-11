@@ -37,6 +37,16 @@ class LevelsScene: SKScene {
         //removing the back button
         //scene?.addChild(back_button)
     }
+    
+    deinit {
+        print("DEINIT LEVELSSCENE")
+        for levelSprite in levelSprites {
+            levelSprite.removeAllChildren()
+            levelSprite.removeAllActions()
+            levelSprite.removeFromParent()
+        }
+        self.removeAllChildren()
+    }
     // This is a duplicate... let me just find what it's a duplicate of... – nhgrif Jun 5 '15 at 23:24
     //possible duplicate of So if string is not NilLiteralConvertible... what do some string functions return? – nhgrif
     
@@ -132,7 +142,7 @@ class LevelsScene: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         for touch in touches {
-            let location = touch.location(in: self)
+            //let location = touch.location(in: self)
             
 //            if back_button.contains(location){
 //                print ("back button touched")
@@ -143,17 +153,19 @@ class LevelsScene: SKScene {
     
     func _toMenu(){
         let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
-        let menuScene = GameScene(size: self.size)
-        self.view?.presentScene(menuScene, transition: fade)
+        gameScene = nil
+        gameScene = GameScene(size: self.size)
+        self.view?.presentScene(gameScene!, transition: fade)
     }
     
     
     func _goToPlayScene(level: Level){
         let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
-        let playScene = PlayScene(size: self.size)
-        playScene.setLevel(level: level)
+        playScene = nil
+        playScene = PlayScene(size: self.size)
+        playScene!.setLevel(level: level)
         //TODO save the currentPage to localStorage
-        self.view?.presentScene(playScene, transition: fade)
+        self.view?.presentScene(playScene!, transition: fade)
     }
     
     func increasePage(){
