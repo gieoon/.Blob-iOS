@@ -67,7 +67,7 @@ class LevelsSwipeManager {
     
     @objc
     func tapped(_ sender:UITapGestureRecognizer){
-        print("TAP DETECTED")
+        print("TAP DETECTED with gamestate: ", gamestate)
         //TODO for selecting level?
         
         self.levelsScene!.checkTouch(touchPoint: sender.location(in: sender.view!))

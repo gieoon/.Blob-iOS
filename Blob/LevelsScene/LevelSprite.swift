@@ -12,7 +12,7 @@ import SpriteKit
 class LevelSprite : SKSpriteNode {
     
     var level: Int = 0
-    var levelsScene: LevelsScene?
+    weak var levelsScene: LevelsScene?
     var cgRect: CGRect?
     var xOffset, yOffset: CGFloat
     
@@ -24,11 +24,12 @@ class LevelSprite : SKSpriteNode {
         self.yOffset = yOffset
         
         super.init(
-            texture: createMiniLevelGoalsTexture(levelsScene: levelsScene, xOffset: xOffset, yOffset: self.yOffset),//nil,
+            texture: nil,//createMiniLevelGoalsTexture(levelsScene: levelsScene, xOffset: xOffset, yOffset: self.yOffset),//nil,
             color: UIColor.black,
             size: CGSize(width: PAGEGRIDSIZE! - PAGEMARGINSIZE!,
                          height: PAGEGRIDSIZE! - PAGEMARGINSIZE!)
         )
+        self.physicsBody = nil
         
 //        miniLevelPositions.append(CGRect(
 //            x: self.xOffset,
@@ -41,7 +42,8 @@ class LevelSprite : SKSpriteNode {
         self.name = "levelSprite"
         self.zPosition = 2
         isUserInteractionEnabled = true
-        loadGoals(levelsScene: levelsScene, lvl: self.level)
+        //TEMPORARILY REMOVING
+        //loadGoals(levelsScene: levelsScene, lvl: self.level)
         
     }
     
@@ -55,23 +57,23 @@ class LevelSprite : SKSpriteNode {
         print("level: \(self.level) was touched")
         
         //load the touched level
-        let lvlTitle = json4Swift_Base?.getLevelTitle(lvlNo: self.level)
-        let lvlNo = json4Swift_Base?.getLevelNo(lvlNo: self.level)
-        let lvlGoals: Array<Goals> = (Json4Swift_Base.getLevelGoals(lvlNo: self.level))
+        var lvlTitle = json4Swift_Base?.getLevelTitle(lvlNo: self.level)
+        var lvlNo = json4Swift_Base?.getLevelNo(lvlNo: self.level)
+        var lvlGoals: Array<Goals> = (Json4Swift_Base.getLevelGoals(lvlNo: self.level))
         
         //create a level
-        let t_level = Level(lvlNo: lvlNo!, lvlTitle: lvlTitle!, goals: lvlGoals)
+        var t_level = Level(lvlNo: lvlNo!, lvlTitle: lvlTitle!, goals: lvlGoals)
         self.levelsScene?._goToPlayScene(level: t_level)
     }
     
     func loadGoals(levelsScene: LevelsScene, lvl: Int){
         
         //var goals = Array<Goal>()
-        let inputGoals = Json4Swift_Base.getLevelGoals(lvlNo: lvl)
+        var inputGoals = Json4Swift_Base.getLevelGoals(lvlNo: lvl)
         //create a new Goal from Goals type & draw each goal
         for goal in inputGoals {
             
-            let g = Goal(
+            var g = Goal(
                 targetDirection: goal.getTargetDirection(),
                 start: goal.getGoalStart(),
                 length: goal.getGoalLength(),
@@ -108,16 +110,16 @@ class LevelSprite : SKSpriteNode {
         UIGraphicsBeginImageContext(CGSize(
             width: PAGEGRIDSIZE! - PAGEMARGINSIZE!,
             height: PAGEGRIDSIZE! - PAGEMARGINSIZE!))
-        let ctx: CGContext = UIGraphicsGetCurrentContext()!
+        var ctx: CGContext = UIGraphicsGetCurrentContext()!
         ctx.resetClip()
         
         //create background colour rect
-        let backRect = CGRect(
+        var backRect = CGRect(
             x: 0 * MINILEVELGRIDSIZE!,
             y: 0 * MINILEVELGRIDSIZE!,
             width: 10 * MINILEVELGRIDSIZE!,
             height: 10 * MINILEVELGRIDSIZE!)
-        let clipPath3: CGPath = UIBezierPath(roundedRect: backRect, cornerRadius: 0).cgPath
+        var clipPath3: CGPath = UIBezierPath(roundedRect: backRect, cornerRadius: 0).cgPath
         ctx.setFillColor(UIColor.gray.withAlphaComponent(0.05).cgColor)
         ctx.addPath(clipPath3)
         ctx.closePath()
@@ -130,12 +132,12 @@ class LevelSprite : SKSpriteNode {
         
         //create blank blob
         //print("CREATING BLANK BLOB FOR LEVEL: ", self.level)
-        let blobRect = CGRect(
+        var blobRect = CGRect(
             x: 1 * MINILEVELGRIDSIZE!,
             y: 1 * MINILEVELGRIDSIZE!,
             width: 8 * MINILEVELGRIDSIZE!,
             height:  8 * MINILEVELGRIDSIZE!) //multiplying height by -1 makes an interesting concave curve
-        let clipPath2: CGPath = UIBezierPath(roundedRect: blobRect, cornerRadius: 8).cgPath
+        var clipPath2: CGPath = UIBezierPath(roundedRect: blobRect, cornerRadius: 8).cgPath
         
         ctx.setFillColor(UIColor(rgb: ColourScheme.getColour(cut: 0)).cgColor)
         //ctx.setStrokeColor(UIColor(rgb: ColourScheme.getColour(cut: 0)).cgColor)
@@ -146,7 +148,7 @@ class LevelSprite : SKSpriteNode {
         
        
         
-        let miniLevelImage = UIGraphicsGetImageFromCurrentImageContext()
+        var miniLevelImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
         return SKTexture(image: miniLevelImage!)

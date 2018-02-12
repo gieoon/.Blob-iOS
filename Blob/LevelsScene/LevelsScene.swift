@@ -14,7 +14,8 @@ class LevelsScene: SKScene {
     
     //array of all of the pages
     var currentPage: Int = 0 //[LevelSelectPage]()
-    lazy var swipeManager: LevelsSwipeManager = LevelsSwipeManager(scene: self)
+    //lazy var swipeManager: LevelsSwipeManager = LevelsSwipeManager(scene: self)
+    var swipeManager: LevelsSwipeManager?
     //let back_button: SKSpriteNode = SKSpriteNode(imageNamed: "bttn_play")
     var levelSprites = Array<LevelSprite>()
     //miniLevel = a small rectangular level
@@ -23,7 +24,9 @@ class LevelsScene: SKScene {
         fatalError("init(coder) is not used in this app")
     }
     override init(size: CGSize){
+        
         super.init(size: size)
+        self.swipeManager = LevelsSwipeManager(scene: self)
         //use default anchorPoint and draw everything from the middle!!!
         anchorPoint = CGPoint(x: 0.0, y: 0.0)
         gamestate = GAMESTATE.LEVELS
@@ -36,6 +39,10 @@ class LevelsScene: SKScene {
         //back_button.position = CGPoint(x: 0.2, y: 0.2)
         //removing the back button
         //scene?.addChild(back_button)
+//        if(AudioManager._audioInstance.playerMenu?.isPlaying == false){
+//            AudioManager._audioInstance.fadeInBackgroundAudio(player: AudioManager._audioInstance.playerMenu!)
+//        }
+        gameScene = nil
     }
     
     deinit {
@@ -45,7 +52,9 @@ class LevelsScene: SKScene {
             levelSprite.removeAllActions()
             levelSprite.removeFromParent()
         }
+        self.swipeManager = nil
         self.removeAllChildren()
+        
     }
     // This is a duplicate... let me just find what it's a duplicate of... – nhgrif Jun 5 '15 at 23:24
     //possible duplicate of So if string is not NilLiteralConvertible... what do some string functions return? – nhgrif
@@ -81,7 +90,7 @@ class LevelsScene: SKScene {
                 //for column in stride(from: 2, through: 0, by: -1){
                 for column in 0...2{
                     //print("adding sprite at row: \(row), column: \(column)")
-                    let miniLevel: MiniLevel = MiniLevel(x: CGFloat(column), y: CGFloat(row), level: level, levelsScene: self)
+                    var miniLevel: MiniLevel = MiniLevel(x: CGFloat(column), y: CGFloat(row), level: level, levelsScene: self)
                     self.addChild(miniLevel.sprite)
                     levelSprites.append(miniLevel.sprite as! LevelSprite)
                     //print("adding label  at: \(row), \(column)")
@@ -113,7 +122,7 @@ class LevelsScene: SKScene {
                 
                     //print("skNode is: ", skNode)
                     //print("levelSprite: ", levelSprite)
-                let invertedTouchPoint = CGPoint(x: touchPoint.x, y: screenSize!.height - touchPoint.y)
+                var invertedTouchPoint = CGPoint(x: touchPoint.x, y: screenSize!.height - touchPoint.y)
                 if levelSprite.contains(invertedTouchPoint){
                     //if skNode.name == "levelSprite" {
                     _goToPlayScene(level: levelSprite.level)
@@ -126,18 +135,18 @@ class LevelsScene: SKScene {
     //same name as function below, but takes in an Int, not a Level...wow, overloading so riskily
     func _goToPlayScene(level: Int){
         //load the touched level
-        let lvlTitle = json4Swift_Base?.getLevelTitle(lvlNo: level)
-        let lvlNo = json4Swift_Base?.getLevelNo(lvlNo: level)
-        let lvlGoals: Array<Goals> = (Json4Swift_Base.getLevelGoals(lvlNo: level))
+        var lvlTitle = json4Swift_Base?.getLevelTitle(lvlNo: level)
+        var lvlNo = json4Swift_Base?.getLevelNo(lvlNo: level)
+        var lvlGoals: Array<Goals> = (Json4Swift_Base.getLevelGoals(lvlNo: level))
         
         //create a level
-        let t_level = Level(lvlNo: lvlNo!, lvlTitle: lvlTitle!, goals: lvlGoals)
+        var t_level = Level(lvlNo: lvlNo!, lvlTitle: lvlTitle!, goals: lvlGoals)
         self._goToPlayScene(level: t_level)
         //self.removeAllChildren()
     }
     
     override func didMove(to view: SKView){
-        swipeManager.handleSwipe(view: view)
+        swipeManager!.handleSwipe(view: view)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
@@ -152,15 +161,16 @@ class LevelsScene: SKScene {
     }
     
     func _toMenu(){
-        let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
+        var fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
         gameScene = nil
         gameScene = GameScene(size: self.size)
+        gamestate = GAMESTATE.MENU
         self.view?.presentScene(gameScene!, transition: fade)
     }
     
     
     func _goToPlayScene(level: Level){
-        let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
+        var fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
         playScene = nil
         playScene = PlayScene(size: self.size)
         playScene!.setLevel(level: level)
@@ -176,10 +186,10 @@ class LevelsScene: SKScene {
     }
     
     private func _changePage(toPage: Int){
-        let totalLvls = Json4Swift_Base.levels?.count
+        var totalLvls = Json4Swift_Base.levels?.count
         //9 levels per page
-        _ = totalLvls! % 9
-        let totalPages = totalLvls! / 9
+        var _ = totalLvls! % 9
+        var totalPages = totalLvls! / 9
         
         if(toPage < totalPages && toPage > -1){
             
@@ -190,10 +200,11 @@ class LevelsScene: SKScene {
             else if(toPage < self.currentPage){
                 transitionDirection = SKTransitionDirection.right
             }
-            let fade = SKTransition.push(with: transitionDirection!, duration: TRANSITIONSPEED)
-            let levelsScene = LevelsScene(size: self.size)
+            var fade = SKTransition.push(with: transitionDirection!, duration: TRANSITIONSPEED)
+            var levelsScene = LevelsScene(size: self.size)
             levelsScene.setPage(currentPage: toPage)
             self.view?.presentScene(levelsScene, transition: fade)
+            self.removeFromParent()
         }
     }
 }

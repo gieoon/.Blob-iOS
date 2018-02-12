@@ -33,6 +33,7 @@
 		CEEB5A53202F5D3A001FF321 /* LoadingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEB5A52202F5D3A001FF321 /* LoadingScene.swift */; };
 		CEEB5A55202FEBEA001FF321 /* LoadingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEB5A54202FEBEA001FF321 /* LoadingOverlay.swift */; };
 		CEEB5A57203009B0001FF321 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEB5A56203009B0001FF321 /* AudioManager.swift */; };
+		CEEB5A5B20300C43001FF321 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = CEEB5A5A20300C43001FF321 /* sounds */; };
 		CEF21A4E202C177C00B2383A /* LevelsSwipeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF21A4D202C177C00B2383A /* LevelsSwipeManager.swift */; };
 		CEF21A52202C194D00B2383A /* LevelSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF21A51202C194D00B2383A /* LevelSprite.swift */; };
 		CEF21A54202C195300B2383A /* LevelsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF21A53202C195200B2383A /* LevelsScene.swift */; };
@@ -91,6 +92,7 @@
 		CEEB5A52202F5D3A001FF321 /* LoadingScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingScene.swift; sourceTree = "<group>"; };
 		CEEB5A54202FEBEA001FF321 /* LoadingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingOverlay.swift; sourceTree = "<group>"; };
 		CEEB5A56203009B0001FF321 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
+		CEEB5A5A20300C43001FF321 /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sounds; sourceTree = "<group>"; };
 		CEF21A4D202C177C00B2383A /* LevelsSwipeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelsSwipeManager.swift; sourceTree = "<group>"; };
 		CEF21A51202C194D00B2383A /* LevelSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LevelSprite.swift; path = Blob/LevelsScene/LevelSprite.swift; sourceTree = SOURCE_ROOT; };
 		CEF21A53202C195200B2383A /* LevelsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LevelsScene.swift; path = Blob/LevelsScene/LevelsScene.swift; sourceTree = SOURCE_ROOT; };
@@ -233,6 +235,7 @@
 		CED5805C202C15C000F24FB6 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				CEEB5A5A20300C43001FF321 /* sounds */,
 				CEF21A5F202DF3E500B2383A /* averageTimeData.json */,
 				CE79BAD52024A0A400E78FF6 /* levels.json */,
 				CEF21A59202C20B500B2383A /* orbitron_reg.ttf */,
@@ -353,6 +356,7 @@
 				CEF21A60202DF3E500B2383A /* averageTimeData.json in Resources */,
 				1DD571AD1FD25FC7006E0A2C /* Main.storyboard in Resources */,
 				1D9EBE151FBB76450059FA3B /* GameScene.sks in Resources */,
+				CEEB5A5B20300C43001FF321 /* sounds in Resources */,
 				1D9EBE201FBB76450059FA3B /* Assets.xcassets in Resources */,
 				1D9EBE231FBB76450059FA3B /* LaunchScreen.storyboard in Resources */,
 				CEF21A5A202C20B500B2383A /* orbitron_reg.ttf in Resources */,

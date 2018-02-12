@@ -36,19 +36,20 @@ class Blob {
         self.blobSprite = createRoundedRectSprite(scene: self.scene!)
         self.label = createBlobLabel(scene: self.scene!)
         self.blobSprite?.zPosition = 1
+        self.blobSprite?.physicsBody = nil
     }
     
     func createRoundedRectSprite(scene: SKScene) -> SKSpriteNode{
         //not using SKShadeNode due to memory leaks, using a drawing context with curve and converting it to a SKSpriteNode
         UIGraphicsBeginImageContext(scene.size)
-        let ctx: CGContext = UIGraphicsGetCurrentContext()!
+        var ctx: CGContext = UIGraphicsGetCurrentContext()!
         ctx.saveGState()
         
         self.blobRect = CGRect(x: self.x, y: self.y, width: self.width, height: self.height) //multiplying height by -1 makes an interesting concave curve
-        let clipPath: CGPath = UIBezierPath(roundedRect: self.blobRect!, cornerRadius: 20).cgPath
+        var clipPath: CGPath = UIBezierPath(roundedRect: self.blobRect!, cornerRadius: 20).cgPath
         ctx.addPath(clipPath)
         
-        let color = UIColor(rgb: ColourScheme.getColour(cut: self.shade)).cgColor
+        var color = UIColor(rgb: ColourScheme.getColour(cut: self.shade)).cgColor
 
         ctx.setFillColor(color)
         
@@ -56,9 +57,9 @@ class Blob {
         ctx.fillPath()
         ctx.restoreGState()
         
-        let blobImage = UIGraphicsGetImageFromCurrentImageContext()
-        let blobTexture = SKTexture(image: blobImage!)
-        let blobSprite = SKSpriteNode(texture: blobTexture)
+        var blobImage = UIGraphicsGetImageFromCurrentImageContext()
+        var blobTexture = SKTexture(image: blobImage!)
+        var blobSprite = SKSpriteNode(texture: nil) //SKSpriteNode(texture: blobTexture)
         //blobSprite.position.x = 0//self.x //these positions are an offset to add. Not necessary here
         //blobSprite.position.y = 0//self.y
         //blobSprite.color = UIColor(rgb: self.shade)
@@ -66,14 +67,13 @@ class Blob {
         //print("BLOBSPRITE IS: ", blobSprite)
         scene.addChild(blobSprite)
         
-        
         UIGraphicsEndImageContext()
-        
+
         return blobSprite
     }
     
     func createBlobLabel(scene: SKScene) -> SKLabelNode {
-        let label = SKLabelNode()
+        var label = SKLabelNode()
         label.text = String(self.shade)
         label.fontSize = 32
         label.fontColor = SKColor.black
@@ -86,7 +86,7 @@ class Blob {
         //label.position.x += screenSize!.width / 15
         //label.position.y -= screenSize!.height / 10f
         
-        let cgRect = self.blobRect!
+        var cgRect = self.blobRect!
         //CGPoint coordinates are from bottom left, so screenheight - y is neccessary
         label.position = CGPoint(x: cgRect.origin.x + cgRect.width / 2, y:  screenSize!.height - cgRect.origin.y - cgRect.height / 2)
         
@@ -98,16 +98,16 @@ class Blob {
     
     func drop() {
         
-        let blobWidth = self.gridWidth // - 1 for the last open space // + 1 for the start at 1
+        var blobWidth = self.gridWidth // - 1 for the last open space // + 1 for the start at 1
         //print("blobWidth is: ", blobWidth)
         for tX in 1...blobWidth {
-            let tPoint = defineBeneath(x: tX)
+            var tPoint = defineBeneath(x: tX)
             if !checkBeneath(tPoint: tPoint){
                 print("not dropping blob")
                 return
             }
         }
-        print("dropping blob")
+        //print("dropping blob")
         dropBlob()
     }
     
@@ -119,24 +119,22 @@ class Blob {
     }
     
     func checkBeneath(tPoint: CGPoint) -> Bool {
+        //debug conditional
+//        if self.shade == 2 {
+//            print("a blob contains coordinate beneath another blob")
+//
+//            //print("colliding blob.position is: ", blob.blobSprite?.position)
+//        }
+        
+        if (self.gridY + self.gridHeight == 9) {
+            //print("a blob is sitting at bottom of play grid")
+            //no action, skip this blob
+            //continue
+            return false
+        }
         for blob in (self.scene! as? PlayScene)!.blobs{
-            if (blob.gridY + self.gridHeight == 9) {
-                //print("a blob is sitting at bottom of play grid")
-                //no action, skip this blob
-                continue
-            }
-            else if blob.blobRect!.contains(tPoint) {
+            if blob.blobRect!.contains(tPoint) {
                 //let blobRect = CGRect(x: blob.x, y: blob.y, width: blob.width, height: blob.height)
-                //blob.bl
-                
-                print("a blob contains coordinate beneath another blob")
-                
-                //debug conditional
-                if self.shade == 2 {
-                    print("2 is colliding with blob: ", blob)
-                    //print("colliding blob.position is: ", blob.blobSprite?.position)
-                }
-                
                 return false
             }
         }
@@ -153,9 +151,13 @@ class Blob {
             self.y += PLAYGRIDSIZE!
             //draw out the actual changes
             self.blobSprite?.position.y -= PLAYGRIDSIZE!
-            
+            self.gridY += 1
+            self.blobRect?.origin.y += PLAYGRIDSIZE!
             //check all blobs drop again
-            //drop()
+            
+            for blob in (self.scene as! PlayScene).blobs {
+                blob.drop()
+            }
             
             //different blob drops when another one is sliced...need to debug it yo
         }

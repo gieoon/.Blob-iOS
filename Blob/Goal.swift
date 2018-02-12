@@ -23,10 +23,6 @@ class Goal: SKSpriteNode {
     var displayAlpha: CGFloat
     let GOALRADIUS: CGFloat = 8
     var goalStrokeSprite: SKSpriteNode?
-    let MAXALPHA: CGFloat = 1.0 //adds 0.7
-    let MINALPHA: CGFloat = 0.3
-    let ALPHATRANSITIONSPEED: TimeInterval = 1.0
-    let ALPHACHANGEAMOUNT: CGFloat = 0.15
     
     init(targetDirection: Goals.DIRECTION, start: Int, length: Int, targetShade: Int, playScene: PlayScene?, levelsScene: LevelsScene?, isMiniLevel: Bool){
         self.playScene = playScene
@@ -36,11 +32,12 @@ class Goal: SKSpriteNode {
         self.displayAlpha = 1 //always init sprites with max alpha
         self.DEFAULTGRIDSIZE = isMiniLevel ? MINILEVELGRIDSIZE! : PLAYGRIDSIZE!
         super.init(
-            texture: createGoalTexture(scene: getCurrentSceneType(),
-                                       targetDirection: targetDirection,
-                                       start: start,
-                                       length: length,
-                                       shade: targetShade),
+//            texture: createGoalTexture(scene: getCurrentSceneType(),
+//                                       targetDirection: targetDirection,
+//                                       start: start,
+//                                       length: length,
+//                                       shade: targetShade),
+            texture: nil,
             color: UIColor.black,
             size: CGSize(
                 width: isMiniLevel ? (PAGEGRIDSIZE! - PAGEMARGINSIZE!) : screenSize!.width,

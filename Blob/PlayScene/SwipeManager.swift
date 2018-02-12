@@ -4,18 +4,18 @@ import SpriteKit
 
 class SwipeManager {
     
-    let swipeRightRec = UISwipeGestureRecognizer()
-    let swipeLeftRec = UISwipeGestureRecognizer()
-    let swipeUpRec = UISwipeGestureRecognizer()
-    let swipeDownRec = UISwipeGestureRecognizer()
-    let tapRec = UITapGestureRecognizer()
+    var swipeRightRec = UISwipeGestureRecognizer()
+    var swipeLeftRec = UISwipeGestureRecognizer()
+    var swipeUpRec = UISwipeGestureRecognizer()
+    var swipeDownRec = UISwipeGestureRecognizer()
+    var tapRec = UITapGestureRecognizer()
     var sliceDirection: String = ""
     var reset_button, lvls_button: SKSpriteNode
     //private var currentSwipeBeginningPoint: CGPoint = CGPoint(x: -100, y: -100)
     private var currentSwipeStartingPoint: CGPoint = CGPoint(x: -100, y: -100)
     private var currentSwipeStartingPointRounded: CGPoint = CGPoint(x: -100, y: -100)
     
-    let playScene: PlayScene?
+    var playScene: PlayScene?
     
     init(scene: PlayScene, reset_button: SKSpriteNode, lvls_button: SKSpriteNode){
         self.playScene = scene
@@ -24,8 +24,8 @@ class SwipeManager {
     }
     
     func handleSwipe(view: SKView){
-        
-        let directions: [UISwipeGestureRecognizerDirection] = [.right, .left, .up, .down]
+        print("HANDLE SWIPE CALLED")
+        var directions: [UISwipeGestureRecognizerDirection] = [.right, .left, .up, .down]
         for direction in directions {
             let gesture = UISwipeGestureRecognizer(target: self, action: #selector(swipe))
             gesture.direction = direction
@@ -71,6 +71,11 @@ class SwipeManager {
                         return
                     
                 }
+                else if blob.shade == 10 {
+                    print("REMOVING BLOB WITH MAXIMUM SHADE")
+                    removeBlob(blob: blob)
+                    return
+                }
                 else {
                     snapTouchToGrid()
                     
@@ -94,11 +99,8 @@ class SwipeManager {
                         default :
                             print("SWIPE RIGHT DETECTED")
                             splitHorizontal(blob: blob)
-                            
                         }
-                        
                         removeBlob(blob: blob)
-                        
                     }
                 }
             }
@@ -178,7 +180,7 @@ class SwipeManager {
     @objc
     func tapped(_ sender:UITapGestureRecognizer){
         //TODO for dropping
-        let touchPoint = CGPoint(
+        var touchPoint = CGPoint(
             x: sender.location(in: sender.view!).x,
             y: screenSize!.height - sender.location(in: sender.view!).y
         )

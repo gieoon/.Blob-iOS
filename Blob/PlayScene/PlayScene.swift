@@ -32,19 +32,32 @@ class PlayScene: SKScene {
         gamestate = GAMESTATE.PLAYING
         self.backgroundColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
         drawDashedGrid()
-        loadBlankBlob(scene: self)
+        //loadBlankBlob(scene: self)
         
-        let reset_button = SKSpriteNode(texture: Assets._sharedInstance.textureAtlas.textureNamed("bttn_retry"))
-        let lvls_button = SKSpriteNode(texture: Assets._sharedInstance.textureAtlas.textureNamed("bttn_levels"))
+        var reset_button = SKSpriteNode(texture: Assets._sharedInstance.textureAtlas.textureNamed("bttn_retry"))
+        var lvls_button = SKSpriteNode(texture: Assets._sharedInstance.textureAtlas.textureNamed("bttn_levels"))
         initButtons(reset_button: reset_button, lvls_button: lvls_button)
         self.swipeManager =  SwipeManager(scene: self, reset_button: reset_button, lvls_button: lvls_button)
         
+        //fade out menu music, since always come here from menu
+        AudioManager._audioInstance.fadeOut(player: AudioManager._audioInstance.playerMenu!)
+        AudioManager._audioInstance.fadeInBackgroundAudio(player: AudioManager._audioInstance.playerPlay!)
+    }
+    
+    deinit {
+        print("PLAYSCENE DEINIT CALLED")
+        //check if level has been cleared and main music has stopped playing already
+        if AudioManager._audioInstance.playerPlay?.isPlaying == false {
+            AudioManager._audioInstance.fadeOut(player: AudioManager._audioInstance.playerPlay!)
+        }
+        //start menu music
+        AudioManager._audioInstance.fadeInBackgroundAudio(player: AudioManager._audioInstance.playerMenu!)
     }
     
     func initButtons(reset_button: SKSpriteNode, lvls_button: SKSpriteNode){
         //play scene
         
-        levelsScene = LevelsScene(size: screenSize!.size)
+        //levelsScene = LevelsScene(size: screenSize!.size)
         
         addChild(reset_button)
         addChild(lvls_button)
@@ -75,13 +88,13 @@ class PlayScene: SKScene {
         
         for goal in goals {
             if goal.b_solved {
-                if(goal.alpha < goal.MAXALPHA - goal.ALPHACHANGEAMOUNT){
-                    goal.alpha += goal.ALPHACHANGEAMOUNT
+                if(goal.alpha < MAXALPHA - ALPHACHANGEAMOUNT){
+                    goal.alpha += ALPHACHANGEAMOUNT
                 }
             }
             if !goal.b_solved {
-                if(goal.alpha > goal.MINALPHA){
-                    goal.alpha -= goal.ALPHACHANGEAMOUNT
+                if(goal.alpha > MINALPHA){
+                    goal.alpha -= ALPHACHANGEAMOUNT
                 }
                 self.allGoalsComplete = false
             }
@@ -152,7 +165,7 @@ class PlayScene: SKScene {
     }
     
     func drawDashedGrid(){
-        let dashPattern : [CGFloat] = [0.15, 5.5]
+        var dashPattern : [CGFloat] = [0.15, 5.5]
         //draw dotted line representing grid
         
         //UIGraphicsBeginImageContext(scene!.size)
@@ -161,7 +174,7 @@ class PlayScene: SKScene {
         //all of those have a different coordinate system...CGContext 0 is in the middle of screen, while UIBezier Path is top left...
         for row in 1...9 {
             //let path = CGMutablePath()
-            let path = UIBezierPath()
+            var path = UIBezierPath()
             
             //path.copy(dashingWithPhase: 2, lengths: pattern)
             
@@ -174,14 +187,14 @@ class PlayScene: SKScene {
 //            ctx.setFillColor(UIColor.black.cgColor)
             
             
-            let point0 = CGPoint(x: PLAYGRIDSIZE! * 0.5, y: (CGFloat(row) * PLAYGRIDSIZE!) + PLAYGRIDY0!)
+            var point0 = CGPoint(x: PLAYGRIDSIZE! * 0.5, y: (CGFloat(row) * PLAYGRIDSIZE!) + PLAYGRIDY0!)
             //let point0 = CGPoint(x: 0, y: 0)
             path.move(to: point0)
             //path.addLine(to: point0)
             //ctx.move(to: point0)
             //ctx.addLine(to: point0)
             
-            let point1 = CGPoint(x: PLAYGRIDSIZE! * 9.5, y: (CGFloat(row) * PLAYGRIDSIZE!) + PLAYGRIDY0!)
+            var point1 = CGPoint(x: PLAYGRIDSIZE! * 9.5, y: (CGFloat(row) * PLAYGRIDSIZE!) + PLAYGRIDY0!)
             //let point1 = CGPoint(x: 375, y: 667)
             path.addLine(to: point1)
             //ctx.move(to: point1)
@@ -193,8 +206,8 @@ class PlayScene: SKScene {
             path.lineCapStyle = CGLineCap.round
             //path.lineCapStyle = .butt
             
-            let renderer = UIGraphicsImageRenderer(size: scene!.size)
-            let dashedImage = renderer.image {
+            var renderer = UIGraphicsImageRenderer(size: scene!.size)
+            var dashedImage = renderer.image {
                 context in path.stroke(with: CGBlendMode.normal, alpha: 0.3)
             }
             //scene?.addChild(renderer)
@@ -207,8 +220,8 @@ class PlayScene: SKScene {
             //print("SHAPE.path IS: ", shape.path)
             
 //            let dashedImage = UIGraphicsGetImageFromCurrentImageContext()
-            let dashedTexture = SKTexture(image: dashedImage)
-            let dashedSprite = SKSpriteNode(texture: dashedTexture)
+            var dashedTexture = SKTexture(image: dashedImage)
+            var dashedSprite = SKSpriteNode(texture: dashedTexture)
             dashedSprite.anchorPoint = CGPoint(x: 0, y: 0)
             scene?.addChild(dashedSprite)
             //print(dashedSprite)
@@ -220,25 +233,25 @@ class PlayScene: SKScene {
         //UIGraphicsEndImageContext()
         
         for column in 1...9 {
-            let path = UIBezierPath()
+            var path = UIBezierPath()
             
-            let point0 = CGPoint(x: CGFloat(column) * PLAYGRIDSIZE!, y: (PLAYGRIDSIZE! * 0.5) + PLAYGRIDY0!)
+            var point0 = CGPoint(x: CGFloat(column) * PLAYGRIDSIZE!, y: (PLAYGRIDSIZE! * 0.5) + PLAYGRIDY0!)
             path.move(to: point0)
             
-            let point1 = CGPoint(x: CGFloat(column) * PLAYGRIDSIZE!, y: (PLAYGRIDSIZE! * 9.5) + PLAYGRIDY0!)
+            var point1 = CGPoint(x: CGFloat(column) * PLAYGRIDSIZE!, y: (PLAYGRIDSIZE! * 9.5) + PLAYGRIDY0!)
             path.addLine(to: point1)
             
             path.setLineDash(dashPattern, count: 2, phase: 0)
             path.lineCapStyle = CGLineCap.round
             //path.lineCapStyle = .butt
             
-            let renderer = UIGraphicsImageRenderer(size: scene!.size)
-            let dashedImage = renderer.image {
+            var renderer = UIGraphicsImageRenderer(size: scene!.size)
+            var dashedImage = renderer.image {
                 context in path.stroke(with: CGBlendMode.lighten, alpha: 0.3)
             }
 
-            let dashedTexture = SKTexture(image: dashedImage)
-            let dashedSprite = SKSpriteNode(texture: dashedTexture)
+            var dashedTexture = SKTexture(image: dashedImage)
+            var dashedSprite = SKSpriteNode(texture: dashedTexture)
             dashedSprite.anchorPoint = CGPoint(x: 0, y: 0)
             scene?.addChild(dashedSprite)
         }

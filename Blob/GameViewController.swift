@@ -18,12 +18,16 @@ var screenSize: CGRect?
 var PAGEGRIDSIZE: CGFloat?, PLAYGRIDSIZE: CGFloat?, PAGEMARGINSIZE: CGFloat?, SMALLESTSIDE: CGFloat?, GRIDSIZE: CGFloat?
 var PLAYGRIDX0, PLAYGRIDXMAX, PLAYGRIDY0, PLAYGRIDYMAX, MINILEVELGRIDSIZE: CGFloat?
 var json4Swift_Base: Json4Swift_Base?
-let BUTTON_WIDTH_SCALE: CGFloat = 0.17
-let BUTTON_HEIGHT_SCALE: CGFloat = 0.1
-let TRANSITIONSPEED: TimeInterval = 3
-let BACKGROUNDCOLOUR: UIColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
-let CUSTOMFONT: UIFont = loadFont()
+var BUTTON_WIDTH_SCALE: CGFloat = 0.17
+var BUTTON_HEIGHT_SCALE: CGFloat = 0.1
+var TRANSITIONSPEED: TimeInterval = 3
+var BACKGROUNDCOLOUR: UIColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
+var CUSTOMFONT: UIFont = loadFont()
 var isiPad: UIUserInterfaceIdiom?
+var MAXALPHA: CGFloat = 1.0 //adds 0.7
+var MINALPHA: CGFloat = 0.3
+var ALPHATRANSITIONSPEED: TimeInterval = 1.0
+var ALPHACHANGEAMOUNT: CGFloat = 0.15
 
 public enum GAMESTATE {
     case LOADING
@@ -104,8 +108,11 @@ class GameViewController: UIViewController {
         screenSize = UIScreen.main.bounds
         screenWidth = screenSize!.width
         screenHeight = screenSize!.height
+        
+        //LOADING
         Assets._sharedInstance.preloadAssets()
         Assets._sharedInstance.loadJSONFromFile()
+        AudioManager._audioInstance.loadAudio()
         setGridSizes()
         print("screen width: \(String(describing: screenWidth)), screen height = \(String(describing: screenHeight))")
         //os_log("screen width: \(screenWidth), screen height = \(screenHeight)", type: OS_LOG_T)
@@ -114,7 +121,7 @@ class GameViewController: UIViewController {
         //let skView = self.view as! SKView
         LoadingOverlay.shared.showOverlay(view: view)
         
-        if let view = self.view as! SKView? {
+        if var view = self.view as! SKView? {
             
             view.isMultipleTouchEnabled = false
             
@@ -156,8 +163,8 @@ class GameViewController: UIViewController {
         screenHeight = UIScreen.main.bounds.height //SKViewSize?.height
         setGridSizes()
         print("AFTER ROTATION: screen width: \(String(describing: screenWidth)), screen height = \(String(describing: screenHeight))")
-        let skView = self.view as! SKView
-        if let scene = skView.scene {
+        var skView = self.view as! SKView
+        if var scene = skView.scene {
             scene.size = self.view.bounds.size
         }
     }

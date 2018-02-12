@@ -20,11 +20,16 @@ class GameScene: SKScene {
     override init(size: CGSize){
         super.init(size: size)
         anchorPoint = CGPoint(x: 0.5, y: 0.55)
+        gamestate = GAMESTATE.MENU
 
         //self.scaleMode = .aspectFill//.aspectFit//.resizeFill
         self.backgroundColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
         loadHomeScreen(scene: self)
         loadButtons()
+        
+        if(AudioManager._audioInstance.playerMenu?.isPlaying == false){
+            AudioManager._audioInstance.fadeInBackgroundAudio(player: AudioManager._audioInstance.playerMenu!)
+        }
         
     }
     
@@ -34,15 +39,15 @@ class GameScene: SKScene {
     
     deinit {
         print("Deinit MENU SCENE")
-//        gameBorder1!.removeFromParent()
-//        gameBorder2!.removeFromParent()
-//        settings_button!.removeFromParent()
-//        play_button!.removeFromParent()
-//        help_button!.removeFromParent()
-//        title_banner!.removeFromParent()
-//        self.removeAllChildren()
-//        self.removeAllActions()
-//        scene?.removeAllChildren()
+        gameBorder1!.removeFromParent()
+        gameBorder2!.removeFromParent()
+        settings_button!.removeFromParent()
+        play_button!.removeFromParent()
+        help_button!.removeFromParent()
+        title_banner!.removeFromParent()
+        self.removeAllChildren()
+        self.removeAllActions()
+        scene?.removeAllChildren()
     }
     func loadButtons(){
 //        title_banner!.removeFromParent()
@@ -65,7 +70,8 @@ class GameScene: SKScene {
         
         self.gameBorder1 = SKSpriteNode(texture: Assets.sharedInstance.textureAtlas.textureNamed("game_border"))
         
-        self.gameBorder2 = self.gameBorder1!.copy() as? SKSpriteNode
+        self.gameBorder2 = SKSpriteNode(texture: Assets.sharedInstance.textureAtlas.textureNamed("game_border"))
+            //self.gameBorder1!.copy() as? SKSpriteNode
         
         self.title_banner = SKSpriteNode(texture: Assets.sharedInstance.textureAtlas.textureNamed("blob_banner"))
         title_banner!.posByScreen(x: 0, y: 0)
@@ -108,24 +114,25 @@ class GameScene: SKScene {
         help_button?.posByScreen(x: 0.19, y: BUTTONYPOS)
         help_button?.resizeByScreen(x: BUTTON_WIDTH_SCALE, y: BUTTON_HEIGHT_SCALE)
         addChild(help_button!)
-        print("HELP BUTTON: ", help_button)
-        print("Loaded GameScene")
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         for touch in touches {
-            let location = touch.location(in: self)
+            var location = touch.location(in: self)
             
             if play_button!.contains(location){
                 //print ("play button touched")
+                AudioManager._audioInstance.playAudioFX(url: AudioManager._audioInstance.buttonClickUrl)
                 _toLevels()
             }
             else if settings_button!.contains(location){
                 print("settings button touched")
+                AudioManager._audioInstance.playAudioFX(url: AudioManager._audioInstance.buttonClickUrl)
             }
             else if help_button!.contains(location){
                 print("help button touched")
+                AudioManager._audioInstance.playAudioFX(url: AudioManager._audioInstance.buttonClickUrl)
             }
         }
         
@@ -142,7 +149,7 @@ class GameScene: SKScene {
     
     func _toLevels(){
         //let reveal = SKTransition.crossFade(withDuration: TRANSITIONSPEED)
-        let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
+        var fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
         //TODO, choose which page to go to based on the level modulo 9
         levelsScene = nil
         levelsScene = LevelsScene(size: screenSize!.size)
