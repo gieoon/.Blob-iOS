@@ -32,12 +32,12 @@ class Goal: SKSpriteNode {
         self.displayAlpha = 1 //always init sprites with max alpha
         self.DEFAULTGRIDSIZE = isMiniLevel ? MINILEVELGRIDSIZE! : PLAYGRIDSIZE!
         super.init(
-//            texture: createGoalTexture(scene: getCurrentSceneType(),
-//                                       targetDirection: targetDirection,
-//                                       start: start,
-//                                       length: length,
-//                                       shade: targetShade),
-            texture: nil,
+            texture: createGoalTexture(scene: getCurrentSceneType(),
+                                       targetDirection: targetDirection,
+                                       start: start,
+                                       length: length,
+                                       shade: targetShade),
+            //texture: nil,
             color: UIColor.black,
             size: CGSize(
                 width: isMiniLevel ? (PAGEGRIDSIZE! - PAGEMARGINSIZE!) : screenSize!.width,
@@ -49,7 +49,7 @@ class Goal: SKSpriteNode {
         self.length = length
         self.targetShade = targetShade
         self.anchorPoint = CGPoint(x: 0, y: 0)
-        self.zPosition = 0
+        self.zPosition = 3
         self.alpha = isMiniLevel ? 1 : MINALPHA
 
         getCurrentSceneType().addChild(self)
@@ -63,6 +63,15 @@ class Goal: SKSpriteNode {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func deallocateGoal(){
+        self.removeFromParent()
+        self.removeAllChildren()
+        self.label?.removeFromParent()
+        self.label?.removeAllChildren()
+        self.goalStrokeSprite?.removeFromParent()
+        self.goalStrokeSprite?.removeAllChildren()
     }
     
     func getCurrentSceneType() -> SKScene {
@@ -190,6 +199,7 @@ class Goal: SKSpriteNode {
         let goalStrokeSprite = SKSpriteNode(texture: goalTexture)
         goalStrokeSprite.anchorPoint = CGPoint(x: 0, y: 0)
         self.getCurrentSceneType().addChild(goalStrokeSprite)
+        goalStrokeSprite.zPosition = 4
         return goalStrokeSprite
     }
     

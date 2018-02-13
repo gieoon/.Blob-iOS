@@ -29,7 +29,7 @@ class LevelsScene: SKScene {
         self.swipeManager = LevelsSwipeManager(scene: self)
         //use default anchorPoint and draw everything from the middle!!!
         anchorPoint = CGPoint(x: 0.0, y: 0.0)
-        gamestate = GAMESTATE.LEVELS
+        preloadPlayScene()
         //self.scaleMode = .aspectFill
         //self.backgroundColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
         //set yScale to -1 to render oppositely from top left instead of bottom left like OpenGL style...
@@ -42,11 +42,10 @@ class LevelsScene: SKScene {
 //        if(AudioManager._audioInstance.playerMenu?.isPlaying == false){
 //            AudioManager._audioInstance.fadeInBackgroundAudio(player: AudioManager._audioInstance.playerMenu!)
 //        }
-        gameScene = nil
     }
     
     deinit {
-        print("DEINIT LEVELSSCENE")
+        print("DEINIT LEVELSSCENE CALLED")
         for levelSprite in levelSprites {
             levelSprite.removeAllChildren()
             levelSprite.removeAllActions()
@@ -147,6 +146,7 @@ class LevelsScene: SKScene {
     
     override func didMove(to view: SKView){
         swipeManager!.handleSwipe(view: view)
+        gamestate = GAMESTATE.LEVELS
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
@@ -162,20 +162,48 @@ class LevelsScene: SKScene {
     
     func _toMenu(){
         var fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
-        gameScene = nil
-        gameScene = GameScene(size: self.size)
-        gamestate = GAMESTATE.MENU
+        //gameScene = nil
+        //gameScene = GameScene(size: self.size)
+        //gamestate = GAMESTATE.MENU
         self.view?.presentScene(gameScene!, transition: fade)
+        emptyLevelSprites()
+        
+        
     }
     
     
     func _goToPlayScene(level: Level){
         var fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
-        playScene = nil
-        playScene = PlayScene(size: self.size)
+        //playScene = nil
+        //playScene = PlayScene(size: self.size)
         playScene!.setLevel(level: level)
         //TODO save the currentPage to localStorage
         self.view?.presentScene(playScene!, transition: fade)
+        emptyLevelSprites()
+    }
+    
+    func preloadPlayScene(){
+        var qualityOfServiceClass = DispatchQoS.QoSClass.background
+        var backgroundQueue = DispatchQueue.global(qos: qualityOfServiceClass)
+        backgroundQueue.async(execute: {
+            playScene = nil
+            playScene = PlayScene(size: self.size)
+            //print("PLAY SCENE LOADED")
+            gameScene = GameScene(size: self.size)
+        })
+    }
+    
+    func emptyLevelSprites(){
+        var delay = DispatchTime.now() + 3
+        DispatchQueue.main.asyncAfter(deadline: delay){
+            for levelSprite in self.levelSprites {
+                levelSprite.removeAllChildren()
+                levelSprite.removeFromParent()
+            }
+            self.levelSprites.removeAll()
+            self.removeAllChildren()
+            print("EMPTIED LEVELSPRITES")
+        }
     }
     
     func increasePage(){

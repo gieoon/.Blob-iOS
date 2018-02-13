@@ -13,10 +13,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    //storyboard startup
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         return true
     }
+    
+    //programmatic launch without main.storyboard
+//    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+//        window = UIWindow(frame: UIScreen.main.bounds)
+//        let homeViewController = UIViewController()
+//        homeViewController.view.backgroundColor = UIColor.red
+//        window!.rootViewController = homeViewController
+//        window!.makeKeyAndVisible()
+//        return true
+//    }
+    
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

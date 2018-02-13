@@ -108,6 +108,8 @@ class SwipeManager {
     }
     
     func removeBlob(blob: Blob){
+        self.playScene?.removeChildren(in: [blob.blobSprite! as SKNode])
+        self.playScene?.removeChildren(in: [blob.label! as SKNode])
         blob.blobSprite?.removeFromParent()
         blob.label?.removeFromParent()
         deleteFromArray(element: blob)

@@ -35,13 +35,13 @@ class Blob {
         self.scene = scene
         self.blobSprite = createRoundedRectSprite(scene: self.scene!)
         self.label = createBlobLabel(scene: self.scene!)
-        self.blobSprite?.zPosition = 1
-        self.blobSprite?.physicsBody = nil
+        //self.blobSprite?.physicsBody = nil
     }
     
     func createRoundedRectSprite(scene: SKScene) -> SKSpriteNode{
         //not using SKShadeNode due to memory leaks, using a drawing context with curve and converting it to a SKSpriteNode
-        UIGraphicsBeginImageContext(scene.size)
+        //UIGraphicsBeginImageContext(CGSize(width: PLAYGRIDSIZE! * 8, height: PLAYGRIDSIZE! * 8))
+        UIGraphicsBeginImageContext(CGSize(width: screenSize!.width, height: screenSize!.height))
         var ctx: CGContext = UIGraphicsGetCurrentContext()!
         ctx.saveGState()
         
@@ -59,14 +59,15 @@ class Blob {
         
         var blobImage = UIGraphicsGetImageFromCurrentImageContext()
         var blobTexture = SKTexture(image: blobImage!)
-        var blobSprite = SKSpriteNode(texture: nil) //SKSpriteNode(texture: blobTexture)
-        //blobSprite.position.x = 0//self.x //these positions are an offset to add. Not necessary here
-        //blobSprite.position.y = 0//self.y
-        //blobSprite.color = UIColor(rgb: self.shade)
+        var blobSprite = SKSpriteNode(texture: blobTexture)
+        // positions are an offset to add. Not necessary here
+
         blobSprite.anchorPoint = CGPoint(x: 0, y: 0)
+        blobSprite.zPosition = 10
+        //blobSprite.position = CGPoint(x: self.x, y: self.y)
+        //either set the drawing area to alrger and draw directly, or draw in different position, and put sprite in correct position.
         //print("BLOBSPRITE IS: ", blobSprite)
         scene.addChild(blobSprite)
-        
         UIGraphicsEndImageContext()
 
         return blobSprite
@@ -77,7 +78,7 @@ class Blob {
         label.text = String(self.shade)
         label.fontSize = 32
         label.fontColor = SKColor.black
-        label.zPosition = 3
+        label.zPosition = 10
         label.fontName = CUSTOMFONT.fontName
         label.horizontalAlignmentMode = .center
         label.verticalAlignmentMode = .center

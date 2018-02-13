@@ -24,12 +24,12 @@ class LevelSprite : SKSpriteNode {
         self.yOffset = yOffset
         
         super.init(
-            texture: nil,//createMiniLevelGoalsTexture(levelsScene: levelsScene, xOffset: xOffset, yOffset: self.yOffset),//nil,
+            texture: createMiniLevelGoalsTexture(levelsScene: levelsScene, xOffset: xOffset, yOffset: self.yOffset),//nil,
             color: UIColor.black,
             size: CGSize(width: PAGEGRIDSIZE! - PAGEMARGINSIZE!,
                          height: PAGEGRIDSIZE! - PAGEMARGINSIZE!)
         )
-        self.physicsBody = nil
+        //self.physicsBody = nil
         
 //        miniLevelPositions.append(CGRect(
 //            x: self.xOffset,
@@ -42,8 +42,8 @@ class LevelSprite : SKSpriteNode {
         self.name = "levelSprite"
         self.zPosition = 2
         isUserInteractionEnabled = true
-        //TEMPORARILY REMOVING
-        //loadGoals(levelsScene: levelsScene, lvl: self.level)
+        
+        loadGoals(levelsScene: levelsScene, lvl: self.level)
         
     }
     
@@ -103,7 +103,6 @@ class LevelSprite : SKSpriteNode {
             //goals.append(g)
             
         }
-        
     }
     
     func createMiniLevelGoalsTexture(levelsScene: LevelsScene, xOffset: CGFloat, yOffset: CGFloat) -> SKTexture {

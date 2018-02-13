@@ -19,6 +19,7 @@ class PlayScene: SKScene {
     var swipeManager: SwipeManager?
     //var dashedSprite: SKSpriteNode?
     let BUTTONYPOSITION: CGFloat = (screenSize!.height / 20)
+    var extraPlayScene: PlayScene?
     
     required init?(coder aDecoder: NSCoder){
         fatalError("init(coder) is not used in this app")
@@ -29,19 +30,17 @@ class PlayScene: SKScene {
         super.init(size: size)
         //anchorPoint = CGPoint(x: 0.5, y: 0.55)
         //self.scaleMode = .aspectFill
-        gamestate = GAMESTATE.PLAYING
         self.backgroundColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
-        drawDashedGrid()
-        //loadBlankBlob(scene: self)
         
         var reset_button = SKSpriteNode(texture: Assets._sharedInstance.textureAtlas.textureNamed("bttn_retry"))
         var lvls_button = SKSpriteNode(texture: Assets._sharedInstance.textureAtlas.textureNamed("bttn_levels"))
-        //initButtons(reset_button: reset_button, lvls_button: lvls_button)
+        var dashedGrid = SKSpriteNode(texture: Assets._sharedInstance.textureAtlas.textureNamed("dashedSprite"))
+        initButtons(reset_button: reset_button, lvls_button: lvls_button, dashedSprite: dashedGrid)
         self.swipeManager =  SwipeManager(scene: self, reset_button: reset_button, lvls_button: lvls_button)
         
-        //fade out menu music, since always come here from menu
-        AudioManager._audioInstance.fadeOut(player: AudioManager._audioInstance.playerMenu!)
-        AudioManager._audioInstance.fadeInBackgroundAudio(player: AudioManager._audioInstance.playerPlay!)
+        loadBlankBlob(scene: self)
+        
+        
     }
     
     deinit {
@@ -52,15 +51,24 @@ class PlayScene: SKScene {
         }
         //start menu music
         AudioManager._audioInstance.fadeInBackgroundAudio(player: AudioManager._audioInstance.playerMenu!)
+        emptyScene()
     }
     
-    func initButtons(reset_button: SKSpriteNode, lvls_button: SKSpriteNode){
+    func initButtons(reset_button: SKSpriteNode, lvls_button: SKSpriteNode, dashedSprite: SKSpriteNode){
         //play scene
         
         //levelsScene = LevelsScene(size: screenSize!.size)
         
         addChild(reset_button)
         addChild(lvls_button)
+        
+        var SCALEAMT: CGFloat = 1.05
+        var H_SCALEAMT: CGFloat = 1.0155
+        dashedSprite.anchorPoint = CGPoint(x: 0.505, y: 1)
+        dashedSprite.size = CGSize(width: PLAYGRIDSIZE! * 9.5 * H_SCALEAMT, height: PLAYGRIDSIZE! * 9.5 * SCALEAMT)
+        dashedSprite.position = CGPoint(x: screenSize!.width / 2, y: screenSize!.height - PLAYGRIDY0!)
+        dashedSprite.zPosition = 0
+        addChild(dashedSprite)
         
         reset_button.position = CGPoint(x: (screenSize!.width / 6 * 4) - ((reset_button.size.width) / 2) , y: BUTTONYPOSITION)
         reset_button.name = "reset_button"
@@ -104,16 +112,17 @@ class PlayScene: SKScene {
         }
     }
     
-    func drawDashedGrid(){
-        for index in 0...8 {
-            spriteRows[index].removeAllChildren()
-            spriteRows[index].removeFromParent()
-            spriteColumns[index].removeAllChildren()
-            spriteColumns[index].removeFromParent()
-            addChild(spriteRows[index])
-            addChild(spriteColumns[index])
-        }
-    }
+    //Deprecated
+//    func drawDashedGrid(){
+//        for index in 0...8 {
+//            spriteRows[index].removeAllChildren()
+//            spriteRows[index].removeFromParent()
+//            spriteColumns[index].removeAllChildren()
+//            spriteColumns[index].removeFromParent()
+//            addChild(spriteRows[index])
+//            addChild(spriteColumns[index])
+//        }
+//    }
     
     func _levelComplete(){
         //unlock the next level
@@ -125,35 +134,85 @@ class PlayScene: SKScene {
     
     func resetPlayScene(){
         print("PLAY SCENE WAS RESET")
-        let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED * 2)
+        let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED * 1.25)
+        emptyScene()
         playScene = nil
-        playScene = PlayScene(size: self.size)
-        playScene!.setLevel(level: self.level!)
-        self.view?.presentScene(playScene!, transition: fade)
+        self.view?.presentScene(self.extraPlayScene!, transition: fade)
+        //replenish the global scene
+        playScene = self.extraPlayScene
     }
     
     func _toLevels(){
         print("GOING TO LEVELS")
+        emptyScene()
         let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
         //TODO, choose which page to go to based on the level modulo 9
-        levelsScene = nil
-        levelsScene = LevelsScene(size: self.size)
-        levelsScene!.setPage(currentPage: GameViewController.initCurrentPageFromLocalStorage())
+        //levelsScene = nil
+        //levelsScene = LevelsScene(size: self.size)
         self.view?.presentScene(levelsScene!, transition: fade)
+        
+    }
+    
+    func preloadLvlScene(){
+        var qualityOfServiceClass = DispatchQoS.QoSClass.background
+        var backgroundQueue = DispatchQueue.global(qos: qualityOfServiceClass)
+        backgroundQueue.async(execute: {
+            levelsScene!.setPage(currentPage: GameViewController.initCurrentPageFromLocalStorage())
+            self.extraPlayScene = PlayScene(size: self.size)
+            self.extraPlayScene!.setLevel(level: self.level!)
+            print("PLAY SCENE LOADED")
+        })
+    }
+    
+    func emptyScene(){
+        var delay = DispatchTime.now() + 3
+        DispatchQueue.main.asyncAfter(deadline: delay) {
+            for blob in self.blobs {
+                blob.blobSprite?.removeAllChildren()
+                blob.blobSprite?.removeFromParent()
+                blob.blobRect = nil
+                blob.label?.removeAllChildren()
+                blob.label?.removeFromParent()
+            }
+            self.blobs.removeAll()
+            for goal in self.goals {
+                goal.removeFromParent()
+            }
+            self.inputGoals.removeAll()
+            self.goals.removeAll()
+            self.swipeManager = nil
+            self.level = nil
+            self.removeAllChildren()
+            print("EMPTIED PLAYSCENE")
+        }
+        
     }
     
     override func didMove(to view: SKView){
+        gamestate = GAMESTATE.PLAYING
         swipeManager!.handleSwipe(view: view)
+        //preloadLvlScene()
+        
     }
     
     func setLevel(level: Level){
         self.level = level
         //loadGoals()
+        //can also put thsi in didMoveToView(){}
+        if gamestate == GAMESTATE.PLAYING {
+            //fade out menu music, since always come here from menu
+            AudioManager._audioInstance.fadeOut(player: AudioManager._audioInstance.playerMenu!)
+            AudioManager._audioInstance.fadeInBackgroundAudio(player: AudioManager._audioInstance.playerPlay!)
+            
+        }
     }
     
     
     func loadBlankBlob(scene: SKScene){
-        self.blobs.append(Blob(x: 1, y: 1, width: 8, height: 8, shade: 0, scene: self, isMiniLevel: false))
+        var blob = Blob(x: 1, y: 1, width: 8, height: 8, shade: 0, scene: self, isMiniLevel: false)
+        self.blobs.append(blob)
+        //scene.addChild(blob.blobSprite!)
+        //blob.blobSprite!.addChild(blob.label!)
     }
     
     func loadGoals(){

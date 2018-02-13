@@ -79,7 +79,7 @@ class GameScene: SKScene {
         
         addChild(title_banner!)
         //LOL
-        #imageLiteral(resourceName: "game_border")
+        //#imageLiteral(resourceName: "game_border")
         //LOL
         gameBorder1!.anchorPoint = CGPoint(x: 0, y: 0)
         gameBorder1!.position = CGPoint(x: 0, y: 0)

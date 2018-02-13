@@ -20,7 +20,7 @@ var PLAYGRIDX0, PLAYGRIDXMAX, PLAYGRIDY0, PLAYGRIDYMAX, MINILEVELGRIDSIZE: CGFlo
 var json4Swift_Base: Json4Swift_Base?
 var BUTTON_WIDTH_SCALE: CGFloat = 0.17
 var BUTTON_HEIGHT_SCALE: CGFloat = 0.1
-var TRANSITIONSPEED: TimeInterval = 3
+var TRANSITIONSPEED: TimeInterval = 3.0
 var BACKGROUNDCOLOUR: UIColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
 var CUSTOMFONT: UIFont = loadFont()
 var isiPad: UIUserInterfaceIdiom?
@@ -70,8 +70,8 @@ var gamestate: GAMESTATE = GAMESTATE.LOADING
 var gameScene: GameScene?
 var levelsScene: LevelsScene?
 var playScene: PlayScene? //always make this nil after use
-var spriteRows = [SKSpriteNode]()
-var spriteColumns = [SKSpriteNode]()//.self
+//var spriteRows = [SKSpriteNode]()
+//var spriteColumns = [SKSpriteNode]()//.self
 
 class GameViewController: UIViewController {
     //link to the GameScreen
@@ -116,14 +116,14 @@ class GameViewController: UIViewController {
         Assets._sharedInstance.loadJSONFromFile()
         AudioManager._audioInstance.loadAudio()
         setGridSizes()
-        createDashedGrid()
+        //createDashedGrid()
         
         print("screen width: \(String(describing: screenWidth)), screen height = \(String(describing: screenHeight))")
         //os_log("screen width: \(screenWidth), screen height = \(screenHeight)", type: OS_LOG_T)
         //os_log("Configure %{public}@", screenHeight)
         //NotificationCenter.default.addObserver(self, selector: #selector(rotate), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         //let skView = self.view as! SKView
-        LoadingOverlay.shared.showOverlay(view: view)
+        //LoadingOverlay.shared.showOverlay(view: view)
         
         if var view = self.view as! SKView? {
             
@@ -152,7 +152,7 @@ class GameViewController: UIViewController {
             SKViewSizeRect = getViewSizeRect()
         }
         
-        LoadingOverlay.shared.hideOverlayView()
+        //LoadingOverlay.shared.hideOverlayView()
     }
     //euverus traffic simulation
     //when the view bouns change / rotation?
@@ -212,6 +212,7 @@ class GameViewController: UIViewController {
     }
     
     //create dashed grid beforehand because it is time consuming.
+    //Deprecated & replaced this with a sprite image, drawing is too time consuming.
     func createDashedGrid() {
         var dashPattern : [CGFloat] = [0.15, 5.5]
         //draw dotted line representing grid
@@ -254,7 +255,8 @@ class GameViewController: UIViewController {
             path.lineCapStyle = CGLineCap.round
             //path.lineCapStyle = .butt
             
-            var renderer = UIGraphicsImageRenderer(size: CGSize(width: PLAYGRIDSIZE! * 10, height: screenSize!.height - (PLAYGRIDSIZE! * 10)))
+            var renderer = UIGraphicsImageRenderer(size: screenSize!.size)
+                //CGSize(width: PLAYGRIDSIZE! * 10, height: (PLAYGRIDSIZE! * 10)))
             var dashedImage = renderer.image {
                 context in path.stroke(with: CGBlendMode.normal, alpha: 0.3)
             }
@@ -271,7 +273,7 @@ class GameViewController: UIViewController {
             var dashedTexture = SKTexture(image: dashedImage)
             var dashedSprite = SKSpriteNode(texture: dashedTexture)
             dashedSprite.anchorPoint = CGPoint(x: 0, y: 0)
-            spriteRows.append(dashedSprite)
+            //spriteRows.append(dashedSprite)
             //print(dashedSprite)
             
             //ctx.closePath()
@@ -293,7 +295,7 @@ class GameViewController: UIViewController {
             path.lineCapStyle = CGLineCap.round
             //path.lineCapStyle = .butt
             
-            var renderer = UIGraphicsImageRenderer(size: CGSize(width: PLAYGRIDSIZE! * 10, height: screenSize!.height - (PLAYGRIDSIZE! * 10)))
+            var renderer = UIGraphicsImageRenderer(size: screenSize!.size)
             var dashedImage = renderer.image {
                 context in path.stroke(with: CGBlendMode.lighten, alpha: 0.3)
             }
@@ -302,7 +304,7 @@ class GameViewController: UIViewController {
             var dashedSprite = SKSpriteNode(texture: dashedTexture)
             dashedSprite.anchorPoint = CGPoint(x: 0, y: 0)
             //scene?.addChild(dashedSprite)
-            spriteColumns.append(dashedSprite)
+            //spriteColumns.append(dashedSprite)
         }
         //return DoubleSprite(row: spriteRow, column: spriteColumn)
     }
