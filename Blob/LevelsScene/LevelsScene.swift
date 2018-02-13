@@ -200,7 +200,7 @@ class LevelsScene: SKScene {
             else if(toPage < self.currentPage){
                 transitionDirection = SKTransitionDirection.right
             }
-            var fade = SKTransition.push(with: transitionDirection!, duration: TRANSITIONSPEED)
+            var fade = SKTransition.push(with: transitionDirection!, duration: TRANSITIONSPEED / 4)
             var levelsScene = LevelsScene(size: self.size)
             levelsScene.setPage(currentPage: toPage)
             self.view?.presentScene(levelsScene, transition: fade)

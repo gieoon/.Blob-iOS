@@ -5,7 +5,7 @@
 //  Created by gieoon on 2018/02/11.
 //  Copyright © 2018 shunkagaya. All rights reserved.
 //
-import AudioToolbox
+//import AudioToolbox
 import AVFoundation
 
 class AudioManager {
@@ -107,6 +107,11 @@ class AudioManager {
     func fadeInBackgroundAudio(player : AVAudioPlayer){
         player.numberOfLoops = -1
         player.volume = 0.0
+        var soundQueue = OperationQueue()
+        soundQueue.qualityOfService = QualityOfService.background
+        soundQueue.addOperation {
+            player.play()
+        }
         //TEMPORARILY REMOVING FOR TESTING
         //player.play()
         player.setVolume(1.0, fadeDuration: AUDIOCHANGEDURATION)
@@ -136,5 +141,6 @@ class AudioManager {
         return _audioInstance
     }
 }
+
 
 

@@ -70,10 +70,7 @@ class LoadingScene: SKScene {
         gamestate = GAMESTATE.MENU
         self.view?.presentScene(gameScene!, transition: fade)
     }
-    
 }
-
-
 
 class Assets {
     static let _sharedInstance = Assets()
@@ -116,9 +113,9 @@ class Assets {
         do{
             typealias JSONDictionary = [String: Any]
             //have to include the .json file in build phases resources
-            let jsonFile = Bundle.main.path(forResource: "levels", ofType: "json")
-            let jsonData = NSData(contentsOfFile: jsonFile!)
-            let jsonDictionary: NSDictionary = try! JSONSerialization.jsonObject(with: jsonData! as Data, options: []) as! NSDictionary
+            var jsonFile = Bundle.main.path(forResource: "levels", ofType: "json")
+            var jsonData = NSData(contentsOfFile: jsonFile!)
+            var jsonDictionary: NSDictionary = try! JSONSerialization.jsonObject(with: jsonData! as Data, options: []) as! NSDictionary
             
             //let data: Data
             //let json = try?
