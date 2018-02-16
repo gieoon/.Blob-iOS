@@ -27,6 +27,7 @@
 		CE9641FE202BB6300098E451 /* save.json in Resources */ = {isa = PBXBuildFile; fileRef = CE9641FD202BB6300098E451 /* save.json */; };
 		CE9CF00520328F85008BFEA5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE9CF00420328F85008BFEA5 /* Main.storyboard */; };
 		CE9CF00720329346008BFEA5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE9CF00620329346008BFEA5 /* LaunchScreen.storyboard */; };
+		CEBB3CAB203632EF00B7DF1B /* Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBB3CAA203632EE00B7DF1B /* Codable.swift */; };
 		CEEB5A51202F3FFD001FF321 /* assetsAtlas.atlas in Resources */ = {isa = PBXBuildFile; fileRef = CEEB5A50202F3FFD001FF321 /* assetsAtlas.atlas */; };
 		CEEB5A53202F5D3A001FF321 /* LoadingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEB5A52202F5D3A001FF321 /* LoadingScene.swift */; };
 		CEEB5A55202FEBEA001FF321 /* LoadingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEB5A54202FEBEA001FF321 /* LoadingOverlay.swift */; };
@@ -84,6 +85,7 @@
 		CE9641FD202BB6300098E451 /* save.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = save.json; sourceTree = "<group>"; };
 		CE9CF00420328F85008BFEA5 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		CE9CF00620329346008BFEA5 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CEBB3CAA203632EE00B7DF1B /* Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Codable.swift; sourceTree = "<group>"; };
 		CEEB5A50202F3FFD001FF321 /* assetsAtlas.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = assetsAtlas.atlas; sourceTree = "<group>"; };
 		CEEB5A52202F5D3A001FF321 /* LoadingScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingScene.swift; sourceTree = "<group>"; };
 		CEEB5A54202FEBEA001FF321 /* LoadingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingOverlay.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				CE17CCAC2023F536007049EB /* ColorScheme.swift */,
 				CEEB5A56203009B0001FF321 /* AudioManager.swift */,
 				CE9CF00620329346008BFEA5 /* LaunchScreen.storyboard */,
+				CEBB3CAA203632EE00B7DF1B /* Codable.swift */,
 			);
 			path = Blob;
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 				CE79BAD420244F6300E78FF6 /* Goal.swift in Sources */,
 				CEEB5A55202FEBEA001FF321 /* LoadingOverlay.swift in Sources */,
 				1D9EBE131FBB76450059FA3B /* AppDelegate.swift in Sources */,
+				CEBB3CAB203632EF00B7DF1B /* Codable.swift in Sources */,
 				CE17CCAD2023F536007049EB /* ColorScheme.swift in Sources */,
 				CE17CCAB2023E4F6007049EB /* PlayScene.swift in Sources */,
 				CEF21A52202C194D00B2383A /* LevelSprite.swift in Sources */,
@@ -544,12 +548,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YY4Q762HSK;
 				INFOPLIST_FILE = Blob/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Juuno.Blob;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -559,12 +566,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YY4Q762HSK;
 				INFOPLIST_FILE = Blob/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Juuno.Blob;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

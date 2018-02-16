@@ -29,7 +29,6 @@ class LevelsScene: SKScene {
         self.swipeManager = LevelsSwipeManager(scene: self)
         //use default anchorPoint and draw everything from the middle!!!
         anchorPoint = CGPoint(x: 0.0, y: 0.0)
-        preloadPlayScene()
         //self.scaleMode = .aspectFill
         //self.backgroundColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
         //set yScale to -1 to render oppositely from top left instead of bottom left like OpenGL style...
@@ -60,6 +59,7 @@ class LevelsScene: SKScene {
     
     func setPage(currentPage: Int){
         self.currentPage = currentPage
+        print("LOADING CURRENT PAGE AS: ", currentPage)
         loadLevelsScene()
         self.backgroundColor = setBackgroundColor()
     }
@@ -80,7 +80,6 @@ class LevelsScene: SKScene {
         //var level = LEVELS_PER_PAGE;
         
         //let totalPages = calculateTotalPages()
-        print("loading levels scene")
         var level = (9 * currentPage) + 1
         for page in 1...1{ //make this add pages from 1 to 1 for now...
             //var p: LevelSelectPage = LevelSelectPage(number: page, color: UIColor.green)
@@ -124,7 +123,9 @@ class LevelsScene: SKScene {
                 var invertedTouchPoint = CGPoint(x: touchPoint.x, y: screenSize!.height - touchPoint.y)
                 if levelSprite.contains(invertedTouchPoint){
                     //if skNode.name == "levelSprite" {
-                    _goToPlayScene(level: levelSprite.level)
+                    if !levelSprite.locked {
+                        _getPlayLevel(level: levelSprite.level)
+                    }
                     //}
                 }
             }
@@ -132,7 +133,7 @@ class LevelsScene: SKScene {
     }
     //positions are colliding, but positions are set only as offsets
     //same name as function below, but takes in an Int, not a Level...wow, overloading so riskily
-    func _goToPlayScene(level: Int){
+    func _getPlayLevel(level: Int){
         //load the touched level
         var lvlTitle = json4Swift_Base?.getLevelTitle(lvlNo: level)
         var lvlNo = json4Swift_Base?.getLevelNo(lvlNo: level)
@@ -142,6 +143,16 @@ class LevelsScene: SKScene {
         var t_level = Level(lvlNo: lvlNo!, lvlTitle: lvlTitle!, goals: lvlGoals)
         self._goToPlayScene(level: t_level)
         //self.removeAllChildren()
+    }
+    
+    func _goToPlayScene(level: Level){
+        var fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
+        //playScene = nil
+        //playScene = PlayScene(size: self.size)
+        playScene!.setLevel(level: level)
+        //TODO save the currentPage to localStorage
+        self.view?.presentScene(playScene!, transition: fade)
+        emptyLevelSprites()
     }
     
     override func didMove(to view: SKView){
@@ -171,17 +182,6 @@ class LevelsScene: SKScene {
         
     }
     
-    
-    func _goToPlayScene(level: Level){
-        var fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
-        //playScene = nil
-        //playScene = PlayScene(size: self.size)
-        playScene!.setLevel(level: level)
-        //TODO save the currentPage to localStorage
-        self.view?.presentScene(playScene!, transition: fade)
-        emptyLevelSprites()
-    }
-    
     func preloadPlayScene(){
         var qualityOfServiceClass = DispatchQoS.QoSClass.background
         var backgroundQueue = DispatchQueue.global(qos: qualityOfServiceClass)
@@ -190,21 +190,57 @@ class LevelsScene: SKScene {
             playScene = PlayScene(size: self.size)
             //print("PLAY SCENE LOADED")
             gameScene = GameScene(size: self.size)
+            
+            //self.preloadAdjacentLevelPages()
         })
     }
     
     func emptyLevelSprites(){
         var delay = DispatchTime.now() + 3
         DispatchQueue.main.asyncAfter(deadline: delay){
-            for levelSprite in self.levelSprites {
-                levelSprite.removeAllChildren()
-                levelSprite.removeFromParent()
+            if(gamestate == GAMESTATE.PLAYING){
+                for levelSprite in (levelsScene?.levelSprites)! {
+                    levelSprite.removeAllChildren()
+                    levelSprite.removeFromParent()
+                }
+                levelsScene?.levelSprites.removeAll()
+                levelsScene?.removeAllChildren()
+                self.removeFromParent()
+                self.removeAllChildren()
+                print("EMPTIED LEVELSPRITES")
             }
-            self.levelSprites.removeAll()
-            self.removeAllChildren()
-            print("EMPTIED LEVELSPRITES")
         }
     }
+    
+    //Deprecated, no necessary
+//    func preloadAdjacentLevelPages(){
+//        print("LOADING ADJACENT LEVELS")
+//        if self.currentPage == 0 {
+//            //load the scene on the right only
+//            rightPage = LevelsScene(size: screenSize!.size)
+//            rightPage!.setPage(currentPage: self.currentPage + 1)
+//        }
+//        else if self.currentPage == ((Json4Swift_Base.levels?.count)! / 9) - 1 {
+//            //load only the left scene
+//            leftPage = LevelsScene(size: screenSize!.size)
+//            leftPage!.setPage(currentPage: self.currentPage - 1)
+//        }
+//        else {
+//            //load both adjacent scenes
+//            leftPage = LevelsScene(size: screenSize!.size)
+//            leftPage!.setPage(currentPage: self.currentPage - 1)
+//
+//            rightPage = LevelsScene(size: screenSize!.size)
+//            rightPage!.setPage(currentPage: self.currentPage + 1)
+//        }
+//
+//        //attempting method of loading all levels
+////        var totalLvls = Json4Swift_Base.levels?.count
+////        var totalPages = totalLvls! / 9
+////        for i in 1...totalPages {
+////            //load LevelsScene
+////        }
+//    }
     
     func increasePage(){
         _changePage(toPage: self.currentPage + 1)
@@ -214,25 +250,32 @@ class LevelsScene: SKScene {
     }
     
     private func _changePage(toPage: Int){
+        print("GOING TO PAGE: ", toPage)
+        print("CURRENT PAGE IS: ", self.currentPage)
         var totalLvls = Json4Swift_Base.levels?.count
         //9 levels per page
         var _ = totalLvls! % 9
         var totalPages = totalLvls! / 9
         
         if(toPage < totalPages && toPage > -1){
-            
             var transitionDirection: SKTransitionDirection?
+            
             if(toPage > self.currentPage) {
                 transitionDirection = SKTransitionDirection.left
+                //rightPage!.preloadAdjacentLevelPages()
             }
             else if(toPage < self.currentPage){
                 transitionDirection = SKTransitionDirection.right
+                //leftPage!.preloadAdjacentLevelPages()
             }
-            var fade = SKTransition.push(with: transitionDirection!, duration: TRANSITIONSPEED / 4)
-            var levelsScene = LevelsScene(size: self.size)
-            levelsScene.setPage(currentPage: toPage)
-            self.view?.presentScene(levelsScene, transition: fade)
-            self.removeFromParent()
+            var nextPage = LevelsScene(size: screenSize!.size)
+            nextPage.setPage(currentPage: toPage)
+            currentPage = toPage
+            var fade = SKTransition.push(with: transitionDirection!, duration: TRANSITIONSPEED / 2)
+            self.view?.presentScene(nextPage, transition: fade)
+            
+            emptyLevelSprites()
+            
         }
     }
 }

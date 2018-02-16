@@ -15,16 +15,18 @@ class LevelSprite : SKSpriteNode {
     weak var levelsScene: LevelsScene?
     var cgRect: CGRect?
     var xOffset, yOffset: CGFloat
+    var locked: Bool
     
     //convenience init(level: Int ){
-    init(level: Int, levelsScene: LevelsScene, xOffset: CGFloat, yOffset: CGFloat){
+    init(level: Int, levelsScene: LevelsScene, xOffset: CGFloat, yOffset: CGFloat, locked: Bool){
         //have to call this initializer,t he other are al convenience initializers
         self.level = level
         self.xOffset = xOffset
         self.yOffset = yOffset
-        
+        self.locked = locked
         super.init(
-            texture: createMiniLevelGoalsTexture(levelsScene: levelsScene, xOffset: xOffset, yOffset: self.yOffset),//nil,
+            texture:
+            createMiniLevelGoalsTexture(levelsScene: levelsScene, xOffset: xOffset, yOffset: self.yOffset, locked: locked),//nil,
             color: UIColor.black,
             size: CGSize(width: PAGEGRIDSIZE! - PAGEMARGINSIZE!,
                          height: PAGEGRIDSIZE! - PAGEMARGINSIZE!)
@@ -41,9 +43,9 @@ class LevelSprite : SKSpriteNode {
         self.levelsScene = levelsScene
         self.name = "levelSprite"
         self.zPosition = 2
-        isUserInteractionEnabled = true
+        isUserInteractionEnabled = locked ? false : true
         
-        loadGoals(levelsScene: levelsScene, lvl: self.level)
+        if !locked { loadGoals(levelsScene: levelsScene, lvl: self.level) }
         
     }
     
@@ -53,17 +55,18 @@ class LevelSprite : SKSpriteNode {
     
     //made redundant due to not being able to "touch-through"
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        print("level: \(self.level) was touched")
-        
-        //load the touched level
-        var lvlTitle = json4Swift_Base?.getLevelTitle(lvlNo: self.level)
-        var lvlNo = json4Swift_Base?.getLevelNo(lvlNo: self.level)
-        var lvlGoals: Array<Goals> = (Json4Swift_Base.getLevelGoals(lvlNo: self.level))
-        
-        //create a level
-        var t_level = Level(lvlNo: lvlNo!, lvlTitle: lvlTitle!, goals: lvlGoals)
-        self.levelsScene?._goToPlayScene(level: t_level)
+        if !self.locked {
+            print("level: \(self.level) was touched")
+            
+            //load the touched level
+            var lvlTitle = json4Swift_Base?.getLevelTitle(lvlNo: self.level)
+            var lvlNo = json4Swift_Base?.getLevelNo(lvlNo: self.level)
+            var lvlGoals: Array<Goals> = (Json4Swift_Base.getLevelGoals(lvlNo: self.level))
+            
+            //create a level
+            var t_level = Level(lvlNo: lvlNo!, lvlTitle: lvlTitle!, goals: lvlGoals)
+            self.levelsScene?._goToPlayScene(level: t_level)
+        }
     }
     
     func loadGoals(levelsScene: LevelsScene, lvl: Int){
@@ -103,9 +106,10 @@ class LevelSprite : SKSpriteNode {
             //goals.append(g)
             
         }
+        //print("ALL GOALS LOADED")
     }
     
-    func createMiniLevelGoalsTexture(levelsScene: LevelsScene, xOffset: CGFloat, yOffset: CGFloat) -> SKTexture {
+    func createMiniLevelGoalsTexture(levelsScene: LevelsScene, xOffset: CGFloat, yOffset: CGFloat, locked: Bool) -> SKTexture {
         UIGraphicsBeginImageContext(CGSize(
             width: PAGEGRIDSIZE! - PAGEMARGINSIZE!,
             height: PAGEGRIDSIZE! - PAGEMARGINSIZE!))
@@ -138,7 +142,9 @@ class LevelSprite : SKSpriteNode {
             height:  8 * MINILEVELGRIDSIZE!) //multiplying height by -1 makes an interesting concave curve
         var clipPath2: CGPath = UIBezierPath(roundedRect: blobRect, cornerRadius: 8).cgPath
         
-        ctx.setFillColor(UIColor(rgb: ColourScheme.getColour(cut: 0)).cgColor)
+        ctx.setFillColor(
+            locked ? UIColor.gray.cgColor :
+            UIColor(rgb: ColourScheme.getColour(cut: 0)).cgColor)
         //ctx.setStrokeColor(UIColor(rgb: ColourScheme.getColour(cut: 0)).cgColor)
         ctx.addPath(clipPath2)
         ctx.closePath()

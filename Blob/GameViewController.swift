@@ -20,7 +20,7 @@ var PLAYGRIDX0, PLAYGRIDXMAX, PLAYGRIDY0, PLAYGRIDYMAX, MINILEVELGRIDSIZE: CGFlo
 var json4Swift_Base: Json4Swift_Base?
 var BUTTON_WIDTH_SCALE: CGFloat = 0.17
 var BUTTON_HEIGHT_SCALE: CGFloat = 0.1
-var TRANSITIONSPEED: TimeInterval = 3.0
+var TRANSITIONSPEED: TimeInterval = 1.5
 var BACKGROUNDCOLOUR: UIColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
 var CUSTOMFONT: UIFont = loadFont()
 var isiPad: UIUserInterfaceIdiom?
@@ -28,6 +28,9 @@ var MAXALPHA: CGFloat = 1.0 //adds 0.7
 var MINALPHA: CGFloat = 0.3
 var ALPHATRANSITIONSPEED: TimeInterval = 1.0
 var ALPHACHANGEAMOUNT: CGFloat = 0.15
+//var rightPage, leftPage: LevelsScene? //left and right pages of the adjacents levels to what is currently in view.
+var currentPage: Int = 0
+var totalSlices: Int = 0
 
 public enum GAMESTATE {
     case LOADING
@@ -116,6 +119,7 @@ class GameViewController: UIViewController {
         Assets._sharedInstance.loadJSONFromFile()
         AudioManager._audioInstance.loadAudio()
         setGridSizes()
+        GameViewController.initFromNSCoder()
         //createDashedGrid()
         
         print("screen width: \(String(describing: screenWidth)), screen height = \(String(describing: screenHeight))")
@@ -335,11 +339,23 @@ class GameViewController: UIViewController {
         }
     }
     
-    public static func initCurrentPageFromLocalStorage() -> Int {
-        //TODO
-        return 0
+    //set global varibale currentPage, based on what is available.
+    public static func initFromNSCoder() {
+        //initially, for testing, load data into memory
+//        DataStorage._sharedInstance.dataToSave.currentLevel = 1
+//        DataStorage._sharedInstance.dataToSave.totalSlices = 2
+//        DataStorage._sharedInstance.dataToSave.unlockedLvl = 3
+//        print("STORED DATA IS: ", DataStorage._sharedInstance.dataToSave)
+//        DataStorage._sharedInstance.saveData()
+        
+        //load the data from memory into static variable
+        DataStorage._sharedInstance.loadData()
+        //retrieve from static variable into global variable
+        
+        currentPage = DataStorage._sharedInstance.dataToSave.currentLevel! / 9
+        totalSlices = DataStorage._sharedInstance.dataToSave.totalSlices!
+        print("currentPage is: ", currentPage)
     }
-    
     
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

@@ -12,26 +12,28 @@ import SpriteKit
 var miniLevelPositions = Array<CGRect>()
 
 struct MiniLevel{
-    let x: CGFloat
-    let y: CGFloat
-    let level: Int
+    var x: CGFloat
+    var y: CGFloat
+    var level: Int
     var sprite: SKSpriteNode//initSprite()
     //temporary label to display number of the level
-    let label = SKLabelNode()
+    var label = SKLabelNode()
+    var locked: Bool
     
 //hamburger approach, the negative is sandwiched between two positives.
     init(x: CGFloat, y: CGFloat, level: Int, levelsScene: LevelsScene){
         self.x = x
         self.y = y
         self.level = level
+        self.locked = !(DataStorage._sharedInstance.dataToSave.unlockedLvl! > level)
         self.sprite = LevelSprite(
             level: self.level,
             levelsScene: levelsScene,
             xOffset: (x * PAGEGRIDSIZE!) + (PAGEGRIDSIZE! / 3),//(screenSize!.width / 10 * 1.2),
-            yOffset: (screenSize!.height / 2)  - (y * PAGEGRIDSIZE!) + (screenSize!.height / 6.5)
+            yOffset: (screenSize!.height / 2)  - (y * PAGEGRIDSIZE!) + (screenSize!.height / 6.5),
             //(screenSize!.height / 2) - (y * PAGEGRIDSIZE!) + (screenSize!.height / 4.5)
+            locked: self.locked
         )
-        
             
         //sprite.size = CGSize(width: PAGEGRIDSIZE! - PAGEMARGINSIZE!, height: PAGEGRIDSIZE! - PAGEMARGINSIZE!)
         //sprite.color = SKColor.black
@@ -45,7 +47,7 @@ struct MiniLevel{
         //sprite.posByScreen(x: -0.1, y: <#T##CGFloat#>)
         //sprite.position = CGPoint(x: 0, y: 0)
         //print("sprite.position is: \(sprite.position)")
-        sprite.isUserInteractionEnabled = true
+        sprite.isUserInteractionEnabled = locked ? false : true
         //sprite.touchesBegan(<#T##touches: Set<UITouch>##Set<UITouch>#>, with: <#T##UIEvent?#>)
         
         //draw temporary level label
@@ -60,7 +62,6 @@ struct MiniLevel{
         label.zPosition = 3
         //levelsScene.addChild(label)
         //label.yScale = -1;
-        
     }
 }
 

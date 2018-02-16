@@ -53,6 +53,7 @@ class SwipeManager {
             //by making this an "if" statement, all of the blob instances below do not require unwrapping
             if let blob = detectCollidingBlob(){
                 //print("COLLIDING WITH BLOB.X: ", blob.gridX, " blob.gridY: ", blob.gridY, " blob.gridWidth: ", blob.gridWidth, " blob.gridHeight: ", blob.gridHeight )
+
                 if (blob.gridWidth == 1 && blob.gridHeight == 1) {
                     print("removing 1 X 1 blob")
                     removeBlob(blob: blob)
@@ -124,6 +125,9 @@ class SwipeManager {
             goal.checkNearbyBlob()
             //TODO start tweens and animations for solved vs not solved
         }
+        
+        //update the total slices global variable
+        totalSlices += 1
     }
     
     func checkSliceLegality(blob: Blob) -> Bool{

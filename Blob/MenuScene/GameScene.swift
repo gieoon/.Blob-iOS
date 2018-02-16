@@ -21,7 +21,6 @@ class GameScene: SKScene {
         super.init(size: size)
         anchorPoint = CGPoint(x: 0.5, y: 0.55)
         gamestate = GAMESTATE.MENU
-
         //self.scaleMode = .aspectFill//.aspectFit//.resizeFill
         self.backgroundColor = UIColor(red: 250/255, green: 248/255, blue: 239/255, alpha: 1)
         loadHomeScreen(scene: self)
@@ -146,15 +145,40 @@ class GameScene: SKScene {
 //        }
     }
     
+    override func didMove(to view: SKView){
+        preloadLevelsScenes()
+    }
     
     func _toLevels(){
         //let reveal = SKTransition.crossFade(withDuration: TRANSITIONSPEED)
         var fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
         //TODO, choose which page to go to based on the level modulo 9
-        levelsScene = nil
-        levelsScene = LevelsScene(size: screenSize!.size)
-        levelsScene!.setPage(currentPage: GameViewController.initCurrentPageFromLocalStorage())
         self.view?.presentScene(levelsScene!, transition: fade)
+    }
+    
+    func preloadLevelsScenes(){
+        //this is continuous...runs indefinitely
+//        var work = DispatchWorkItem(block: {
+//            levelsScene = nil
+//            levelsScene = LevelsScene(size: screenSize!.size)
+//            levelsScene!.setPage(currentPage: GameViewController.initCurrentPageFromLocalStorage())
+//            print("PRELOADED LEVELS SCENE")
+//        })
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: work)
+        
+        var timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { (timer) in
+            var qualityOfServiceClass = DispatchQoS.QoSClass.background
+            var backgroundQueue = DispatchQueue.global(qos: qualityOfServiceClass)
+            backgroundQueue.async(execute: {
+                levelsScene = nil
+                levelsScene = LevelsScene(size: screenSize!.size)
+                levelsScene?.preloadPlayScene()
+                levelsScene!.setPage(currentPage: DataStorage._sharedInstance.dataToSave.currentLevel! / 9)
+                print("PRELOADED LEVELS SCENE")
+            })
+        }
+        RunLoop.current.add(timer, forMode: .commonModes)
+        
     }
     
     //private var label : SKLabelNode?

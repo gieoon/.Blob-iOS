@@ -51,7 +51,7 @@ class PlayScene: SKScene {
         }
         //start menu music
         AudioManager._audioInstance.fadeInBackgroundAudio(player: AudioManager._audioInstance.playerMenu!)
-        emptyScene()
+        //emptyScene() //already done
     }
     
     func initButtons(reset_button: SKSpriteNode, lvls_button: SKSpriteNode, dashedSprite: SKSpriteNode){
@@ -108,7 +108,7 @@ class PlayScene: SKScene {
             }
         }
         if self.allGoalsComplete {
-            //_levelComplete()
+            _levelComplete()
         }
     }
     
@@ -124,22 +124,36 @@ class PlayScene: SKScene {
 //        }
 //    }
     
+    override func willMove(from view: SKView) {
+        //anytime this scene is exited, total slices is saved
+        DataStorage._sharedInstance.dataToSave.totalSlices = totalSlices
+        DataStorage._sharedInstance.saveData()
+        print("PLAYSCENE WILLMOVE() CALLED AND SAVING TOTAL SLICES: ", totalSlices)
+    }
+    
     func _levelComplete(){
         //unlock the next level
         //write to JSON or local storage and unlock the next level
+        DataStorage._sharedInstance.dataToSave.unlockedLvl = self.level!.lvlNo + 1
+        DataStorage._sharedInstance.dataToSave.totalSlices = totalSlices
         //add next level to  unlocked levels array
+        DataStorage._sharedInstance.saveData()
         //go back to menu screen
         _toLevels()
+        gamestate = GAMESTATE.LEVELS
     }
     
     func resetPlayScene(){
         print("PLAY SCENE WAS RESET")
         let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED * 1.25)
         emptyScene()
-        playScene = nil
-        self.view?.presentScene(self.extraPlayScene!, transition: fade)
+        var tPlayScene = PlayScene(size: self.size)
+        tPlayScene.setLevel(level: self.level!)
+        //TODO save the currentPage to localStorage
+        self.view?.presentScene(tPlayScene, transition: fade)
+        playScene! = tPlayScene
         //replenish the global scene
-        playScene = self.extraPlayScene
+        //playScene = self.extraPlayScene
     }
     
     func _toLevels(){
@@ -147,25 +161,31 @@ class PlayScene: SKScene {
         emptyScene()
         let fade = SKTransition.fade(with: BACKGROUNDCOLOUR, duration: TRANSITIONSPEED)
         //TODO, choose which page to go to based on the level modulo 9
-        //levelsScene = nil
-        //levelsScene = LevelsScene(size: self.size)
+        levelsScene = nil
+        levelsScene = LevelsScene(size: self.size)
+        levelsScene!.setPage(currentPage: currentPage)
         self.view?.presentScene(levelsScene!, transition: fade)
+        gamestate = GAMESTATE.LEVELS
         
     }
     
-    func preloadLvlScene(){
-        var qualityOfServiceClass = DispatchQoS.QoSClass.background
-        var backgroundQueue = DispatchQueue.global(qos: qualityOfServiceClass)
-        backgroundQueue.async(execute: {
-            levelsScene!.setPage(currentPage: GameViewController.initCurrentPageFromLocalStorage())
-            self.extraPlayScene = PlayScene(size: self.size)
-            self.extraPlayScene!.setLevel(level: self.level!)
-            print("PLAY SCENE LOADED")
-        })
+    func preloadScenes(){
+        var timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { (timer) in
+            var qualityOfServiceClass = DispatchQoS.QoSClass.background
+            var backgroundQueue = DispatchQueue.global(qos: qualityOfServiceClass)
+            backgroundQueue.async(execute: {
+                levelsScene!.setPage(currentPage: DataStorage._sharedInstance.dataToSave.currentLevel! / 9)
+                levelsScene!.preloadPlayScene()
+                self.extraPlayScene = PlayScene(size: self.size)
+                self.extraPlayScene!.setLevel(level: self.level!)
+                print("PLAY SCENE LOADED")
+            })
+        }
+        RunLoop.current.add(timer, forMode: .commonModes)
     }
     
     func emptyScene(){
-        var delay = DispatchTime.now() + 3
+        var delay = DispatchTime.now() + 6
         DispatchQueue.main.asyncAfter(deadline: delay) {
             for blob in self.blobs {
                 blob.blobSprite?.removeAllChildren()
@@ -191,13 +211,13 @@ class PlayScene: SKScene {
     override func didMove(to view: SKView){
         gamestate = GAMESTATE.PLAYING
         swipeManager!.handleSwipe(view: view)
-        //preloadLvlScene()
+        preloadScenes()
         
     }
     
     func setLevel(level: Level){
         self.level = level
-        //loadGoals()
+        loadGoals()
         //can also put thsi in didMoveToView(){}
         if gamestate == GAMESTATE.PLAYING {
             //fade out menu music, since always come here from menu

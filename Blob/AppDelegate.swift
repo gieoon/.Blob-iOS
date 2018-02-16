@@ -37,6 +37,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+        print("APPLICATION DID ENTER BACKGROUND")
+        DataStorage._sharedInstance.dataToSave.totalSlices = totalSlices
+        DataStorage._sharedInstance.saveData()
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
@@ -50,6 +53,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        print("APPLICATION WILL TERMINATE")
+        DataStorage._sharedInstance.dataToSave.totalSlices = totalSlices
+        DataStorage._sharedInstance.saveData()
     }
 
 
